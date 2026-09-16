@@ -1,0 +1,79 @@
+{
+  "titre": "Le Soin de Libération Émotionnelle",
+  "accroche": "Un voyage intérieur à la rencontre de votre Enfant Intérieur, pour transmuter ce qui vous limite.",
+  "modalite": "À distance",
+  "options": [
+    {
+      "id": "option-1",
+      "numero": "01",
+      "nom": "Vous expérimentez votre propre voyage intérieur",
+      "resume": "Vous êtes pleinement acteur·rice de la séance. Je vous guide, vous explorez.",
+      "duree": "environ 1h30",
+      "prix": 100,
+      "canal": "Séance à distance par WhatsApp",
+      "image": "/assets/images/soins/soin-option-1.webp",
+      "alt": "Placeholder — illustration de la séance accompagnée",
+      "description": "Je vous accompagne pour entrer à l'intérieur de vous et vous connecter à votre Enfant Intérieur. Vous entrez dans un État de Conscience Modifié léger, sans aucune induction : juste le son de ma voix pour vous guider. Cela permet de contaminer le moins possible l'information qui vous appartient.",
+      "etapes": [
+        { "nom": "Rencontrer", "texte": "Vous allez vers vos émotions, vos douleurs, tout ce qui attire votre attention et celle de votre Enfant Intérieur, à cet instant." },
+        { "nom": "Comprendre", "texte": "Vous prenez l'information de ce que c'est et, si besoin, vous remontez à son origine. Vous recevez le message que portait l'émotion." },
+        { "nom": "Transformer", "texte": "Vous créez quelque chose de nouveau, ajusté à vous et en accord avec ce qui est bon pour vous à cet instant." },
+        { "nom": "Élever", "texte": "Le changement d'état se ressent : l'énergie, la fréquence et la vibration ne sont plus les mêmes." }
+      ]
+    },
+    {
+      "id": "option-2",
+      "numero": "02",
+      "nom": "Je me connecte pour vous",
+      "resume": "Je réalise le soin et vous transmets l'enregistrement. Nous échangeons avant et après.",
+      "duree": "1h30 au total",
+      "prix": 120,
+      "canal": "À distance, avec enregistrement transmis",
+      "image": "/assets/images/soins/soin-option-2.webp",
+      "alt": "Placeholder — illustration de la séance avec enregistrement",
+      "description": "Nous commençons par un échange téléphonique d'une vingtaine de minutes pour nous caler sur la même fréquence et comprendre votre demande. Je réalise ensuite le soin à distance et vous en transmets l'enregistrement, avant un temps de débriefing.",
+      "etapes": [
+        { "nom": "Échanger", "texte": "Une vingtaine de minutes au téléphone pour poser votre intention, comprendre votre demande, vos besoins et vos blocages." },
+        { "nom": "Se connecter", "texte": "Le soin est réalisé à distance et enregistré : entrée en État de Conscience Modifié et connexion à votre Enfant Intérieur." },
+        { "nom": "Observer", "texte": "Exploration de ce qui attire l'attention de votre Enfant Intérieur : douleurs, émotions, blocages, cristallisations." },
+        { "nom": "Créer et élever", "texte": "Votre Enfant Intérieur crée quelque chose de nouveau, ajusté à vous ; l'énergie change." },
+        { "nom": "Recevoir", "texte": "Je vous envoie l'enregistrement, vous l'écoutez. Puis nous échangeons sur ce qui vous parle et sur le sens du soin." }
+      ]
+    }
+  ],
+  "benefices": [
+    { "titre": "Libérer les émotions bloquées", "texte": "Accueillir ce qui a été retenu." },
+    { "titre": "Retrouver votre équilibre intérieur", "texte": "Vous reconnecter à vous-même et à vos besoins profonds." },
+    { "titre": "Renforcer la confiance en soi", "texte": "Vous rapprocher de votre vérité et de votre puissance intérieure." },
+    { "titre": "Faciliter le lâcher-prise", "texte": "Accepter, laisser partir et avancer avec fluidité." },
+    { "titre": "Augmenter votre énergie", "texte": "Alléger la charge émotionnelle et retrouver de la vitalité." },
+    { "titre": "Reprendre votre pouvoir créateur", "texte": "Redevenir acteur·rice de votre vie." }
+  ],
+  "faq": [
+    {
+      "q": "Combien de séances faut-il ?",
+      "r": "Il n'y a pas de nombre imposé. Certaines personnes viennent pour une situation précise et une séance suffit ; d'autres cheminent sur plusieurs mois. On en parle ensemble après la première."
+    },
+    {
+      "q": "Est-ce que cela remplace un suivi médical ou psychologique ?",
+      "r": "Non, et ce n'est pas le but. Le soin accompagne le ressenti et la compréhension de soi. Si vous êtes suivi·e pour une pathologie, poursuivez ce suivi : les deux démarches se complètent."
+    },
+    {
+      "q": "Comment se passe le paiement ?",
+      "r": "Le règlement se fait avant la séance, par virement ou par lien de paiement sécurisé. Aucune donnée bancaire ne transite par ce site."
+    },
+    {
+      "q": "Et si je dois annuler ?",
+      "r": "Prévenez-moi au moins 48 heures à l'avance et nous reprogrammons sans frais."
+    },
+    {
+      "q": "Faut-il croire à quelque chose de particulier ?",
+      "r": "Non. Il suffit d'être disponible à ce que vous ressentez. Le vocabulaire employé ici décrit une expérience intérieure, pas une croyance à adopter."
+    }
+  ],
+  "ateliers": {
+    "titre": "Les ateliers",
+    "texte": "Sophie a animé des ateliers collectifs autour de l'Enfant Intérieur et de la libération émotionnelle.",
+    "statut": "À préciser — contenu, format et calendrier à confirmer avant mise en ligne."
+  }
+}

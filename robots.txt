@@ -1,0 +1,7 @@
+# Cœur Alchimique — coeuralchimique.fr
+# Tout est indexable : le site n'a rien de privé.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://bastienrouger-cloud.github.io/Coeur-Alchimique/sitemap.xml

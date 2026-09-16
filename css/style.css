@@ -1,0 +1,1400 @@
+/* =========================================================
+   Cœur Alchimique — feuille de style unique
+   Bleu = l'émotion. Or = sa transmutation.
+   ========================================================= */
+
+/* ---------- 0. La police des titres ----------
+
+   Cormorant Garamond, hébergée ici même. Jamais chez Google : une
+   police distante fait partir l'adresse IP du visiteur vers un tiers,
+   ce que la CNIL sanctionne et ce qui obligerait à un bandeau de
+   consentement. Servie depuis le domaine, la question ne se pose pas.
+
+   Version variable (une graisse continue de 300 à 700 dans un seul
+   fichier) : le site utilise 400 et 600, en romain et en italique.
+   Deux fichiers au lieu de quatre.
+
+   Sous-ensemble latin uniquement. Le sous-ensemble latin-ext a été
+   essayé et retiré : Chromium le télécharge quand même, parce que les
+   deux plages se chevauchent sur trois signes combinants — 68 Ko pour
+   rien à chaque visite. Si un jour un nom polonais ou roumain apparaît
+   dans un témoignage, ces lettres-là s'afficheront en Georgia. Une
+   lettre au mauvais dessin, pas un carré vide.
+
+   Les chemins sont relatifs à CETTE feuille, pas à la page : ils
+   fonctionnent donc depuis la racine comme depuis /pages/.
+   ---------- */
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("../assets/fonts/cormorant-garamond-latin.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("../assets/fonts/cormorant-garamond-latin-italic.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ---------- 1. Jetons ---------- */
+:root {
+  /* Échelle du fond : uniquement des bleus, du plus profond au plus
+     ouvert. Toutes ces valeurs portent du texte crème — il n'y a plus
+     aucune zone claire, donc plus aucune bascule de lisibilité.
+
+     Le rythme d'une page se fait par une respiration : on descend vers
+     g4 au milieu, puis on remonte vers le profond en bas. Pas une pente
+     monotone du haut vers le bas. */
+  --g0: #070d18;
+  --g1: #0c1a2c;
+  --g2: #0f2036;
+  --g3: #142943;
+  --g4: #1a3558;
+  --g5: #21426b;   /* le plus ouvert — réservé aux moments qui respirent */
+
+  --g-footer: #050a12;
+
+  /* Réservés à la future section « méthode » : la seule zone du site où
+     le bleu bascule vers l'or, pour montrer la transmutation. */
+  --or-bascule-1: #3f74b0;
+  --or-bascule-2: #a8cbef;
+  --or-bascule-3: #e7cf8f;
+  --or-bascule-4: #9c7a26;
+
+  /* Couleurs de marque */
+  --bleu-nuit: #05090f;
+  --bleu-profond: #0c1b33;
+  --bleu-vif: #2f6bb5;
+  --bleu-pale: #9dc0e8;
+  --or: #c9a227;
+  --or-clair: #e3c879;
+  --or-pale: #f0e0b8;
+  --creme: #f6f1e6;
+  --encre: #14243d;
+  --encre-douce: #46536b;
+
+  /* Rôles */
+  --texte-sombre-fond: #f2f5f9;
+  --texte-sombre-fond-attenue: #a9bdd6;
+  --texte-clair-fond: var(--encre);
+  --texte-clair-fond-attenue: var(--encre-douce);
+
+  /* Typographie */
+  --font-titre: "Cormorant Garamond", Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+  --font-texte: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --pas: 1rem;
+
+  /* Trois largeurs, et il faut les distinguer :
+     - --largeur-max  : le cadre de la page. 1800 px, parce qu'un écran
+       moderne fait au moins 1920 et qu'une grille de cartes gagne à
+       respirer.
+     - --largeur-lecture : un bloc de texte suivi. Plafonné à 50rem
+       (~800 px) parce qu'au-delà de 75 caractères par ligne, l'œil
+       perd la ligne suivante en revenant à la marge. Élargir la page
+       n'élargit JAMAIS un paragraphe.
+     - --largeur-texte : les chapôs et en-têtes de section, plus court
+       encore pour qu'un titre ne parte pas en bandeau. */
+  --largeur-max: 112.5rem;
+  --largeur-lecture: 50rem;
+  --largeur-texte: 38rem;
+  --rayon: 14px;
+  --rayon-s: 8px;
+  --ombre: 0 18px 50px -20px rgba(0, 0, 0, 0.55);
+  --transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- 2. Base ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-texte);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--texte-sombre-fond);
+  background: var(--bleu-nuit);
+
+  /* clip, PAS hidden. overflow-x: hidden force overflow-y à « auto »,
+     ce qui fait de <body> une boîte de défilement — et un enfant en
+     position: sticky ne colle plus à rien, parce qu'il colle à cette
+     boîte-là et non à la fenêtre. L'en-tête partait au défilement.
+     overflow-x: clip masque exactement pareil sans créer de boîte. */
+  overflow-x: clip;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-titre);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 0.6em;
+  letter-spacing: 0.01em;
+}
+
+h1 { font-size: clamp(2.3rem, 6vw, 4rem); }
+h2 { font-size: clamp(1.85rem, 4.2vw, 2.9rem); }
+h3 { font-size: clamp(1.25rem, 2.4vw, 1.6rem); }
+h4 { font-size: 1.1rem; }
+
+p { margin: 0 0 1.1em; }
+p:last-child { margin-bottom: 0; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--or-clair);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.lien-evitement {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--or);
+  color: var(--bleu-nuit);
+  padding: 0.75rem 1.25rem;
+  z-index: 200;
+  font-weight: 600;
+}
+.lien-evitement:focus { left: 0.5rem; top: 0.5rem; }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- 3. Mise en page ---------- */
+.contenu {
+  width: min(100% - clamp(2.5rem, 5vw, 5rem), var(--largeur-max));
+  margin-inline: auto;
+}
+
+.contenu--etroit {
+  width: min(100% - 2.5rem, var(--largeur-lecture));
+  margin-inline: auto;
+}
+
+section {
+  padding-block: clamp(3.5rem, 9vw, 7rem);
+  position: relative;
+}
+
+/* Chaque section porte sa couleur de départ (--de) et d'arrivée (--vers),
+   toutes deux prises dans l'échelle bleue. Comme il n'y a plus de zone
+   claire, aucune section ne peut devenir illisible en cours de route.
+
+   Interpolation en OKLAB : la clarté y est perceptuellement linéaire,
+   donc les fondus entre bleus proches sont plus réguliers qu'en sRGB.
+   La première déclaration sert de repli aux navigateurs anciens. */
+.fondu {
+  background-image: linear-gradient(180deg, var(--de), var(--vers));
+  background-image:
+    var(--halo, linear-gradient(transparent, transparent)),
+    linear-gradient(180deg in oklab, var(--de), var(--vers));
+}
+
+.bande-transition {
+  height: clamp(90px, 14vw, 160px);
+  background-image: linear-gradient(180deg, var(--de), var(--vers));
+  background-image: linear-gradient(180deg in oklab, var(--de), var(--vers));
+}
+
+/* RÉSERVÉ — la bascule bleu → or n'est plus utilisée sur les pages.
+   Le fond du site est uniformément bleu, l'or n'est qu'un accent.
+   Ces classes sont conservées pour la future section « explication de
+   la méthode », où la transmutation sera montrée localement.
+   Elles ont besoin des jetons --or-bascule-* ci-dessous. */
+.bande-transition--or {
+  height: clamp(180px, 26vw, 340px);
+  background-image: linear-gradient(180deg, var(--de) 0%, var(--or-bascule-1) 28%, var(--or-bascule-2) 56%, var(--vers) 100%);
+  background-image: linear-gradient(
+    180deg in oklab,
+    var(--de) 0%,
+    var(--or-bascule-1) 28%,
+    var(--or-bascule-2) 56%,
+    var(--vers) 100%
+  );
+}
+
+/* RÉSERVÉ — idem, pour la future section « méthode ». */
+.bande-vers-pied {
+  height: clamp(110px, 16vw, 190px);
+  background-image: linear-gradient(180deg in oklab, var(--or-bascule-3) 0%, var(--or-bascule-4) 58%, var(--g-footer) 100%);
+}
+
+[data-theme="sombre"] { color: var(--texte-sombre-fond); }
+[data-theme="sombre"] .attenue { color: var(--texte-sombre-fond-attenue); }
+[data-theme="clair"] { color: var(--texte-clair-fond); }
+[data-theme="clair"] .attenue { color: var(--texte-clair-fond-attenue); }
+
+.chapo {
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  max-width: var(--largeur-texte);
+  line-height: 1.65;
+}
+
+.surtitre {
+  font-family: var(--font-texte);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--or-clair);
+  margin-bottom: 0.9rem;
+  display: block;
+}
+[data-theme="clair"] .surtitre { color: #8a6b1c; }
+
+.entete-section { max-width: var(--largeur-texte); margin-bottom: clamp(2rem, 4vw, 3rem); }
+.entete-section.centre { margin-inline: auto; text-align: center; }
+
+/* Filet décoratif */
+.filet {
+  width: 64px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--or), transparent);
+  margin: 1.5rem 0;
+  border: 0;
+}
+.entete-section.centre .filet { margin-inline: auto; }
+
+/* ---------- 4. Boutons ---------- */
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-texte);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 0.9rem 1.7rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--transition), background var(--transition),
+              border-color var(--transition), box-shadow var(--transition);
+}
+.bouton:hover { transform: translateY(-2px); }
+
+.bouton--or {
+  background: linear-gradient(135deg, var(--or-clair), var(--or));
+  color: #2a2008;
+  box-shadow: 0 10px 30px -12px rgba(201, 162, 39, 0.8);
+}
+.bouton--or:hover { box-shadow: 0 16px 38px -12px rgba(201, 162, 39, 0.95); }
+
+.bouton--contour {
+  border-color: rgba(227, 200, 121, 0.55);
+  color: var(--or-clair);
+  background: rgba(227, 200, 121, 0.06);
+}
+.bouton--contour:hover { border-color: var(--or-clair); background: rgba(227, 200, 121, 0.14); }
+
+[data-theme="clair"] .bouton--contour {
+  border-color: rgba(20, 36, 61, 0.3);
+  color: var(--encre);
+  background: rgba(20, 36, 61, 0.04);
+}
+[data-theme="clair"] .bouton--contour:hover { border-color: var(--encre); background: rgba(20, 36, 61, 0.09); }
+
+.groupe-boutons { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 1.8rem; }
+
+/* ---------- 5. En-tête ---------- */
+
+/* Les fragments sont injectés DANS leur hôte, qui reste dans le DOM.
+   Pour l'en-tête et le pied, cet hôte doit disparaître de la mise en
+   page : un élément sticky ne peut coller qu'à l'intérieur de la boîte
+   de son parent, et cet hôte fait exactement la hauteur de l'en-tête.
+   Résultat, l'en-tête avait 0 px de course et repartait au défilement
+   comme s'il n'était pas collant du tout. display: contents supprime
+   la boîte de l'hôte sans toucher à son contenu.
+
+   Ne PAS généraliser à tous les [data-partial] : l'hôte du sceau, lui,
+   porte ses propres styles et a besoin de sa boîte. */
+[data-partial="entete"],
+[data-partial="pied"] { display: contents; }
+
+.entete {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(5, 9, 15, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(227, 200, 121, 0.16);
+}
+
+.entete__barre {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 72px;
+}
+
+.marque { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--creme); }
+.marque__sceau { width: 38px; height: 38px; flex: none; }
+.marque__texte { display: flex; flex-direction: column; line-height: 1.1; }
+.marque__nom {
+  font-family: var(--font-titre);
+  font-size: 1.22rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.marque__baseline {
+  font-size: 0.66rem;
+  letter-spacing: 0.07em;
+  color: var(--bleu-pale);
+  font-style: italic;
+}
+@media (max-width: 560px) { .marque__baseline { display: none; } }
+
+.nav-principale ul {
+  list-style: none;
+  display: flex;
+  gap: 0.35rem;
+  margin: 0; padding: 0;
+}
+.nav-principale a {
+  display: block;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.93rem;
+  text-decoration: none;
+  color: var(--texte-sombre-fond-attenue);
+  border-radius: var(--rayon-s);
+  transition: color var(--transition), background var(--transition);
+}
+.nav-principale a:hover { color: var(--creme); background: rgba(157, 192, 232, 0.1); }
+.nav-principale a[aria-current="page"] { color: var(--or-clair); }
+
+.bascule-menu {
+  display: none;
+  background: none;
+  border: 1px solid rgba(227, 200, 121, 0.35);
+  border-radius: var(--rayon-s);
+  color: var(--creme);
+  width: 44px; height: 44px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+.bascule-menu svg { width: 22px; height: 22px; }
+.bascule-menu .icone-fermer { display: none; }
+.bascule-menu[aria-expanded="true"] .icone-ouvrir { display: none; }
+.bascule-menu[aria-expanded="true"] .icone-fermer { display: block; }
+
+@media (max-width: 860px) {
+  .bascule-menu { display: inline-flex; }
+  /* Fond OPAQUE, et surtout pas de backdrop-filter ici. Le panneau est
+     un enfant de .entete, qui en porte déjà un : Chromium compose alors
+     les deux et la page transparaît à travers le menu, malgré un fond
+     à 98 %. On voyait le titre du hero derrière les entrées. Un aplat
+     opaque règle la question — et il n'y a rien à flouter derrière un
+     fond opaque de toute façon. */
+  .nav-principale {
+    position: absolute;
+    inset: 100% 0 auto 0;
+    background: #070d18;
+    border-bottom: 1px solid rgba(227, 200, 121, 0.2);
+    box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.8);
+    display: none;
+  }
+  .nav-principale[data-ouvert="true"] { display: block; }
+  .nav-principale ul { flex-direction: column; padding: 0.75rem 1.25rem 1.5rem; gap: 0; }
+  .nav-principale a { padding: 0.9rem 0.25rem; font-size: 1.05rem; border-bottom: 1px solid rgba(157, 192, 232, 0.1); }
+}
+
+/* ---------- 6. Hero ---------- */
+.hero { padding-block: clamp(4rem, 12vw, 8.5rem); }
+.hero__grille {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .hero__grille { grid-template-columns: 1fr; }
+  .hero__visuel { order: -1; }
+}
+
+.hero__titre { margin-bottom: 0.35em; }
+.hero__baseline {
+  font-family: var(--font-titre);
+  font-style: italic;
+  font-size: clamp(1.25rem, 2.8vw, 1.75rem);
+  color: var(--or-clair);
+  margin-bottom: 1.2rem;
+  line-height: 1.35;
+}
+.hero__texte { max-width: 34rem; color: var(--texte-sombre-fond-attenue); }
+
+.hero__visuel { position: relative; }
+.hero__visuel img {
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre);
+  border: 1px solid rgba(227, 200, 121, 0.18);
+}
+
+/* Halos — profondeur du fond.
+
+   Ils étaient auparavant des <span> floutés en position absolue. Mauvaise
+   idée : un élément flouté déborde de sa section, ce qui crée une barre de
+   défilement horizontale, et le rogner avec overflow:hidden coupe le flou
+   au couteau — on voyait une arête nette en bord de section.
+
+   Un dégradé radial en fond n'a aucun de ces deux défauts : il ne déborde
+   jamais et il s'éteint en douceur. On pose une classe sur la section. */
+
+/* Les rayons sont exprimés en POURCENTAGE de la section, et le halo
+   s'éteint (transparent) bien avant les bords. C'est ce qui évite une
+   ligne visible à la jointure entre deux sections : au bord, le halo
+   vaut exactement zéro des deux côtés. */
+
+.halo-haut-droite {
+  --halo: radial-gradient(42% 46% at 86% 40%, rgba(76, 140, 210, 0.22), transparent 72%);
+}
+.halo-haut-gauche {
+  --halo: radial-gradient(42% 46% at 14% 38%, rgba(76, 140, 210, 0.22), transparent 72%);
+}
+.halo-bas-gauche {
+  --halo: radial-gradient(40% 44% at 12% 62%, rgba(47, 107, 181, 0.20), transparent 72%);
+}
+.halo-or {
+  --halo: radial-gradient(30% 34% at 88% 46%, rgba(201, 162, 39, 0.12), transparent 70%);
+}
+/* Le hero : un halo bleu côté titre, une pointe dorée côté visuel. */
+.halo-hero {
+  --halo:
+    radial-gradient(46% 52% at 16% 34%, rgba(47, 107, 181, 0.28), transparent 70%),
+    radial-gradient(30% 34% at 88% 72%, rgba(201, 162, 39, 0.16), transparent 70%);
+}
+
+/* ---------- 7. Cartes ---------- */
+.grille {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+}
+.grille--2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+
+.carte {
+  background: rgba(157, 192, 232, 0.06);
+  border: 1px solid rgba(157, 192, 232, 0.16);
+  border-radius: var(--rayon);
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform var(--transition), border-color var(--transition), background var(--transition);
+}
+.carte:hover { transform: translateY(-4px); border-color: rgba(227, 200, 121, 0.4); }
+[data-theme="clair"] .carte {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(20, 36, 61, 0.12);
+}
+[data-theme="clair"] .carte:hover { border-color: rgba(154, 122, 40, 0.5); background: rgba(255, 255, 255, 0.8); }
+
+.carte h3 { margin: 0; }
+.carte__pied { margin-top: auto; padding-top: 0.5rem; }
+
+.carte__media {
+  margin: -1.6rem -1.6rem 0.4rem;
+  border-radius: var(--rayon) var(--rayon) 0 0;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+}
+.carte__media img { width: 100%; height: 100%; object-fit: cover; }
+
+/* align-self : la carte est un conteneur flex en colonne, dont les
+   enfants s'étirent sur toute la largeur par défaut. Une pastille qui
+   s'étire n'est plus une pastille — ça se voyait peu à 350 px de
+   carte, ça saute aux yeux à 560. */
+.etiquette {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(227, 200, 121, 0.14);
+  color: var(--or-clair);
+  border: 1px solid rgba(227, 200, 121, 0.3);
+}
+[data-theme="clair"] .etiquette { background: rgba(154, 122, 40, 0.12); color: #7d6119; border-color: rgba(154, 122, 40, 0.3); }
+
+.prix {
+  font-family: var(--font-titre);
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: var(--or-clair);
+  line-height: 1;
+}
+[data-theme="clair"] .prix { color: #8a6b1c; }
+
+.liste-puces { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.liste-puces li { position: relative; padding-left: 1.4rem; font-size: 0.95rem; }
+.liste-puces li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.62em;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--or);
+}
+
+/* ---------- 8. La bibliothèque intérieure ---------- */
+.biblio { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+@media (max-width: 950px) { .biblio { grid-template-columns: 1fr; } }
+
+.etapes { display: grid; gap: 1.4rem; counter-reset: etape; }
+.etape { display: grid; grid-template-columns: auto 1fr; gap: 1.1rem; align-items: start; }
+.etape__num {
+  font-family: var(--font-titre);
+  font-size: 1.5rem;
+  color: var(--or);
+  line-height: 1;
+  padding-top: 0.15rem;
+  min-width: 2.2rem;
+}
+.etape h3 { margin-bottom: 0.3rem; font-size: 1.2rem; }
+.etape p { font-size: 0.97rem; margin: 0; }
+
+/* L'étagère : chaque trait est un livre, chaque livre une émotion. */
+.etagere {
+  background: linear-gradient(160deg, rgba(10, 22, 40, 0.9), rgba(6, 12, 24, 0.95));
+  border: 1px solid rgba(157, 192, 232, 0.2);
+  border-radius: var(--rayon);
+  padding: 1.5rem;
+  box-shadow: var(--ombre);
+  position: relative;
+  overflow: hidden;
+}
+.etagere__rayon {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 78px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid rgba(157, 192, 232, 0.22);
+  margin-bottom: 14px;
+}
+.etagere__rayon:last-of-type { margin-bottom: 0; }
+
+.livre {
+  flex: 1;
+  border-radius: 2px 2px 0 0;
+  background: var(--teinte-livre, #1d3a63);
+  background-image: linear-gradient(100deg, rgba(255, 255, 255, 0.16) 0 18%, transparent 18% 82%, rgba(0, 0, 0, 0.28) 82% 100%);
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.08);
+  transition: background-color 700ms ease, opacity 700ms ease;
+}
+
+/* Le cœur, au centre de l'étagère */
+.coeur-support {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.coeur-svg {
+  width: 118px;
+  height: 118px;
+  filter: drop-shadow(0 0 18px var(--halo-coeur, rgba(47, 107, 181, 0.8)))
+          drop-shadow(0 0 44px var(--halo-coeur, rgba(47, 107, 181, 0.5)));
+  transition: filter 700ms ease;
+}
+
+/* ---------- 9. Les trois états ---------- */
+.etats__onglets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+.onglet-etat {
+  font-family: var(--font-texte);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.75rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(157, 192, 232, 0.3);
+  background: rgba(157, 192, 232, 0.07);
+  color: var(--texte-sombre-fond-attenue);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.onglet-etat:hover { color: var(--creme); border-color: rgba(157, 192, 232, 0.55); }
+.onglet-etat[aria-selected="true"] {
+  background: linear-gradient(135deg, var(--or-clair), var(--or));
+  border-color: transparent;
+  color: #2a2008;
+}
+
+.etat-panneau { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 3.5rem); align-items: center; }
+@media (max-width: 950px) { .etat-panneau { grid-template-columns: 1fr; } }
+.etat-panneau[hidden] { display: none; }
+
+.etat__resume {
+  font-family: var(--font-titre);
+  font-style: italic;
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  color: var(--or-clair);
+  margin-bottom: 1rem;
+}
+
+/* La flèche de transmutation */
+.transmutation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 3rem;
+  font-family: var(--font-titre);
+  font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+}
+.transmutation__etape { opacity: 0.9; }
+.transmutation__fleche {
+  flex: 1 1 5rem;
+  max-width: 10rem;
+  height: 2px;
+  background: linear-gradient(90deg, var(--bleu-vif), var(--or));
+  border-radius: 2px;
+  min-width: 3rem;
+}
+.transmutation__de { color: var(--bleu-pale); }
+.transmutation__vers { color: var(--or-clair); }
+
+/* ---------- 10. Le cadre (complément médical) ---------- */
+.cadre {
+  border: 1px solid rgba(20, 36, 61, 0.18);
+  border-left: 4px solid var(--or);
+  border-radius: var(--rayon-s);
+  padding: 1.5rem 1.7rem;
+  background: rgba(255, 255, 255, 0.6);
+}
+[data-theme="sombre"] .cadre {
+  background: rgba(157, 192, 232, 0.07);
+  border-color: rgba(157, 192, 232, 0.2);
+  border-left-color: var(--or);
+}
+.cadre h3 { margin-bottom: 0.5rem; font-size: 1.2rem; }
+.cadre p { font-size: 0.97rem; margin: 0; }
+
+/* ---------- 11. Citation ---------- */
+.citation {
+  font-family: var(--font-titre);
+  font-size: clamp(1.3rem, 3vw, 1.9rem);
+  font-style: italic;
+  line-height: 1.45;
+  max-width: 44rem;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  padding-top: 2rem;
+}
+.citation::before {
+  content: "”";
+  position: absolute;
+  top: -0.4rem; left: 50%;
+  transform: translateX(-50%);
+  font-size: 4rem;
+  color: var(--or);
+  opacity: 0.55;
+  line-height: 1;
+}
+.citation cite { display: block; font-size: 0.85rem; font-style: normal; letter-spacing: 0.16em; text-transform: uppercase; margin-top: 1.5rem; opacity: 0.75; font-family: var(--font-texte); }
+
+/* ---------- 12. Frise ---------- */
+.frise { list-style: none; margin: 0; padding: 0; position: relative; }
+.frise::before {
+  content: "";
+  position: absolute;
+  left: 7px; top: 8px; bottom: 8px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--bleu-vif), var(--or));
+}
+.frise__item { position: relative; padding-left: 2.4rem; padding-bottom: 2rem; }
+.frise__item:last-child { padding-bottom: 0; }
+.frise__item::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.5rem;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--g9);
+  border: 3px solid var(--or);
+}
+[data-theme="sombre"] .frise__item::before { background: var(--bleu-profond); }
+.frise__periode {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a6b1c;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+[data-theme="sombre"] .frise__periode { color: var(--or-clair); }
+.frise__item h3 { font-size: 1.22rem; margin-bottom: 0.35rem; }
+.frise__item p { font-size: 0.97rem; margin: 0; }
+
+.a-renseigner {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--rayon-s);
+  background: rgba(201, 162, 39, 0.16);
+  border: 1px dashed rgba(201, 162, 39, 0.6);
+  color: #7d6119;
+}
+[data-theme="sombre"] .a-renseigner { color: var(--or-clair); }
+
+/* ---------- 13. Chaîne (émotions → créativité) ---------- */
+.chaine { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; justify-content: center; margin-top: 1.5rem; }
+.chaine__maillon {
+  font-family: var(--font-titre);
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  padding: 0.4rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  opacity: 0.85;
+}
+.chaine__lien { opacity: 0.5; }
+
+/* ---------- 14. Accordéon (FAQ) ---------- */
+.accordeon { border-top: 1px solid rgba(20, 36, 61, 0.14); }
+[data-theme="sombre"] .accordeon { border-top-color: rgba(157, 192, 232, 0.18); }
+.accordeon details { border-bottom: 1px solid rgba(20, 36, 61, 0.14); }
+[data-theme="sombre"] .accordeon details { border-bottom-color: rgba(157, 192, 232, 0.18); }
+.accordeon summary {
+  cursor: pointer;
+  padding: 1.1rem 2.5rem 1.1rem 0;
+  font-family: var(--font-titre);
+  font-size: 1.2rem;
+  position: relative;
+  list-style: none;
+}
+.accordeon summary::-webkit-details-marker { display: none; }
+.accordeon summary::after {
+  content: "+";
+  position: absolute;
+  right: 0.4rem; top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: var(--or);
+  transition: transform var(--transition);
+}
+.accordeon details[open] summary::after { content: "–"; }
+.accordeon details > p { padding: 0 0 1.3rem; max-width: var(--largeur-texte); font-size: 0.99rem; }
+
+/* ---------- 15. Formulaire ---------- */
+.formulaire { display: grid; gap: 1.1rem; max-width: 34rem; }
+.champ { display: grid; gap: 0.4rem; }
+.champ label { font-size: 0.9rem; font-weight: 600; }
+.champ input, .champ textarea, .champ select {
+  font: inherit;
+  font-size: 1rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--rayon-s);
+  border: 1px solid rgba(20, 36, 61, 0.22);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--encre);
+}
+[data-theme="sombre"] .champ input,
+[data-theme="sombre"] .champ textarea,
+[data-theme="sombre"] .champ select {
+  background: rgba(157, 192, 232, 0.08);
+  border-color: rgba(157, 192, 232, 0.28);
+  color: var(--creme);
+}
+.champ textarea { min-height: 9rem; resize: vertical; }
+.champ--case { grid-template-columns: auto 1fr; align-items: start; gap: 0.7rem; }
+.champ--case input { width: 1.15rem; height: 1.15rem; margin-top: 0.3rem; padding: 0; }
+.champ--case label { font-weight: 400; font-size: 0.9rem; }
+.obligatoire { color: var(--or); }
+
+/* ---------- 16. Pied de page ----------
+
+   Le pied prolonge le bleu, un cran plus profond que la fin de page.
+   Un filet doré marque la limite sans rupture de couleur.
+
+   Il NE prend PAS les 1800 px de la page. Deux blocs collés aux deux
+   bords d'un écran large ne forment pas une composition, ils forment
+   deux îlots séparés par un désert — c'était le défaut de la version
+   précédente. Le pied se cale donc sur 78rem, centrés.
+   ---------- */
+
+.pied {
+  position: relative;
+  isolation: isolate;
+  background: var(--g-footer);
+  color: var(--texte-sombre-fond-attenue);
+  border-top: 1px solid rgba(227, 200, 121, 0.28);
+  padding-block: clamp(3rem, 7vw, 5rem) 2rem;
+  font-size: 0.93rem;
+}
+
+/* Une lueur très basse, pour que le pied ne soit pas le seul aplat noir
+   d'un site qui module sa profondeur partout ailleurs. */
+.pied::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(60% 120% at 22% 0%, rgba(47, 107, 181, 0.16), transparent 68%);
+}
+
+.pied__conteneur {
+  width: min(100% - clamp(2.5rem, 5vw, 5rem), 78rem);
+  margin-inline: auto;
+}
+
+.pied__grille {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.2fr) max-content;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(169, 189, 214, 0.18);
+}
+@media (max-width: 940px) {
+  .pied__grille { grid-template-columns: 1fr 1fr; }
+  .pied__identite { grid-column: 1 / -1; }
+}
+@media (max-width: 620px) {
+  .pied__grille { grid-template-columns: 1fr; gap: 2.25rem; }
+}
+
+/* ---- L'identité ---- */
+.pied__marque {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.pied__sceau { width: 56px; height: 56px; flex: none; }
+.pied__nom {
+  font-family: var(--font-titre);
+  font-size: 1.5rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--creme);
+  margin: 0;
+  line-height: 1.1;
+}
+.pied__baseline {
+  font-family: var(--font-titre);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--or-pale);
+  margin: 0.25rem 0 0;
+  line-height: 1.35;
+}
+.pied__mail {
+  display: inline-block;
+  margin-top: 1.4rem;
+  font-size: 1rem;
+  border-bottom: 1px solid rgba(227, 200, 121, 0.35);
+  padding-bottom: 2px;
+}
+
+/* ---- Le cadre légal ---- */
+.pied__cadre {
+  border-left: 2px solid rgba(227, 200, 121, 0.35);
+  padding-left: clamp(1rem, 2vw, 1.5rem);
+}
+.pied__cadre p { margin: 0; line-height: 1.65; }
+.pied__cadre strong { color: var(--or-pale); font-weight: 600; }
+
+/* ---- Les liens ---- */
+.pied h4 {
+  font-family: var(--font-texte);
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--or-clair);
+  margin: 0 0 1rem;
+}
+.pied ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+.pied a { color: var(--texte-sombre-fond-attenue); text-decoration: none; transition: color var(--transition); }
+.pied a:hover { color: var(--or-clair); }
+
+.pied__bas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  font-size: 0.83rem;
+  opacity: 0.72;
+}
+
+.reseaux { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+.reseaux a {
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border: 1px solid rgba(169, 189, 214, 0.3);
+  border-radius: 50%;
+  transition: all var(--transition);
+}
+.reseaux a:hover { border-color: var(--or-clair); background: rgba(227, 200, 121, 0.12); }
+.reseaux svg { width: 18px; height: 18px; }
+
+/* ---------- 17. Bandeau de chantier ---------- */
+.chantier {
+  background: repeating-linear-gradient(45deg, rgba(201,162,39,.14) 0 10px, rgba(201,162,39,.06) 10px 20px);
+  border: 1px dashed rgba(201, 162, 39, 0.6);
+  border-radius: var(--rayon-s);
+  padding: 1rem 1.2rem;
+  font-size: 0.92rem;
+}
+.chantier strong { color: var(--or-clair); }
+[data-theme="clair"] .chantier strong { color: #7d6119; }
+
+/* ---------- 18. Divers ---------- */
+.centre { text-align: center; }
+.mt-l { margin-top: 2.5rem; }
+.mt-m { margin-top: 1.5rem; }
+
+.bandeau-etats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.pastille-etat {
+  border-radius: var(--rayon);
+  padding: 1.2rem;
+  border: 1px solid;
+  text-align: center;
+}
+.pastille-etat h4 { font-family: var(--font-titre); font-size: 1.15rem; margin-bottom: 0.3rem; }
+.pastille-etat p { font-size: 0.88rem; margin: 0; opacity: 0.85; }
+.pastille-etat--blesse { border-color: rgba(47, 107, 181, 0.5); background: rgba(28, 58, 97, 0.35); }
+.pastille-etat--alchimique { border-color: rgba(120, 110, 90, 0.6); background: linear-gradient(135deg, rgba(28, 58, 97, 0.35), rgba(201, 162, 39, 0.22)); }
+.pastille-etat--createur { border-color: rgba(227, 200, 121, 0.55); background: rgba(201, 162, 39, 0.16); }
+
+/* Section de bascule : la phrase à laquelle Sophie tient, lue de haut en bas,
+   du bleu de l'émotion à l'or de sa transmutation. */
+.section-transmutation {
+  /* Fond bleu comme le reste. C'est le TEXTE qui bascule : la première
+     phrase reste bleue, la seconde est en or. L'or n'apparaît qu'ici. */
+  padding-block: clamp(4rem, 9vw, 7rem);
+}
+.section-transmutation .phrase-depart { color: var(--bleu-pale); }
+.section-transmutation .phrase-arrivee { color: var(--or-clair); }
+.section-transmutation p {
+  font-family: var(--font-titre);
+  font-size: clamp(1.3rem, 3.6vw, 2.2rem);
+  line-height: 1.3;
+  margin: 0;
+}
+.section-transmutation .fleche {
+  width: 2px;
+  height: clamp(54px, 10vw, 96px);
+  margin: 1.4rem auto;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--bleu-vif), var(--or));
+}
+
+/* =========================================================
+   19. Le hero illustré de l'accueil
+
+   Une photographie de bibliothèque en fond, un sceau doré qui tourne
+   par-dessus et fait respirer une lumière sur l'image.
+
+   Contraintes tenues :
+   - on n'anime que transform et opacity, les deux seules propriétés
+     que le navigateur compose sans recalculer la mise en page ;
+   - rotations très lentes (90 à 180 s) : au-delà, ça devient une roue
+     de chargement et ça agite au lieu d'apaiser ;
+   - tout s'arrête si la personne a demandé moins d'animations.
+   ========================================================= */
+
+/* NB : .hero--illustre ne porte pas .fondu — son fond, c'est la photo.
+   La section ne déclare donc que --vers, que le voile utilise pour se
+   raccorder à la section suivante. Pas de --de ici, il serait mort. */
+.hero--illustre {
+  isolation: isolate;
+  padding-block: clamp(4.5rem, 13vw, 9rem);
+}
+
+.hero__photo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+.hero__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 58%;
+}
+
+/* Le voile : assez dense à gauche pour que le titre tienne, plus léger
+   à droite pour laisser voir la bibliothèque. Il finit sur --vers pour
+   se raccorder à la section suivante sans couture. */
+.hero__voile {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(95deg,
+      rgba(7, 13, 24, 0.92) 0%,
+      rgba(7, 13, 24, 0.82) 34%,
+      rgba(7, 13, 24, 0.34) 64%,
+      rgba(7, 13, 24, 0.55) 100%),
+    linear-gradient(180deg,
+      rgba(7, 13, 24, 0.60) 0%,
+      rgba(10, 20, 36, 0.26) 42%,
+      var(--vers) 100%);
+}
+
+/* ---- Le sceau ---- */
+.sceau-bloc {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  width: min(100%, 30rem);
+  margin-inline: auto;
+}
+
+/* La lumière que le sceau diffuse sur la bibliothèque. */
+.sceau-bloc::before {
+  content: "";
+  position: absolute;
+  inset: -6%;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(227, 200, 121, 0.34) 0%,
+    rgba(201, 162, 39, 0.20) 34%,
+    rgba(201, 162, 39, 0.08) 56%,
+    transparent 72%);
+  animation: sceau-respire 11s ease-in-out infinite;
+}
+
+.sceau { width: 100%; height: auto; display: block; position: relative; }
+
+/* En SVG, il faut dire explicitement autour de quel point on tourne :
+   transform-box: view-box cale l'origine sur le repère du viewBox. */
+.sceau > g {
+  transform-box: view-box;
+  transform-origin: 200px 200px;
+}
+.sceau__graduations { animation: sceau-tourne 150s linear infinite; }
+.sceau__etapes      { animation: sceau-tourne 100s linear infinite reverse; }
+.sceau__interieur   { animation: sceau-tourne 200s linear infinite; }
+.sceau__coeur       { animation: sceau-pulse 11s ease-in-out infinite; }
+
+@keyframes sceau-tourne { to { transform: rotate(360deg); } }
+@keyframes sceau-respire {
+  0%, 100% { opacity: 0.5; transform: scale(0.97); }
+  50%      { opacity: 1;   transform: scale(1.05); }
+}
+@keyframes sceau-pulse {
+  0%, 100% { opacity: 0.86; }
+  50%      { opacity: 1; }
+}
+
+/* Repos complet pour qui a demandé moins d'animations. */
+@media (prefers-reduced-motion: reduce) {
+  .sceau > g,
+  .sceau-bloc::before { animation: none !important; }
+  .sceau-bloc::before { opacity: 0.8; transform: none; }
+}
+
+@media (max-width: 900px) {
+  .sceau-bloc { width: min(78%, 22rem); }
+  .hero__voile {
+    background-image:
+      linear-gradient(180deg,
+        rgba(7, 13, 24, 0.62) 0%,
+        rgba(7, 13, 24, 0.90) 42%,
+        var(--vers) 100%);
+  }
+}
+
+/* ---- La composition centrée du hero de l'accueil ----
+
+   Deux autres compositions ont été essayées et écartées le 16/09 :
+   le sceau à gauche avec le texte à droite (le sceau gagnait, l'image
+   perdait), et l'image retournée en miroir (le livre ouvert se
+   retrouvait dans le coin le plus sombre). Voir le README. */
+
+/* Le sceau est le pivot : trois lignes au-dessus, le texte et les boutons
+   en dessous. Tout doit tenir dans une hauteur d'écran, d'où le padding
+   haut réduit et un sceau plus petit qu'ailleurs. */
+.hero--centre { padding-block: clamp(1.5rem, 3vw, 2.5rem) clamp(3rem, 6vw, 5rem); }
+.hero__pile { text-align: center; }
+.hero__pile .hero__titre { margin-bottom: 0.25em; }
+.hero__pile .hero__baseline { margin-bottom: 0; }
+.hero__pile .hero__texte,
+.hero__pile .hero__baseline { margin-inline: auto; max-width: 42rem; }
+.hero__pile .groupe-boutons { justify-content: center; }
+.hero__pile .sceau-bloc { width: min(72vw, 19rem); margin-block: clamp(0.5rem, 2vw, 1.5rem); }
+.hero--centre .hero__voile {
+  /* Le voile est fait de --g0 à différentes opacités. Écrire
+     rgba(7,13,24,…) en dur, c'était recopier --g0 cinq fois : le jour
+     où on retouche l'échelle bleue, le voile ne suit pas.
+     rgb(from …) lit le jeton et n'en change que l'alpha. La première
+     déclaration reste en repli pour les navigateurs d'avant 2023. */
+  background-image:
+    linear-gradient(180deg,
+      rgba(7, 13, 24, 0.88) 0%,
+      rgba(7, 13, 24, 0.40) 34%,
+      rgba(7, 13, 24, 0.55) 62%,
+      var(--vers) 100%);
+  background-image:
+    linear-gradient(180deg,
+      rgb(from var(--g0) r g b / 0.88) 0%,
+      rgb(from var(--g0) r g b / 0.40) 34%,
+      rgb(from var(--g0) r g b / 0.55) 62%,
+      var(--vers) 100%);
+}
+
+
+/* =========================================================
+   20. Le sommaire de page (nav de niveau 2)
+
+   Une barre d'ancres qui se colle sous l'en-tête et suit la lecture.
+   Posée sur les pages longues à sections nommées — Accompagnement et
+   sa FAQ, pour commencer.
+
+   Elle se construit toute seule depuis le DOM : toute <section> qui
+   porte un id et un data-sommaire="Libellé court" y apparaît. Rien à
+   maintenir en double, donc rien qui puisse se désynchroniser.
+
+   Le top du sticky vaut --h-entete, mesurée en JS : la hauteur de
+   l'en-tête change avec la largeur (la baseline disparaît sous 560 px)
+   et une valeur en dur laisserait un trou ou un recouvrement.
+   ========================================================= */
+
+/* Tant que le JS n'a rien construit, l'hôte est vide : on ne montre
+   pas une barre dorée qui ne contient rien. */
+.sommaire:empty { display: none; }
+
+.sommaire {
+  position: sticky;
+  top: var(--h-entete, 72px);
+  z-index: 90;
+  background: rgba(7, 13, 24, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(157, 192, 232, 0.14);
+}
+.sommaire ol {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* Sur petit écran la barre défile au doigt plutôt que de passer à la
+     ligne : une barre d'ancres sur trois lignes mange l'écran. */
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.sommaire ol::-webkit-scrollbar { display: none; }
+
+.sommaire a {
+  display: block;
+  white-space: nowrap;
+  padding: 0.85rem 0.9rem;
+  font-size: 0.88rem;
+  text-decoration: none;
+  color: var(--texte-sombre-fond-attenue);
+  border-bottom: 2px solid transparent;
+  transition: color var(--transition), border-color var(--transition);
+}
+.sommaire a:hover { color: var(--creme); }
+.sommaire a[aria-current="true"] {
+  color: var(--or-clair);
+  border-bottom-color: var(--or);
+}
+
+/* Une ancre visée par le sommaire ne doit pas se caler sous les deux
+   barres collantes : on réserve leur hauteur au-dessus de chaque cible. */
+[data-sommaire] { scroll-margin-top: calc(var(--h-entete, 72px) + 3.5rem); }
+
+/* =========================================================
+   21. Rangées de cartes défilantes sur mobile
+
+   Sur grand écran, une grille. Sur téléphone, trois cartes empilées
+   font trois écrans de défilement pour une seule idée : on les met
+   côte à côte dans une bande qui défile au doigt, avec accroche.
+
+   La carte suivante dépasse volontairement de quelques pour cent :
+   c'est ce débord qui dit qu'il y a autre chose à droite. Sans lui,
+   une bande horizontale passe inaperçue.
+   ========================================================= */
+
+@media (max-width: 760px) {
+  .grille--defilante {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.75rem;
+    scrollbar-width: none;
+    /* Pas de débord jusqu'aux bords de l'écran : un margin négatif en
+       vw rouvrirait la barre de défilement horizontale de la page. */
+  }
+  .grille--defilante::-webkit-scrollbar { display: none; }
+  .grille--defilante > * {
+    flex: 0 0 85%;
+    scroll-snap-align: start;
+  }
+}
+
+/* =========================================================
+   22. Cartes cliquables et cartes d'action
+
+   Deux façons de se passer d'un bouton.
+
+   .carte--lien : toute la carte est cliquable. Le lien reste posé sur
+   le titre — donc annoncé correctement par un lecteur d'écran et par
+   la navigation au clavier — mais son ::after s'étire sur la carte
+   entière, qui devient la zone de clic. Pas de bouton en pied de
+   carte, pas de deuxième cible pour la même destination.
+
+   .carte-action : une carte large, à la place d'un bouton centré seul
+   en fin de section. Elle peut porter une phrase, ce qu'un bouton ne
+   peut pas faire.
+   ========================================================= */
+
+.carte--lien { position: relative; }
+.carte--lien h3 a,
+.carte--lien h4 a { text-decoration: none; }
+.carte--lien h3 a::after,
+.carte--lien h4 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+/* L'anneau de focus doit entourer la carte, pas seulement le titre. */
+.carte--lien:focus-within {
+  outline: 2px solid var(--or-clair);
+  outline-offset: 3px;
+}
+.carte--lien:focus-within h3 a:focus-visible,
+.carte--lien:focus-within h4 a:focus-visible { outline: none; }
+
+.carte__suite {
+  margin-top: auto;
+  align-self: flex-start;
+  padding-top: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--or-clair);
+}
+.carte__suite::after {
+  content: "→";
+  transition: transform var(--transition);
+}
+.carte--lien:hover .carte__suite::after { transform: translateX(4px); }
+
+.carte-action {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  position: relative;
+  padding: clamp(1.4rem, 3vw, 2rem);
+  border-radius: var(--rayon);
+  border: 1px solid rgba(227, 200, 121, 0.3);
+  background:
+    linear-gradient(120deg, rgba(201, 162, 39, 0.10), rgba(157, 192, 232, 0.05));
+  text-decoration: none;
+  transition: transform var(--transition), border-color var(--transition),
+              background var(--transition);
+}
+.carte-action:hover {
+  transform: translateY(-3px);
+  border-color: rgba(227, 200, 121, 0.6);
+}
+.carte-action h3 { margin: 0 0 0.25rem; color: var(--or-pale); }
+.carte-action p { margin: 0; color: var(--texte-sombre-fond-attenue); font-size: 0.97rem; }
+.carte-action__fleche {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(227, 200, 121, 0.45);
+  color: var(--or-clair);
+  font-size: 1.1rem;
+  flex: none;
+  transition: transform var(--transition), background var(--transition);
+}
+.carte-action:hover .carte-action__fleche {
+  transform: translateX(4px);
+  background: rgba(201, 162, 39, 0.16);
+}
+@media (max-width: 560px) {
+  .carte-action { grid-template-columns: 1fr; gap: 1rem; }
+  .carte-action__fleche { justify-self: start; }
+}
+
+/* =========================================================
+   23. Sans JavaScript
+
+   L'en-tête, le pied et une partie du contenu sont injectés en JS.
+   Sans script, la page perd sa navigation : il faut au minimum que
+   les liens restent atteignables. Ce bloc n'existe que pour ça.
+   ========================================================= */
+
+.avertissement-js {
+  background: rgba(201, 162, 39, 0.14);
+  border-bottom: 1px solid rgba(227, 200, 121, 0.5);
+  color: var(--texte-sombre-fond);
+  padding: 1rem clamp(1.25rem, 4vw, 2.5rem);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+.avertissement-js strong { color: var(--or-clair); }
+.avertissement-js a { color: var(--or-clair); }

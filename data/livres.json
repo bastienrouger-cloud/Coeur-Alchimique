@@ -1,0 +1,97 @@
+{
+  "intro": {
+    "titre": "Livres et carnets",
+    "chapo": "Écrits au fil du chemin, à lire dans l'ordre que vous voulez.",
+    "note": "Les ouvrages sont vendus chez leurs éditeurs. Aucune vente n'a lieu sur ce site."
+  },
+  "ouvrages": [
+    {
+      "id": "alchimie-spirituelle-de-l-etre",
+      "titre": "L'Alchimie Spirituelle de l'Être",
+      "type": "Livre",
+      "editeur": "Les Éditions du Net",
+      "lien": "https://www.leseditionsdunet.com/livre/lalchimie-spirituelle-de-letre",
+      "prix": null,
+      "description": "À compléter.",
+      "image": "/assets/images/livres/alchimie-spirituelle-de-l-etre.webp",
+      "alt": "Placeholder — couverture de L'Alchimie Spirituelle de l'Être",
+      "aRenseigner": ["prix", "description"]
+    },
+    {
+      "id": "la-fee-et-l-alchimiste",
+      "titre": "La fée et l'alchimiste",
+      "sousTitre": "Un voyage initiatique",
+      "type": "Livre",
+      "editeur": null,
+      "lien": null,
+      "prix": null,
+      "description": "À compléter.",
+      "image": "/assets/images/livres/la-fee-et-l-alchimiste.webp",
+      "alt": "Placeholder — couverture de La fée et l'alchimiste",
+      "aRenseigner": ["editeur", "lien", "prix", "description"]
+    },
+    {
+      "id": "bienvenue-sur-gaia",
+      "titre": "Bienvenue sur Gaïa, la Nouvelle Terre !",
+      "type": "Livre",
+      "editeur": null,
+      "lien": null,
+      "prix": null,
+      "description": "À compléter.",
+      "image": "/assets/images/livres/bienvenue-sur-gaia.webp",
+      "alt": "Placeholder — couverture de Bienvenue sur Gaïa",
+      "aRenseigner": ["editeur", "lien", "prix", "description"]
+    },
+    {
+      "id": "titre-a-identifier",
+      "titre": "Titre à identifier",
+      "type": "Livre",
+      "editeur": null,
+      "lien": null,
+      "prix": null,
+      "description": "Couverture papillon vert et bleu — titre illisible sur l'export du site actuel.",
+      "image": "/assets/images/livres/titre-a-identifier.webp",
+      "alt": "Placeholder — couverture à identifier",
+      "aRenseigner": ["titre", "editeur", "lien", "prix", "description"]
+    },
+    {
+      "id": "carnet-apprentis-sages-1",
+      "titre": "Carnet d'Apprentis-Sages",
+      "sousTitre": "Déclinaison verte",
+      "type": "Carnet",
+      "editeur": null,
+      "lien": null,
+      "prix": null,
+      "description": "À compléter.",
+      "image": "/assets/images/livres/carnet-apprentis-sages-1.webp",
+      "alt": "Placeholder — couverture du Carnet d'Apprentis-Sages, déclinaison verte",
+      "aRenseigner": ["sousTitre", "editeur", "lien", "prix", "description"]
+    },
+    {
+      "id": "carnet-apprentis-sages-2",
+      "titre": "Carnet d'Apprentis-Sages",
+      "sousTitre": "Déclinaison rose",
+      "type": "Carnet",
+      "editeur": null,
+      "lien": null,
+      "prix": null,
+      "description": "À compléter.",
+      "image": "/assets/images/livres/carnet-apprentis-sages-2.webp",
+      "alt": "Placeholder — couverture du Carnet d'Apprentis-Sages, déclinaison rose",
+      "aRenseigner": ["sousTitre", "editeur", "lien", "prix", "description"]
+    },
+    {
+      "id": "carnet-apprentis-sages-3",
+      "titre": "Carnet d'Apprentis-Sages",
+      "sousTitre": "Déclinaison magenta",
+      "type": "Carnet",
+      "editeur": null,
+      "lien": null,
+      "prix": null,
+      "description": "À compléter.",
+      "image": "/assets/images/livres/carnet-apprentis-sages-3.webp",
+      "alt": "Placeholder — couverture du Carnet d'Apprentis-Sages, déclinaison magenta",
+      "aRenseigner": ["sousTitre", "editeur", "lien", "prix", "description"]
+    }
+  ]
+}

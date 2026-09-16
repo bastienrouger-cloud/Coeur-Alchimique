@@ -1,0 +1,69 @@
+{
+  "nom": "Cœur Alchimique",
+  "baseline": "De l'Enfant Intérieur Blessé à l'Enfant Intérieur Créateur.",
+  "praticienne": "Sophie Loret",
+  "email": "contact@coeuralchimique.fr",
+  "delaiReponse": "Je réponds sous 48 heures ouvrées.",
+  "mentionTechnique": "Aucun cookie, aucun traceur.",
+  "cadre": {
+    "titre": "Un accompagnement, pas un traitement",
+    "texte": "Le Soin de Libération Émotionnelle est un accompagnement au ressenti et à la compréhension de soi. Il vient <strong>en complément</strong> d'un suivi médical ou psychologique, jamais à sa place. Il ne pose aucun diagnostic, ne prescrit rien et ne remplace aucun traitement en cours. Si vous êtes suivi·e pour une pathologie, poursuivez ce suivi : les deux démarches se complètent.",
+    "court": "Un accompagnement au ressenti et à la compréhension de soi, <strong>en complément</strong> d'un suivi médical ou psychologique — jamais à sa place. Aucun diagnostic, aucune prescription."
+  },
+  "nav": [
+    {
+      "label": "Accompagnement",
+      "href": "/pages/accompagnement.html"
+    },
+    {
+      "label": "E-learnings",
+      "href": "/pages/e-learnings.html"
+    },
+    {
+      "label": "Livres",
+      "href": "/pages/livres.html"
+    },
+    {
+      "label": "Ressources",
+      "href": "/pages/ressources.html"
+    },
+    {
+      "label": "Sophie",
+      "href": "/pages/sophie.html"
+    },
+    {
+      "label": "Contact",
+      "href": "/pages/contact.html"
+    }
+  ],
+  "navSecondaire": [
+    {
+      "label": "Livre d'or",
+      "href": "/pages/livre-d-or.html"
+    },
+    {
+      "label": "Mentions légales",
+      "href": "/pages/mentions-legales.html"
+    }
+  ],
+  "reseaux": [
+    {
+      "label": "YouTube",
+      "href": "#",
+      "icone": "youtube",
+      "aRenseigner": true
+    },
+    {
+      "label": "Facebook",
+      "href": "#",
+      "icone": "facebook",
+      "aRenseigner": true
+    },
+    {
+      "label": "Instagram",
+      "href": "#",
+      "icone": "instagram",
+      "aRenseigner": true
+    }
+  ]
+}

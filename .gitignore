@@ -1,0 +1,48 @@
+# Dossiers de travail — NE JAMAIS publier.
+#
+# Un dépôt GitHub public est lisible par n'importe qui, et GitHub Pages
+# sert TOUT ce qui est à la racine, fichiers .md compris. Ces dossiers
+# contiennent des notes internes : l'analyse du vocabulaire juridique de
+# la pratique, les questions ouvertes sur Sophie, la critique de son
+# site actuel. Rien de tout ça ne doit se retrouver indexé à côté de son
+# nom.
+#
+# Notes/ contient PLAN-SITE.md, TEXTES-SITE-ACTUEL.md et WORKFLOW.md.
+# Seul README.md reste à la racine : c'est un manuel technique, il ne
+# dit rien sur elle.
+Notes/
+Claude/
+Bastien/
+Claude outputs/
+
+# Originaux d'images : lourds, et inutiles une fois convertis en WebP.
+*_2400px.jpg
+*_original.*
+
+# Fichiers système
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+desktop.ini
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node (outillage local, jamais publié)
+node_modules/
+package-lock.json
+package.json
+
+# Journaux
+*.log

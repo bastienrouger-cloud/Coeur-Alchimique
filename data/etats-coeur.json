@@ -1,0 +1,70 @@
+{
+  "intro": {
+    "titre": "Vous avez une bibliothèque intérieure",
+    "chapo": "Tout le monde en a une. C'est le meilleur point de départ pour comprendre ce qui se passe pendant un soin.",
+    "etapes": [
+      {
+        "numero": "01",
+        "titre": "Chacun porte un enfant intérieur",
+        "texte": "Ce n'est pas une image poétique, c'est une part de vous bien réelle : celle qui a ressenti avant de savoir nommer, qui a vécu vos premières joies et vos premières blessures."
+      },
+      {
+        "numero": "02",
+        "titre": "C'est la bibliothèque de votre mémoire émotionnelle",
+        "texte": "Chaque émotion vécue y est rangée quelque part. Les joies, les peurs, les colères, ce qui a été dit et ce qui ne l'a pas été. Rien ne s'efface : tout est classé, parfois tout au fond, parfois à portée de main."
+      },
+      {
+        "numero": "03",
+        "titre": "Au centre, le cœur — le moteur",
+        "texte": "C'est lui qui donne son état à toute la bibliothèque. Selon l'état dans lequel il se trouve, les mêmes souvenirs ne pèsent pas du tout le même poids."
+      },
+      {
+        "numero": "04",
+        "titre": "Le soin sert à changer cet état",
+        "texte": "Pas à vider la bibliothèque, ni à réécrire les livres. À transmuter : passer du cœur blessé au cœur créateur, en passant par le cœur alchimique."
+      }
+    ]
+  },
+  "etats": [
+    {
+      "id": "blesse",
+      "nom": "Le cœur blessé",
+      "sousTitre": "Le point de départ",
+      "resume": "La bibliothèque est fermée, sombre, et certains rayons sont interdits.",
+      "texte": "Il porte les blessures, les mémoires, les croyances et les limitations. C'est la part qui a appris à se protéger, à se retenir, à s'éloigner de son essence. Quand le cœur est dans cet état, les émotions ne circulent plus : elles se cristallisent. Ce qui ne s'exprime pas s'imprime.",
+      "signes": [
+        "Les mêmes situations reviennent, encore et encore",
+        "Une émotion surgit sans que vous sachiez d'où",
+        "Un poids ancien que vous n'arrivez pas à nommer"
+      ],
+      "teinte": "froid"
+    },
+    {
+      "id": "alchimique",
+      "nom": "Le cœur alchimique",
+      "sousTitre": "Le passage",
+      "resume": "La bibliothèque s'ouvre. On regarde, on comprend, on transforme.",
+      "texte": "C'est l'état de travail, celui du soin. Le cœur devient le lieu de la transmutation : on va chercher le livre, on l'ouvre, on remonte à son origine, on écoute le message que portait l'émotion. Et ce qui était figé redevient mouvement. C'est là que se joue le passage du plomb à l'or.",
+      "signes": [
+        "Révéler — prendre conscience de ce qui est là",
+        "Libérer — se délester du passé et des mémoires",
+        "Transformer — intégrer pour avancer",
+        "Créer — ouvrir un nouveau chapitre"
+      ],
+      "teinte": "passage"
+    },
+    {
+      "id": "createur",
+      "nom": "Le cœur créateur",
+      "sousTitre": "L'arrivée",
+      "resume": "La bibliothèque est éclairée. Elle devient une ressource, plus un fardeau.",
+      "texte": "C'est la part la plus libre, la plus créatrice, la plus intuitive. Celle qui sait encore rêver, imaginer, ressentir. Les mêmes souvenirs sont toujours là — mais ils ne pèsent plus : ils informent. Votre histoire cesse d'être ce qui vous retient pour devenir ce à partir de quoi vous créez.",
+      "signes": [
+        "Les émotions redeviennent des informations utiles",
+        "La sensibilité devient une force",
+        "L'élan créateur revient"
+      ],
+      "teinte": "chaud"
+    }
+  ]
+}

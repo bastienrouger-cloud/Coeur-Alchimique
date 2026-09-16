@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact — Cœur Alchimique</title>
+  <meta name="description" content="Prendre rendez-vous pour un Soin de Libération Émotionnelle, ou poser une question sur les parcours en autonomie.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cœur Alchimique">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Contact — Cœur Alchimique">
+  <meta property="og:description" content="Prendre rendez-vous pour un Soin de Libération Émotionnelle, ou poser une question sur les parcours en autonomie.">
+  <meta property="og:url" content="https://bastienrouger-cloud.github.io/Coeur-Alchimique/pages/contact.html">
+  <meta property="og:image" content="https://bastienrouger-cloud.github.io/Coeur-Alchimique/assets/images/og-coeur-alchimique.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Cœur Alchimique — De l'Enfant Intérieur Blessé à l'Enfant Intérieur Créateur.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://bastienrouger-cloud.github.io/Coeur-Alchimique/pages/contact.html">
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="../assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/socle.js" defer></script>
+  <script src="../js/rendu.js" defer></script>
+</head>
+<body>
+  <a class="lien-evitement" href="#principal">Aller au contenu</a>
+  <div data-partial="entete"></div>
+  <noscript>
+    <div class="avertissement-js">
+      <strong>JavaScript est désactivé.</strong> Le menu et une partie du contenu ne
+      s'afficheront pas. Les pages restent accessibles directement :
+      <a href="../index.html">Accueil</a>,
+      <a href="accompagnement.html">Accompagnement</a>,
+      <a href="e-learnings.html">E-learnings</a>,
+      <a href="livres.html">Livres</a>,
+      <a href="ressources.html">Ressources</a>,
+      <a href="sophie.html">Sophie</a>,
+      <a href="contact.html">Contact</a>.
+    </div>
+  </noscript>
+
+  <main id="principal">
+
+    <section class="hero fondu halo-haut-gauche" style="--de:var(--g0); --vers:var(--g3)" data-theme="sombre">
+      <div class="contenu">
+        <div class="hero__grille">
+          <div>
+            <span class="surtitre">Contact</span>
+            <h1>Parlons de votre chemin</h1>
+            <p class="chapo attenue">
+              Pour prendre rendez-vous, poser une question sur un parcours, ou simplement
+              savoir si ce travail vous correspond.
+            </p>
+            <hr class="filet">
+            <p class="attenue">
+              <strong data-site="delaiReponse">Je réponds sous 48 heures ouvrées.</strong><br>
+              Ou directement par mail : <a data-site="mailtoEmail" href="#" style="color:var(--or-clair)"><span data-site="email">contact@coeuralchimique.fr</span></a>
+            </p>
+
+            <div class="chantier mt-l">
+              <strong>Note de chantier —</strong> le formulaire ci-contre n'envoie encore rien.
+              Il faut le brancher sur un service d'envoi (Formspree, Netlify Forms, Basin…)
+              avant la mise en ligne.
+            </div>
+          </div>
+
+          <div>
+            <form class="formulaire" data-formulaire="contact" novalidate>
+              <div class="champ">
+                <label for="prenom">Votre prénom <span class="obligatoire" aria-hidden="true">*</span></label>
+                <input type="text" id="prenom" name="prenom" autocomplete="given-name" required>
+              </div>
+
+              <div class="champ">
+                <label for="courriel">Votre adresse mail <span class="obligatoire" aria-hidden="true">*</span></label>
+                <input type="email" id="courriel" name="courriel" autocomplete="email" required>
+              </div>
+
+              <div class="champ">
+                <label for="sujet">Votre demande</label>
+                <select id="sujet" name="sujet">
+                  <option>Prendre rendez-vous pour un soin</option>
+                  <option>Une question sur les e-learnings</option>
+                  <option>Une question sur les livres</option>
+                  <option>Autre sujet</option>
+                </select>
+              </div>
+
+              <div class="champ">
+                <label for="message">Votre message <span class="obligatoire" aria-hidden="true">*</span></label>
+                <textarea id="message" name="message" required></textarea>
+              </div>
+
+              <div class="champ champ--case">
+                <input type="checkbox" id="consentement" name="consentement" required>
+                <label for="consentement">
+                  J'accepte que mes informations soient utilisées pour répondre à ma demande.
+                  Elles ne seront ni cédées ni utilisées à d'autres fins.
+                </label>
+              </div>
+
+              <div>
+                <button class="bouton bouton--or" type="submit">Envoyer</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="fondu" style="--de:var(--g3); --vers:var(--g1)" data-theme="sombre">
+      <div class="contenu--etroit">
+        <div class="cadre" data-cadre></div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <div data-partial="pied"></div>
+</body>
+</html>

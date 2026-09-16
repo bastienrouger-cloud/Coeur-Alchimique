@@ -1,0 +1,155 @@
+{
+  "intro": {
+    "titre": "Apprendre, expérimenter, intégrer",
+    "chapo": "Sept parcours à faire à votre rythme, seul·e, avec la possibilité d'échanger avec Sophie quand vous en avez besoin.",
+    "texte": "Une transformation profonde et durable se construit dans chacun des pas du quotidien. Chaque parcours vous donne des enseignements, des exercices, des pratiques d'intégration et des supports à garder."
+  },
+  "programmes": [
+    {
+      "id": "elever-ses-frequences",
+      "nom": "Élever ses fréquences",
+      "promesse": "Cinq jours de pratique quotidienne pour nettoyer vos centres énergétiques et retrouver de l'élan.",
+      "prix": 77,
+      "duree": "5 jours",
+      "niveau": "Découverte",
+      "image": "/assets/images/elearnings/elever-ses-frequences.webp",
+      "alt": "Placeholder — visuel du parcours Élever ses fréquences",
+      "contenu": [
+        "Un ebook de 23 pages",
+        "Une pratique évolutive en 3 étapes",
+        "Une pratique accélérée pour le quotidien",
+        "5 exercices et un travail sur l'intention",
+        "Un résumé pour chaque jour"
+      ],
+      "description": "L'objectif est de vous permettre de pratiquer en quelques jours pour élever vos fréquences et nettoyer vos centres et corps énergétiques. En vous accordant chaque jour un peu de temps, vous apprenez à entrer en vous et à vivre ce voyage intérieur pour découvrir vos plus belles qualités."
+    },
+    {
+      "id": "la-neutralite",
+      "nom": "La Neutralité",
+      "promesse": "Sortir des polarités pour retrouver du discernement et du détachement.",
+      "prix": 93,
+      "duree": "À votre rythme",
+      "niveau": "Approfondissement",
+      "image": "/assets/images/elearnings/la-neutralite.webp",
+      "alt": "Placeholder — visuel du parcours La Neutralité",
+      "contenu": [
+        "Une pratique de méditation pour ouvrir votre Point Zéro",
+        "Des exercices pour changer de perspective",
+        "Des alarmes d'intention à créer",
+        "Des décrets",
+        "Une playlist vidéo dédiée"
+      ],
+      "description": "Vous vous dépolarisez pour mieux vivre votre neutralité intérieure. Vous apprenez à activer une nouvelle façon de penser et de créer, et à particulariser votre Lumière par le Point Zéro."
+    },
+    {
+      "id": "unite-et-souverainete",
+      "nom": "Unité et Souveraineté",
+      "promesse": "Aligner l'intérieur avant de chercher l'alignement au-dehors.",
+      "prix": 93,
+      "duree": "À votre rythme",
+      "niveau": "Approfondissement",
+      "image": "/assets/images/elearnings/unite-et-souverainete.webp",
+      "alt": "Placeholder — visuel du parcours Unité et Souveraineté",
+      "contenu": [
+        "Une méditation d'ancrage au Ciel et à la Terre",
+        "Des exercices de lâcher-prise",
+        "Une cérémonie de Pardon à créer",
+        "Un travail de recalibrage énergétique",
+        "Une playlist vidéo dédiée"
+      ],
+      "description": "Votre alignement intérieur commence par l'unité intérieure. Vous travaillez la Verticalité — l'union du Féminin et du Masculin, des chakras, du petit moi et du Grand Moi — puis l'Horizontalité, le lien avec ce qui vous entoure."
+    },
+    {
+      "id": "se-liberer-des-programmes",
+      "nom": "Se libérer des programmes",
+      "promesse": "Reconnaître les schémas de contrôle, de limitation et de soumission — et s'en défaire.",
+      "prix": 180,
+      "duree": "À votre rythme",
+      "niveau": "Approfondissement",
+      "image": "/assets/images/elearnings/se-liberer-des-programmes.webp",
+      "alt": "Placeholder — visuel du parcours Se libérer des programmes",
+      "contenu": [
+        "Une vidéo de plus d'1h30",
+        "Un manuel imprimable",
+        "Des exercices de pratique",
+        "Des méditations pour mieux vivre vos émotions",
+        "Une playlist vidéo dédiée"
+      ],
+      "description": "Vous apprenez de vos émotions et en prenez la responsabilité : ce qui déclenche l'émotion, le besoin qu'elle signale, l'action juste à adopter. Vous apprenez aussi à reconnaître les jeux de rôle — Victime, Sauveur, Persécuteur — et à vous libérer des croyances qui vous bloquent."
+    },
+    {
+      "id": "mission-de-vie",
+      "nom": "Mission de vie",
+      "promesse": "Trouver votre place et le sens de votre voie de réalisation personnelle.",
+      "prix": 230,
+      "duree": "5 modules",
+      "niveau": "Parcours complet",
+      "image": "/assets/images/elearnings/mission-de-vie.webp",
+      "alt": "Placeholder — visuel du parcours Mission de vie",
+      "contenu": [
+        "5 modules",
+        "4 heures d'audio",
+        "18 exercices",
+        "3 entraînements et 2 pratiques",
+        "Accès illimité"
+      ],
+      "description": "Révéler vos ressources profondes, retrouver de l'élan et de la détermination, vous libérer des programmes limitants, vous connecter à votre Âme de façon pérenne, écouter vos intuitions et lever les freins à votre réalisation personnelle."
+    },
+    {
+      "id": "revelez-votre-lumiere-interieure",
+      "nom": "Révélez votre Lumière Intérieure",
+      "promesse": "Treize outils pour incarner votre Lumière concrètement, dans votre vie.",
+      "prix": 230,
+      "duree": "13 outils",
+      "niveau": "Parcours complet",
+      "image": "/assets/images/elearnings/revelez-votre-lumiere-interieure.webp",
+      "alt": "Placeholder — visuel du parcours Révélez votre Lumière Intérieure",
+      "contenu": [
+        "Un livret d'apprentissage de 60 pages",
+        "7 heures d'audios de pratique",
+        "Des décrets",
+        "Un PDF téléchargeable et imprimable par module",
+        "Accès illimité"
+      ],
+      "description": "Treize outils pour révéler et amplifier votre Lumière Intérieure : la perspective élevée, la télépathie, la particularisation de la Lumière, les champs d'attraction, la compassion élévatrice, les solutions créatives, la Colonne de Lumière, le Berceau de Lumière, le Plasma Cristallin, les États de Conscience Modifiée, et d'autres."
+    },
+    {
+      "id": "s-eveiller-a-sa-puissance-interieure",
+      "nom": "S'éveiller à sa Puissance Intérieure",
+      "promesse": "Le parcours le plus complet : remonter aux origines des blocages pour s'en séparer durablement.",
+      "prix": 330,
+      "duree": "4 modules",
+      "niveau": "Parcours complet",
+      "image": "/assets/images/elearnings/s-eveiller-a-sa-puissance-interieure.webp",
+      "alt": "Placeholder — visuel du parcours S'éveiller à sa Puissance Intérieure",
+      "contenu": [
+        "4 modules",
+        "7 heures d'audio",
+        "19 exercices et 2 pratiques",
+        "Un GuideBook de 158 pages",
+        "Accès illimité"
+      ],
+      "description": "Vous remontez aux origines de vos blocages et de vos mémoires émotionnelles pour vous en libérer, vous activez votre Alchimie Intérieure, vous transmutez le négatif en génatif, vous vous reconnectez à votre Enfant Intérieur Créateur et retrouvez votre Puissance Créatrice."
+    }
+  ],
+  "tutorat": {
+    "titre": "Le tutorat",
+    "chapo": "Vous n'êtes jamais seul·e sur votre chemin.",
+    "texte": "Un accompagnement personnalisé pendant votre apprentissage, sur mesure selon vos besoins. Vous échangez avec Sophie, qui vous apporte des éclairages pour avancer.",
+    "benefices": [
+      "Débloquer et clarifier des situations ou des émotions difficiles",
+      "Partager vos résultats, vos solutions, vos réussites",
+      "Ne pas être isolé·e, trouver du soutien et de la compréhension",
+      "Avancer à votre rythme, en toute flexibilité"
+    ]
+  },
+  "achat": {
+    "titre": "Comment ça se passe",
+    "etapes": [
+      "Vous réglez en ligne par carte ou via PayPal.",
+      "Vous êtes redirigé·e vers l'espace où se trouvent tous les documents du parcours.",
+      "Vous les téléchargez, ou vous conservez l'adresse pour y revenir quand vous le souhaitez."
+    ],
+    "note": "Un paiement en deux ou trois fois est possible sur demande, par mail."
+  }
+}

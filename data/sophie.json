@@ -1,0 +1,62 @@
+{
+  "nom": "Sophie Loret",
+  "role": "Fondatrice de Cœur Alchimique",
+  "photo": "/assets/images/sophie/portrait-sophie.webp",
+  "alt": "Placeholder — portrait de Sophie Loret",
+  "accroche": "Vingt années de cheminement intérieur, d'ouverture du Cœur et de la Conscience.",
+  "presentation": [
+    "Je vous accompagne sur le chemin du retour à vous-même. J'ai créé cet espace pour vous permettre de révéler, de libérer et de transformer, afin de mieux accéder à votre puissance intérieure créatrice.",
+    "Mon propre parcours m'a amenée à explorer le monde des émotions et de l'alchimie intérieure, et à comprendre que l'Enfant Intérieur est divisé en deux parts : l'une blessée, l'autre créatrice.",
+    "Mon intention est de vous offrir un espace où vous pouvez vous écouter, vous comprendre et avancer à votre rythme, avec conscience, douceur et autonomie."
+  ],
+  "frise": [
+    {
+      "periode": "~10 ans",
+      "titre": "L'Alchimie Spirituelle",
+      "texte": "Pratique auprès d'un Maître Alchimiste. De grandes transformations s'opèrent : transmuter peu à peu son « plomb » en or.",
+      "aRenseigner": "Nom du Maître Alchimiste et période exacte à confirmer."
+    },
+    {
+      "periode": "Janvier 2009",
+      "titre": "Coach & Team®",
+      "texte": "Certification Transformance, à Holonomie (Nantes). L'entrée dans l'accompagnement des personnes et des groupes."
+    },
+    {
+      "periode": "2009 – 2012",
+      "titre": "Dessin évolutif et Art-thérapie Alchimique",
+      "texte": "Initiation au dessin évolutif et aux médiums artistiques : dessin, peinture, modelage à l'argile, journal créatif. La créativité devient un chemin."
+    },
+    {
+      "periode": "2010",
+      "titre": "Analyse Transactionnelle",
+      "texte": "Certification auprès de D. Chernet, Holonomie (Nantes). Psychosomatique et structure de la personnalité."
+    },
+    {
+      "periode": "2010 – 2012",
+      "titre": "Communication Non Violente et Intelligence Émotionnelle",
+      "texte": "Association Langage à Saint-Herblain, puis J-Philippe Faure et D. Chernet. Le sens et le message des émotions."
+    },
+    {
+      "periode": "Repère",
+      "titre": "L'Alchimie du Cœur — Marie-Lise Labonté",
+      "texte": "La description de la façon dont le Cœur Spirituel peut transmuter les blessures, les mémoires et les émotions. C'est à partir de là que la méthode Cœur Alchimique se construit."
+    },
+    {
+      "periode": "2018 – 2023",
+      "titre": "Six années auprès de Sandra Walter",
+      "texte": "Approfondissement de l'Alchimie Intérieure, de la Souveraineté, de la liberté intérieure par le Retour à Soi, et des États de Conscience Modifiée."
+    },
+    {
+      "periode": "Date à confirmer",
+      "titre": "Hypnose Onirique — Yann Loup Renard",
+      "texte": "Formation à l'hypnose onirique.",
+      "aRenseigner": "Date à confirmer."
+    }
+  ],
+  "filConducteur": {
+    "titre": "Le fil conducteur",
+    "texte": "Au fil de ce parcours, une même ligne revient : les émotions, la transmutation, la création et la créativité. La question a toujours été la même — comment activer cette part-là, en soi et chez les autres.",
+    "chaine": ["Émotions", "Transmutation", "Création", "Créativité"]
+  },
+  "citation": "Transformer le « plomb » de mes blessures, de mes émotions, de mes blocages en « or », en joie, en créativité, en paix, fait partie de mon chemin de vie tant professionnel que personnel. Et c'est cela que je mets à votre disposition."
+}
