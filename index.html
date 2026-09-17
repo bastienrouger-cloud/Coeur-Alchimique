@@ -71,10 +71,21 @@
             à comprendre ce qu'ils ont à dire — et à transformer ce qui pesait, ce qui bloquait,
             en élan créateur.
           </p>
+          <!-- Un seul bouton. « Comprendre la démarche » faisait ce que
+               fait la molette — descendre d'une section — et divisait
+               l'attention en deux au moment où elle devrait être entière.
+               La descente est maintenant dite par une flèche, qui ne
+               prétend pas être une offre. -->
           <div class="groupe-boutons">
             <a class="bouton bouton--or" href="pages/accompagnement.html">Découvrir l'accompagnement</a>
-            <a class="bouton bouton--contour" href="#la-bibliotheque">Comprendre la démarche</a>
           </div>
+          <a class="hero__descente" href="#la-bibliotheque">
+            <span class="sr-only">Aller à la démarche</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </a>
         </div>
       </div>
     </section>
@@ -105,73 +116,89 @@
             <p class="attenue">Sans nom, sans image précise. Une fatigue de fond, un poids que vous portez sans savoir depuis quand.</p>
           </div>
         </div>
+
+        <!-- La section posait une question et s'arrêtait sur un point
+             final : on se reconnaissait, et on restait là. Cette ligne
+             referme la boucle et passe le relais à la suite. -->
+        <p class="grille__conclusion">
+          Si l'une de ces phrases vous a arrêté·e, la suite explique pourquoi
+          ça se rejoue — et ce qu'on peut en faire.
+        </p>
       </div>
     </section>
 
-    <!-- 3. La bibliothèque intérieure -------------------------------- -->
-    <section id="la-bibliotheque" class="fondu" style="--de:var(--g2); --vers:var(--g3)" data-theme="sombre">
+    <!-- 3. La bibliothèque et ses trois états ----------------------
+
+         Deux sections avant : « La démarche » d'un côté, « Le moteur »
+         de l'autre. Le chapô du moteur promettait « choisissez un état
+         pour voir la bibliothèque changer » — et l'étagère se trouvait
+         623 px au-dessus du haut de l'écran au moment du clic. On
+         repeignait quelque chose d'invisible.
+
+         Les deux n'en font plus qu'une : l'étagère tient à gauche
+         pendant qu'on lit les quatre temps puis qu'on choisit un état.
+         La promesse du chapô est enfin vraie.
+         -------------------------------------------------------------- -->
+    <section id="la-bibliotheque" class="fondu halo-haut-droite"
+             style="--de:var(--g2); --vers:var(--g5)" data-theme="sombre">
       <div class="contenu">
-        <div class="entete-section">
-          <span class="surtitre">La démarche, en quatre temps</span>
-          <h2>Vous avez une bibliothèque intérieure</h2>
+
+        <!-- La planche des trois cœurs, injectée une seule fois pour
+             toute la page : l'étagère et les cartes y puisent le même
+             dessin. Elle est hors flux, elle ne prend aucune place. -->
+        <div class="planche" data-partial="coeurs"></div>
+
+        <div class="entete-section entete-section--bande">
+          <div>
+            <span class="surtitre">La démarche</span>
+            <h2>Vous avez une bibliothèque intérieure</h2>
+          </div>
           <p class="chapo attenue">
             Tout le monde en a une. C'est le meilleur point de départ pour comprendre
-            ce qui se passe pendant un soin.
+            ce qui se passe pendant un soin — et pour voir ce que le soin change.
           </p>
         </div>
 
-        <div class="biblio">
-          <div class="etapes" data-rendu="biblio-etapes">
-            <p class="attenue">Chargement…</p>
-          </div>
-          <div>
+        <div class="moteur">
+
+          <!-- L'étagère colle en haut pendant qu'on parcourt la colonne
+               de droite : elle doit rester sous les yeux au moment où
+               on clique un état. -->
+          <div class="moteur__scene">
             <div class="etagere" data-rendu="etagere" aria-hidden="true"></div>
-            <p class="attenue mt-m" style="font-size:.88rem">
+            <p class="attenue moteur__legende">
               Chaque livre est une émotion, un souvenir, une mémoire. Au centre, le cœur —
               c'est lui qui donne son état à toute la bibliothèque.
             </p>
           </div>
+
+          <div class="moteur__etapes">
+            <div class="etapes" data-rendu="biblio-etapes">
+              <p class="attenue">Chargement…</p>
+            </div>
+          </div>
+
+          <div class="moteur__etats">
+            <div class="moteur__bascule">
+              <span class="surtitre">Le moteur</span>
+              <h3>Les trois états du cœur</h3>
+              <p class="attenue">
+                Selon l'état dans lequel il se trouve, les mêmes souvenirs ne pèsent
+                pas du tout le même poids. Choisissez un état : la bibliothèque, à côté,
+                change avec lui.
+              </p>
+            </div>
+
+            <div class="etats" data-rendu="etats"></div>
+          </div>
+
         </div>
       </div>
     </section>
 
-    <!-- 4. Les trois états du cœur ----------------------------------- -->
-    <section class="fondu halo-haut-droite" style="--de:var(--g3); --vers:var(--g5)" data-theme="sombre">
-      <div class="contenu">
-        <div class="entete-section centre">
-          <span class="surtitre">Le moteur</span>
-          <h2>Les trois états du cœur</h2>
-          <p class="chapo attenue" style="margin-inline:auto">
-            Le cœur de l'Enfant Intérieur peut se trouver dans trois états. Selon celui
-            dans lequel il est, les mêmes souvenirs ne pèsent pas du tout le même poids.
-            Choisissez un état pour voir la bibliothèque changer.
-          </p>
-          <hr class="filet">
-        </div>
-
-        <div class="etats__onglets" role="tablist" aria-label="Les trois états du cœur" data-rendu="etats-onglets"></div>
-        <div data-rendu="etats-panneaux"></div>
-
-        <div class="bandeau-etats">
-          <div class="pastille-etat pastille-etat--blesse">
-            <h4>Blessé</h4>
-            <p>Ce qui n'a pas pu s'exprimer s'est imprimé.</p>
-          </div>
-          <div class="pastille-etat pastille-etat--alchimique">
-            <h4>Alchimique</h4>
-            <p>Le lieu du passage. C'est là que se fait le soin.</p>
-          </div>
-          <div class="pastille-etat pastille-etat--createur">
-            <h4>Créateur</h4>
-            <p>L'histoire reste, mais elle ne retient plus : elle nourrit.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5. L'iceberg ------------------------------------------------- -->
+    <!-- 5. Le miroir d'eau -------------------------------------------- -->
     <section class="fondu halo-haut-gauche" style="--de:var(--g5); --vers:var(--g4)" data-theme="sombre">
-      <div class="contenu" data-rendu="iceberg"></div>
+      <div class="contenu" data-rendu="miroir"></div>
     </section>
 
     <!-- 5. La bande de transmutation --------------------------------- -->
@@ -183,7 +210,7 @@
       </div>
     </section>
 
-    <!-- 6. Les trois chemins ----------------------------------------- -->
+    <!-- 6. Les deux chemins ------------------------------------------ -->
     <section class="fondu" style="--de:var(--g4); --vers:var(--g3)" data-theme="sombre">
       <div class="contenu">
         <div class="entete-section centre">
@@ -192,33 +219,88 @@
           <hr class="filet">
         </div>
 
-        <div class="grille grille--defilante" style="margin-bottom:2rem">
-          <article class="carte carte--lien">
+        <!-- Deux cartes, et c'est tout. Il y avait en dessous un aperçu
+             de trois parcours puis un lien vers les sept : trois fois la
+             même invitation à acheter dans une seule section. Ce qu'un
+             visiteur a besoin de savoir ici, c'est ce que sont les deux
+             chemins — pas leur catalogue.
+
+             Les montants ne sont pas écrits ici : ils sont calculés
+             depuis soins.json et elearnings.json. Une carte ne peut donc
+             pas annoncer un prix que les pages détaillées ont changé. -->
+        <div class="chemins">
+
+          <article class="chemin carte--lien">
+            <div class="chemin__embleme" aria-hidden="true">
+              <!-- Deux cercles qui se recouvrent : la séance se fait à deux,
+                   et ce qui compte se passe dans l'intersection. -->
+              <svg viewBox="0 0 96 96">
+                <path d="M48 29.6 A22 22 0 0 1 48 66.4 A22 22 0 0 1 48 29.6 Z"
+                      fill="var(--or)" opacity=".22"/>
+                <circle cx="36" cy="48" r="22" fill="none" stroke="url(#embOr)" stroke-width="1.4"/>
+                <circle cx="60" cy="48" r="22" fill="none" stroke="url(#embOr)" stroke-width="1.4"/>
+                <circle cx="48" cy="48" r="3.2" fill="url(#embOr)"/>
+              </svg>
+            </div>
             <span class="etiquette">Accompagné·e</span>
             <h3><a href="pages/accompagnement.html">Les soins</a></h3>
-            <p class="attenue">Une séance à distance, en tête-à-tête, pour aller à la rencontre de votre Enfant Intérieur. Deux formules, à partir de 100 €.</p>
+            <p class="attenue">
+              Une séance en tête-à-tête, à distance. Sophie vous accompagne à la
+              rencontre de votre Enfant Intérieur : on va chercher ce qui s'est
+              figé, on l'écoute, on le laisse se déposer. Rien à préparer, rien à
+              savoir d'avance — vous arrivez comme vous êtes.
+            </p>
+            <ul class="chemin__faits">
+              <li>À distance, par WhatsApp</li>
+              <li>Environ 1 h 30</li>
+              <li>Deux formules, <span data-chiffre="soins-prix">à partir de 100&nbsp;€</span></li>
+            </ul>
             <span class="carte__suite">Voir les soins</span>
           </article>
 
-          <article class="carte carte--lien">
+          <article class="chemin carte--lien">
+            <div class="chemin__embleme" aria-hidden="true">
+              <!-- Une spirale : un seul trait, parti d'un point, qui s'ouvre.
+                   On avance de son propre côté et à son propre rythme.
+                   (Des ondes concentriques avaient été essayées : ça se
+                   lisait comme une icône Wi-Fi.) -->
+              <svg viewBox="0 0 96 96">
+                <path d="M43 48 a5 5 0 0 1 10 0 a10 10 0 0 1 -20 0
+                         a15 15 0 0 1 30 0 a20 20 0 0 1 -40 0 a25 25 0 0 1 50 0"
+                      fill="none" stroke="url(#embOr)" stroke-width="1.5"
+                      stroke-linecap="round"/>
+                <circle cx="43" cy="48" r="3.2" fill="url(#embOr)"/>
+              </svg>
+            </div>
             <span class="etiquette">En autonomie</span>
             <h3><a href="pages/e-learnings.html">Les e-learnings</a></h3>
-            <p class="attenue">Sept parcours à faire seul·e, avec la possibilité d'échanger avec Sophie. De 77 € à 330 €.</p>
+            <p class="attenue">
+              <span data-chiffre="elearnings-nombre">Sept</span> parcours à faire
+              seul·e, chez vous, quand vous voulez. Chacun réunit des vidéos, un
+              livret, des audios et des exercices autour d'un thème — la
+              neutralité, la souveraineté, l'élévation. Et la possibilité
+              d'échanger avec Sophie en cours de route.
+            </p>
+            <ul class="chemin__faits">
+              <li><span data-chiffre="elearnings-nombre-chiffre">7</span>&nbsp;parcours indépendants</li>
+              <li>À votre rythme, sans ordre imposé</li>
+              <li><span data-chiffre="elearnings-prix">De 77 € à 330 €</span></li>
+            </ul>
             <span class="carte__suite">Voir les parcours</span>
           </article>
+
         </div>
 
-        <div class="entete-section centre" style="margin-top:4rem">
-          <h3>Trois parcours pour commencer</h3>
-        </div>
-        <div class="grille grille--defilante" data-rendu="elearnings-cartes" data-limite="3"></div>
-        <a class="carte-action mt-l" href="pages/e-learnings.html">
-          <div>
-            <h3>Les sept parcours en détail</h3>
-            <p>Contenu, durée, supports et tarif de chacun — de 77 € à 330 €, sans ordre imposé.</p>
-          </div>
-          <span class="carte-action__fleche" aria-hidden="true">→</span>
-        </a>
+        <!-- Le dégradé des emblèmes, déclaré une fois pour les deux. -->
+        <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+          <defs>
+            <linearGradient id="embOr" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f0e0b8"/>
+              <stop offset="100%" stop-color="#c9a227"/>
+            </linearGradient>
+          </defs>
+        </svg>
+
       </div>
     </section>
 

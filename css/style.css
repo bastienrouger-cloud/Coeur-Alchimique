@@ -112,6 +112,8 @@
   --rayon-s: 8px;
   --ombre: 0 18px 50px -20px rgba(0, 0, 0, 0.55);
   --transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Pour les déplacements de fond, pas les survols : le miroir d'eau. */
+  --transition-lente: 650ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ---------- 2. Base ---------- */
@@ -280,6 +282,30 @@ section {
 [data-theme="clair"] .surtitre { color: #8a6b1c; }
 
 .entete-section { max-width: var(--largeur-texte); margin-bottom: clamp(2rem, 4vw, 3rem); }
+
+/* En-tête pleine largeur, à deux colonnes.
+
+   `--largeur-texte` (38rem) est la bonne mesure pour LIRE un paragraphe.
+   Ce n'est pas une largeur d'EN-TÊTE : à 1800px, le contenu fait 1720px
+   et l'en-tête 608px, soit 35 %. Un titre aligné à gauche dans ce format
+   ressemble à un timbre posé sur une rangée qui ne lui appartient pas.
+
+   Ici le titre garde sa mesure de lecture, le chapô aussi, mais les deux
+   se partagent la largeur du contenu : la bande annonce la largeur de ce
+   qui suit au lieu de la contredire. Réservé aux en-têtes alignés à
+   gauche — les en-têtes centrés sont déjà symétriques, ils ne souffrent
+   pas du même défaut. */
+@media (min-width: 75rem) {
+  .entete-section--bande {
+    max-width: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: end;
+  }
+  .entete-section--bande > :first-child { max-width: 30rem; }
+  .entete-section--bande .chapo { margin: 0 0 0.35rem; max-width: 34rem; }
+}
 .entete-section.centre { margin-inline: auto; text-align: center; }
 
 /* Filet décoratif */
@@ -608,9 +634,6 @@ section {
 }
 
 /* ---------- 8. La bibliothèque intérieure ---------- */
-.biblio { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
-@media (max-width: 950px) { .biblio { grid-template-columns: 1fr; } }
-
 .etapes { display: grid; gap: 1.4rem; counter-reset: etape; }
 .etape { display: grid; grid-template-columns: auto 1fr; gap: 1.1rem; align-items: start; }
 .etape__num {
@@ -670,36 +693,196 @@ section {
   transition: filter 700ms ease;
 }
 
-/* ---------- 9. Les trois états ---------- */
-.etats__onglets {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  justify-content: center;
-  margin-bottom: 2.5rem;
-}
-.onglet-etat {
-  font-family: var(--font-texte);
-  font-size: 0.95rem;
-  font-weight: 600;
-  padding: 0.75rem 1.4rem;
-  border-radius: 999px;
-  border: 1px solid rgba(157, 192, 232, 0.3);
-  background: rgba(157, 192, 232, 0.07);
-  color: var(--texte-sombre-fond-attenue);
-  cursor: pointer;
-  transition: all var(--transition);
-}
-.onglet-etat:hover { color: var(--creme); border-color: rgba(157, 192, 232, 0.55); }
-.onglet-etat[aria-selected="true"] {
-  background: linear-gradient(135deg, var(--or-clair), var(--or));
-  border-color: transparent;
-  color: #2a2008;
+/* Le moteur : l'étagère et ce qui la commande, ensemble.
+
+   Trois enfants — les étapes, la scène, les états — et non deux blocs,
+   parce que l'ordre de lecture n'est pas le même selon la largeur :
+
+     mobile   étapes, PUIS l'étagère, PUIS les trois états. L'étagère
+              est ainsi juste au-dessus des cartes qui la repeignent.
+     ≥ 60rem  l'étagère à gauche sur les deux rangées, collante ; les
+              étapes puis les états à droite.
+
+   Trois éléments frères permettent les deux mises en page sans `order`,
+   donc sans décaler l'ordre du clavier.
+
+   `align-self: start` est obligatoire sur un élément collant en grille :
+   sans lui il est étiré sur toute la hauteur de sa rangée et n'a plus
+   aucune marge pour coller. C'est la première cause de « sticky qui ne
+   colle pas ».
+   ========================================================= */
+/* En flux normal sous 60rem, et non en grille : en grille à une seule
+   colonne, chaque enfant occupe sa propre rangée, le bloc de
+   positionnement d'un élément collant est donc sa rangée — de sa
+   hauteur exacte — et il ne lui reste pas un pixel pour coller. En
+   flux, le bloc est `.moteur` tout entier : l'étagère reste sous les
+   yeux pendant qu'on fait défiler ce qui la commande. */
+.moteur { display: block; }
+.moteur > * + * { margin-top: clamp(2rem, 5vw, 3.5rem); }
+.moteur__etats { display: grid; gap: clamp(1.5rem, 3vw, 2rem); align-content: start; }
+.moteur__legende { font-size: 0.88rem; margin-top: 1.1rem; }
+.moteur__bascule h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin: 0.2rem 0 0.6rem; }
+.moteur__bascule p { max-width: 42rem; margin: 0; }
+
+/* Sur mobile l'étagère colle aussi, mais raccourcie : à hauteur pleine
+   elle mangeait la moitié de l'écran et il ne restait plus la place
+   d'afficher une carte ouverte en dessous. */
+@media (max-width: 59.99rem) {
+  .moteur__scene {
+    position: sticky;
+    top: calc(var(--h-entete, 4.5rem) + 0.75rem);
+    z-index: 1;
+    /* Épinglée, elle passe AU-DESSUS des cartes qui défilent dessous et
+       leur volait le clic. Elle est décorative (aria-hidden) : elle
+       laisse tout passer. */
+    pointer-events: none;
+    padding-bottom: 0.75rem;
+    background: linear-gradient(180deg,
+      rgb(from var(--de, #142943) r g b / 0.96) 82%,
+      rgb(from var(--de, #142943) r g b / 0) 100%);
+  }
+  .moteur__scene .etagere { padding: 0.9rem; }
+  .moteur__scene .etagere__rayon { height: 46px; margin-bottom: 9px; }
+  /* L'étagère raccourcie, le cœur doit suivre : à 118px il occupait
+     presque la moitié de sa hauteur. */
+  .moteur__scene .coeur-svg { width: 78px; height: 78px; }
+  .moteur__legende { display: none; }
 }
 
-.etat-panneau { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 3.5rem); align-items: center; }
-@media (max-width: 950px) { .etat-panneau { grid-template-columns: 1fr; } }
+@media (min-width: 60rem) {
+  .moteur {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    column-gap: clamp(2rem, 5vw, 4rem);
+    row-gap: clamp(2rem, 4vw, 3rem);
+    align-items: start;
+  }
+  .moteur > * + * { margin-top: 0; }
+  .moteur__scene  { grid-column: 1; grid-row: 1 / 3; position: sticky;
+                    top: calc(var(--h-entete, 5rem) + 1.5rem); align-self: start; }
+  .moteur__etapes { grid-column: 2; grid-row: 1; }
+  .moteur__etats  { grid-column: 2; grid-row: 2; }
+}
+
+/* ---------- 9. Les trois états du cœur ----------
+
+   Les cartes sont le sélecteur. Un seul DOM, deux mises en page :
+
+     < 48rem   accordéon — le panneau s'ouvre sous sa propre carte,
+               ce qui évite d'aller chercher le détail en haut de
+               l'écran quand les cartes sont empilées ;
+     ≥ 48rem   les trois cartes sur une rangée, le panneau ouvert en
+               dessous sur toute la largeur.
+
+   La bascule est du placement de grille, pas un déplacement de nœud :
+   l'ordre du DOM (carte, panneau, carte, panneau…) est déjà celui du
+   mobile, et le desktop ne fait que le replacer.
+   ---------- */
+
+.etats {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 2.5rem;
+}
+
+/* Une planche de symboles ne doit jamais occuper une cellule. */
+.planche { position: absolute; width: 0; height: 0; }
+
+.carte-etat {
+  display: grid;
+  /* Les trois accroches n'ont pas la même longueur : si l'une passe à
+     trois lignes, les autres restent centrées dans leur carte au lieu
+     de coller en haut. */
+  align-content: center;
+  gap: 0.3rem;
+  padding: 1.15rem 1.3rem;
+  text-align: center;
+  border: 1px solid;
+  border-radius: var(--rayon);
+  font-family: var(--font-texte);
+  color: inherit;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition),
+              transform var(--transition), box-shadow var(--transition);
+}
+/* Le cœur de l'état. Trois dessins de la même famille : un contour
+   commun, et la lumière qui change. Le débordement des rayons du
+   créateur sort du carré — d'où overflow visible. */
+.carte-etat__coeur {
+  width: clamp(3.25rem, 6vw, 4.25rem);
+  aspect-ratio: 1;
+  margin: 0 auto 0.35rem;
+  display: block;
+  transition: opacity var(--transition), transform var(--transition);
+  opacity: 0.72;
+}
+.carte-etat__coeur svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.carte-etat:hover .carte-etat__coeur { opacity: 0.9; }
+.carte-etat[aria-expanded="true"] .carte-etat__coeur { opacity: 1; transform: scale(1.06); }
+
+.carte-etat__titre { font-family: var(--font-titre); font-size: 1.2rem; line-height: 1.2; }
+.carte-etat__accroche { font-size: 0.88rem; line-height: 1.45; opacity: 0.8; }
+
+/* Les trois teintes : le bleu qui se ferme, le passage, l'or. */
+.carte-etat--blesse { border-color: rgba(47, 107, 181, 0.5); background: rgba(28, 58, 97, 0.35); }
+.carte-etat--alchimique {
+  border-color: rgba(120, 110, 90, 0.6);
+  background: linear-gradient(135deg, rgba(28, 58, 97, 0.35), rgba(201, 162, 39, 0.22));
+}
+.carte-etat--createur { border-color: rgba(227, 200, 121, 0.55); background: rgba(201, 162, 39, 0.16); }
+
+.carte-etat:hover { transform: translateY(-2px); }
+.carte-etat:hover .carte-etat__accroche { opacity: 1; }
+
+.carte-etat[aria-expanded="true"] {
+  border-color: var(--or);
+  box-shadow: 0 0 0 1px var(--or), 0 14px 34px -18px rgba(201, 162, 39, 0.8);
+}
+.carte-etat[aria-expanded="true"] .carte-etat__titre { color: var(--or-pale); }
+.carte-etat[aria-expanded="true"] .carte-etat__accroche { opacity: 1; }
+
+.etat-panneau { display: grid; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; }
 .etat-panneau[hidden] { display: none; }
+.etat-panneau .liste-puces { margin: 0; }
+
+/* Mobile : le panneau prolonge sa carte. On soude les deux en fermant
+   les coins qui se touchent — sinon on lit deux blocs sans rapport. */
+@media (max-width: 47.99rem) {
+  .carte-etat[aria-expanded="true"] {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: none;
+    border-bottom-color: transparent;
+  }
+  .etat-panneau {
+    margin-top: -0.6rem;
+    padding: 0.25rem 1.3rem 1.4rem;
+    border: 1px solid var(--or);
+    border-top: none;
+    border-radius: 0 0 var(--rayon) var(--rayon);
+  }
+}
+
+@media (min-width: 48rem) {
+  .etats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem clamp(1rem, 2vw, 1.5rem);
+  }
+  /* On compte les boutons entre eux, pas les enfants dans l'ordre :
+     la planche de symboles est aussi un enfant, et compter par position
+     décalait tout d'une case. `nth-of-type` ne voit que les boutons.
+     Les panneaux fermés sont en display:none et ne prennent pas de
+     place — un seul occupe donc la rangée 2. */
+  .etats > button:nth-of-type(1) { grid-column: 1; grid-row: 1; }
+  .etats > button:nth-of-type(2) { grid-column: 2; grid-row: 1; }
+  .etats > button:nth-of-type(3) { grid-column: 3; grid-row: 1; }
+  .etats > .etat-panneau { grid-column: 1 / -1; grid-row: 2; }
+  .etat-panneau { padding-top: 1.5rem; }
+}
+
+@media (min-width: 60rem) {
+  .etat-panneau { grid-template-columns: 1fr 1fr; }
+}
 
 .etat__resume {
   font-family: var(--font-titre);
@@ -1020,27 +1203,24 @@ section {
 [data-theme="clair"] .chantier strong { color: #7d6119; }
 
 /* ---------- 18. Divers ---------- */
+/* La ligne qui referme une rangée de cartes et passe le relais.
+   Centrée, à la mesure de lecture, détachée par un filet léger. */
+.grille__conclusion {
+  max-width: var(--largeur-lecture);
+  margin: clamp(2rem, 4vw, 3rem) auto 0;
+  padding-top: clamp(1.5rem, 3vw, 2rem);
+  border-top: 1px solid rgba(227, 200, 121, 0.22);
+  text-align: center;
+  font-family: var(--font-titre);
+  font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+  font-style: italic;
+  color: var(--or-clair);
+}
+
 .centre { text-align: center; }
 .mt-l { margin-top: 2.5rem; }
 .mt-m { margin-top: 1.5rem; }
 
-.bandeau-etats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
-  gap: 1rem;
-  margin-top: 2rem;
-}
-.pastille-etat {
-  border-radius: var(--rayon);
-  padding: 1.2rem;
-  border: 1px solid;
-  text-align: center;
-}
-.pastille-etat h4 { font-family: var(--font-titre); font-size: 1.15rem; margin-bottom: 0.3rem; }
-.pastille-etat p { font-size: 0.88rem; margin: 0; opacity: 0.85; }
-.pastille-etat--blesse { border-color: rgba(47, 107, 181, 0.5); background: rgba(28, 58, 97, 0.35); }
-.pastille-etat--alchimique { border-color: rgba(120, 110, 90, 0.6); background: linear-gradient(135deg, rgba(28, 58, 97, 0.35), rgba(201, 162, 39, 0.22)); }
-.pastille-etat--createur { border-color: rgba(227, 200, 121, 0.55); background: rgba(201, 162, 39, 0.16); }
 
 /* Section de bascule : la phrase à laquelle Sophie tient, lue de haut en bas,
    du bleu de l'émotion à l'or de sa transmutation. */
@@ -1194,6 +1374,34 @@ section {
 /* Le sceau est le pivot : trois lignes au-dessus, le texte et les boutons
    en dessous. Tout doit tenir dans une hauteur d'écran, d'où le padding
    haut réduit et un sceau plus petit qu'ailleurs. */
+/* La flèche de descente. Ce n'est pas un bouton : elle ne promet rien,
+   elle signale qu'il y a une suite. */
+.hero__descente {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: clamp(1.75rem, 4vw, 2.75rem) auto 0;
+  border-radius: 50%;
+  color: var(--or-clair);
+  border: 1px solid rgba(227, 200, 121, 0.3);
+  transition: border-color var(--transition), transform var(--transition),
+              background var(--transition);
+  animation: descente-respire 3.2s ease-in-out infinite;
+}
+.hero__descente svg { width: 1.4rem; height: 1.4rem; }
+.hero__descente:hover {
+  border-color: var(--or);
+  background: rgba(201, 162, 39, 0.12);
+}
+@keyframes descente-respire {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__descente { animation: none; }
+}
+
 .hero--centre { padding-block: clamp(1.5rem, 3vw, 2.5rem) clamp(3rem, 6vw, 5rem); }
 .hero__pile { text-align: center; }
 .hero__pile .hero__titre { margin-bottom: 0.25em; }
@@ -1502,81 +1710,274 @@ section {
 }
 
 /* =========================================================
-   25. L'iceberg
+   25. Le miroir d'eau
 
-   La métaphore de Sophie : la partie invisible est de loin la plus
-   grosse. Deux états, un seul dessin.
+   Trois parts, une surface. Au-dessus ce qui s'exprime, au-dessous ce
+   qui se tait — et l'état final est le reflet exact de l'état initial
+   autour de la ligne d'eau.
 
-   Le dessin ne bouge pas — ce sont les étiquettes qui changent de
-   côté. C'est exactement son propos : elle parle d'une « remise à
-   l'endroit », pas d'une transformation de l'iceberg.
+   Cinq rangs, la surface au 3. Une figure ne change que de rang ; sa
+   position vient d'ici. C'est ce qui rend l'animation gratuite : il n'y
+   aura rien à reconstruire, juste un `top` qui glisse.
+
+       rang 1  ░░  l'air, tout en haut
+       rang 2  ░░  l'air, juste au-dessus
+       rang 3  ──  LA SURFACE — le seuil, l'axe du reflet
+       rang 4  ▓▓  sous l'eau
+       rang 5  ▓▓  le fond
+
+   La ligne d'eau est un élément CSS et pas un <line> SVG : un trait
+   sans épaisseur a une boîte englobante plate, donc un dégradé en
+   objectBoundingBox y est dégénéré et n'est jamais peint. C'est le bug
+   qui rendait l'ancienne ligne de flottaison invisible.
    ========================================================= */
 
-.iceberg {
+/* Trois enfants : la scène, les commandes, le panneau de texte.
+   Sur mobile, l'ordre du DOM suffit — scène, commandes, texte.
+   Au-dessus de 900px, la grille remet le texte au-dessus des
+   commandes dans la colonne de droite. */
+.miroir {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  gap: clamp(2rem, 5vw, 4rem);
-  align-items: center;
-  margin-top: 2rem;
+  gap: 1.25rem;
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
 }
-@media (max-width: 900px) { .iceberg { grid-template-columns: 1fr; } }
+@media (min-width: 56.25rem) {
+  .miroir {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: clamp(2rem, 5vw, 4rem);
+    row-gap: 1.5rem;
+    align-items: center;
+  }
+  .miroir__scene     { grid-column: 1; grid-row: 1 / 3; }
+  .miroir__panneau   { grid-column: 2; grid-row: 1; align-self: end; }
+  .miroir__commandes { grid-column: 2; grid-row: 2; align-self: start; }
+}
 
-.iceberg__onglets { display: flex; gap: 0.5rem; }
-.iceberg__onglet {
-  font-family: var(--font-texte);
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 0.6rem 1.4rem;
-  border-radius: 999px;
-  border: 1px solid rgba(227, 200, 121, 0.35);
-  background: transparent;
+/* ---- La scène ---- */
+
+/* La scène n'a plus de hauteur fixe : elle vaut cinq fois le pas, et
+   le pas est mesuré en JavaScript sur la figure la plus haute. Une
+   hauteur figée obligeait à choisir entre deux défauts — trop courte,
+   les libellés qui passent sur deux lignes se chevauchent ; assez
+   longue pour le pire cas, on gagne 340px de vide sur téléphone. Et
+   comme les textes viennent d'un JSON qu'on édite, le pire cas n'est
+   pas connu à l'avance.
+
+   Repli si le JavaScript ne tourne pas : 4rem, assez pour deux lignes. */
+.miroir__scene {
+  position: relative;
+  --pas: 4rem;
+  height: calc(var(--pas) * 5);
+}
+
+/* La masse d'eau. Bord franc en haut — c'est la surface, elle doit être
+   nette — et fondu partout ailleurs, sinon l'aplat dessine une boîte
+   sur le fond de la section. */
+.miroir__scene::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 0;
+  background: linear-gradient(180deg, rgba(47, 107, 181, 0.17), transparent 88%);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  pointer-events: none;
+}
+
+.miroir__eau {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent, var(--or-clair) 16%, var(--or-clair) 84%, transparent);
+}
+.miroir__eau::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: -3px;
+  height: 7px;
+  background: inherit;
+  opacity: 0.18;
+}
+
+/* ---- Une part ---- */
+
+.miroir__fig {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(var(--pas) * 2.5);
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  transform: translateY(-50%);
+  transition: top var(--transition-lente, 0.65s cubic-bezier(0.4, 0, 0.2, 1)),
+              opacity 0.45s ease;
+}
+/* Le rang N est centré au milieu de sa tranche : (N − 0,5) pas. */
+.miroir__fig[data-rang="1"] { top: calc(var(--pas) * 0.5); }
+.miroir__fig[data-rang="2"] { top: calc(var(--pas) * 1.5); }
+.miroir__fig[data-rang="3"] { top: calc(var(--pas) * 2.5); }
+.miroir__fig[data-rang="4"] { top: calc(var(--pas) * 3.5); }
+.miroir__fig[data-rang="5"] { top: calc(var(--pas) * 4.5); }
+
+/* Sous l'eau, on s'efface. Jamais complètement : rien n'a disparu,
+   c'est tout le propos. */
+.miroir__fig[data-zone="eau"] { opacity: 0.42; }
+.miroir__fig[data-zone="air"] { opacity: 1; }
+.miroir__fig[data-zone="seuil"] { opacity: 1; }
+
+.miroir__symbole {
+  flex: 0 0 auto;
+  width: clamp(3rem, 7vw, 4rem);
+  aspect-ratio: 1;
+  display: block;
+}
+.miroir__symbole svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+/* L'auréole ne s'allume qu'au seuil — le seul moment où une part est
+   exactement au partage. */
+.miroir__auréole { opacity: 0; transition: opacity 0.45s ease; }
+.miroir__fig[data-zone="seuil"] .miroir__auréole { opacity: 1; }
+
+.miroir__texte { display: grid; gap: 0.15rem; min-width: 0; transition: gap var(--transition-lente); }
+
+/* Au seuil, la ligne d'eau passerait en plein milieu du libellé et le
+   barrerait. Le bloc de texte étant centré sur la ligne, il suffit
+   d'écarter ses deux lignes : la fenêtre s'ouvre pile sur la surface,
+   quelle que soit la longueur du texte. Le nom au-dessus, le détail
+   en dessous — le libellé enjambe la surface, ce qui tombe bien. */
+.miroir__fig[data-zone="seuil"] .miroir__texte { gap: 1.15rem; }
+.miroir__texte strong { font-size: clamp(0.95rem, 1.6vw, 1.05rem); line-height: 1.25; }
+.miroir__detail {
+  font-size: 0.85rem;
+  line-height: 1.4;
   color: var(--texte-sombre-fond-attenue);
-  cursor: pointer;
-  transition: all var(--transition);
 }
-.iceberg__onglet[aria-selected="true"] {
-  background: rgba(201, 162, 39, 0.18);
-  border-color: var(--or);
-  color: var(--or-pale);
-}
+.miroir__fig[data-zone="seuil"] .miroir__detail { color: var(--or-clair); }
 
-.iceberg__zone {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: clamp(1rem, 3vw, 2rem);
+/* ---- Le panneau ---- */
+
+.miroir__jalons {
+  display: flex;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1 0 100%;
+}
+.miroir__jalons li {
+  width: 2.25rem;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(157, 192, 232, 0.25);
+  transition: background var(--transition);
+}
+.miroir__jalons li[data-etat="passe"] { background: rgba(201, 162, 39, 0.5); }
+.miroir__jalons li[data-etat="courant"] { background: var(--or); }
+
+.miroir__panneau h3 { color: var(--or-pale); margin-bottom: 0.6rem; }
+.miroir__panneau p { max-width: 34rem; }
+
+.miroir__commandes {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  gap: 0.75rem;
 }
-@media (max-width: 560px) { .iceberg__zone { grid-template-columns: 1fr; } }
+.miroir__commandes button[disabled] { opacity: 0.35; cursor: default; }
 
-.iceberg__svg { width: min(100%, 15rem); }
-.iceberg__dessin { width: 100%; height: auto; display: block; }
+.miroir__note { font-size: 0.9rem; margin-top: clamp(1.25rem, 3vw, 2rem); font-style: italic; }
 
-.iceberg__etiquettes { display: grid; gap: 1.25rem; }
-
-/* Le repère « Le visible / L'invisible » : c'est lui qui porte le sens
-   du schéma, il doit rester lisible même si les cartes bougent. */
-.iceberg__eau {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  margin: 0 0 0.5rem;
+/* Un déplacement de 20 % de la scène, c'est exactement le genre de
+   mouvement qui gêne. On garde le changement, on retire le glissement. */
+@media (prefers-reduced-motion: reduce) {
+  .miroir__fig,
+  .miroir__auréole,
+  .miroir__jalons li { transition: none; }
 }
-.iceberg__cote--visible .iceberg__eau { color: var(--or-clair); }
-.iceberg__cote--invisible .iceberg__eau { color: var(--bleu-pale); }
 
-.iceberg__marqueur {
+/* =========================================================
+   26. Les deux chemins
+
+   Deux cartes larges sur l'accueil, à la place de l'ancienne rangée
+   suivie d'un aperçu de trois parcours et d'un lien vers les sept.
+   Elles ne vendent pas : elles expliquent ce qu'est chaque chemin.
+
+   Elles ne réutilisent pas `.carte` — une carte du site est faite pour
+   vivre à trois ou quatre par rangée, avec un texte court. Ici il n'y
+   en a que deux et elles portent un paragraphe entier ; elles ont donc
+   leur propre respiration. Elles gardent en revanche `.carte--lien`,
+   pour que toute la surface soit cliquable.
+   ========================================================= */
+
+.chemins {
   display: grid;
-  gap: 0.15rem;
-  padding: 0.7rem 0.95rem;
-  margin-bottom: 0.5rem;
-  border-radius: var(--rayon-s);
-  border-left: 2px solid rgba(227, 200, 121, 0.4);
-  background: rgba(157, 192, 232, 0.07);
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+  margin-top: 2.5rem;
 }
-.iceberg__cote--invisible .iceberg__marqueur { border-left-color: rgba(157, 192, 232, 0.35); }
-.iceberg__marqueur strong { font-size: 0.97rem; }
-.iceberg__marqueur span { font-size: 0.85rem; color: var(--texte-sombre-fond-attenue); }
+@media (min-width: 48rem) { .chemins { grid-template-columns: 1fr 1fr; } }
 
-.iceberg__legende h3 { color: var(--or-pale); }
-.iceberg__note { font-size: 0.9rem; margin-top: 1.5rem; font-style: italic; }
+.chemin {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: clamp(1.75rem, 3.5vw, 2.5rem);
+  border-radius: var(--rayon);
+  border: 1px solid rgba(157, 192, 232, 0.16);
+  background: rgba(157, 192, 232, 0.06);
+  transition: transform var(--transition), border-color var(--transition),
+              background var(--transition);
+}
+.chemin:hover {
+  transform: translateY(-4px);
+  border-color: rgba(227, 200, 121, 0.4);
+  background: rgba(157, 192, 232, 0.09);
+}
+.chemin h3 { margin: 0; font-size: clamp(1.5rem, 2.6vw, 1.9rem); }
+.chemin > p { margin: 0; }
+
+/* L'emblème. Deux dessins tracés sur la même grille, même épaisseur,
+   même dégradé : ils doivent se lire comme une paire, pas comme deux
+   illustrations trouvées séparément. */
+.chemin__embleme {
+  width: clamp(4.5rem, 9vw, 6rem);
+  aspect-ratio: 1;
+  margin-bottom: 0.25rem;
+}
+.chemin__embleme svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.chemin:hover .chemin__embleme { opacity: 1; }
+
+/* Les faits : ce qu'on veut savoir avant de cliquer. Pas des puces
+   décoratives — un filet doré discret suffit à les séparer. */
+.chemin__faits {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+  font-size: 0.92rem;
+  color: var(--texte-sombre-fond-attenue);
+  border-top: 1px solid rgba(227, 200, 121, 0.22);
+  padding-top: 1rem;
+}
+/* La puce est posée en absolu, pas en élément de flex. Avec
+   `display:flex` sur le <li>, chaque nœud de texte devient un élément
+   de flex à part entière : un <span data-chiffre> au milieu d'une
+   phrase se retrouvait séparé du reste par le `gap`, et « Deux
+   formules, à partir de 100 € » s'affichait avec un trou au milieu.
+   Même famille de piège que la carte-action glissée dans un <p>. */
+.chemin__faits li { position: relative; padding-left: 0.95rem; }
+.chemin__faits li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--or);
+}
+
+.chemin .carte__suite { margin-top: auto; padding-top: 1.1rem; align-self: flex-start; }

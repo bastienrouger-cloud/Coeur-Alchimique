@@ -1,0 +1,61 @@
+<!--
+  Les trois figures du miroir d'eau.
+
+  Ce fragment ne dessine rien par lui-même : c'est une planche de
+  symboles. Chaque figure du composant le réutilise par <use href="#…">,
+  ce qui marche d'un <svg> à l'autre dans la même page.
+
+  Il est injecté AVANT que les figures ne soient construites : un <use>
+  dont la cible n'existe pas encore reste vide et ne se répare pas tout
+  seul dans tous les navigateurs.
+
+  La ligne d'eau n'est pas ici — elle est en CSS, sur toute la largeur de
+  la scène. C'est volontaire : un <line> a une boîte englobante de
+  hauteur nulle, donc un dégradé en objectBoundingBox (le mode par
+  défaut) y est dégénéré et l'élément n'est jamais peint. C'est le bug
+  qui rendait l'ancienne ligne de flottaison invisible. En CSS, la
+  question ne se pose pas.
+-->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <linearGradient id="miroirOr" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0e0b8"/>
+      <stop offset="100%" stop-color="#c9a227"/>
+    </linearGradient>
+
+    <clipPath id="miroirDisque"><circle r="22"/></clipPath>
+
+    <!-- Le masque : plein, opaque, un bandeau en travers. Ça cache. -->
+    <g id="sym-masque">
+      <circle r="22" fill="#1e3557"/>
+      <g clip-path="url(#miroirDisque)">
+        <rect x="-24" y="-7" width="48" height="14" fill="#9dc0e8" opacity=".5"/>
+      </g>
+      <circle r="22" fill="none" stroke="#9dc0e8" stroke-width="1.3"/>
+    </g>
+
+    <!-- Le blessé : le cercle est fendu. La fente traverse de part en
+         part — ce n'est pas une fêlure de surface. -->
+    <g id="sym-blesse">
+      <circle r="22" fill="none" stroke="#e3c879" stroke-width="1.3"/>
+      <path d="M-2-22 L4-9 L-5-1 L3 8 L-1 22" fill="none"
+            stroke="#e3c879" stroke-width="1.6" stroke-linejoin="round"/>
+    </g>
+
+    <!-- Le créateur : le point qui rayonne au-delà de son propre cercle. -->
+    <g id="sym-createur">
+      <circle r="22" fill="none" stroke="#f0e0b8" stroke-width="1.1" opacity=".7"/>
+      <circle r="6" fill="url(#miroirOr)"/>
+      <g stroke="#f0e0b8" stroke-width="1.3" stroke-linecap="round">
+        <path d="M0-12V-30M0 12V30M-12 0H-30M12 0H30"/>
+        <path d="M-8.5-8.5l-12-12M8.5 8.5l12 12M8.5-8.5l12-12M-8.5 8.5l-12 12" opacity=".55"/>
+      </g>
+    </g>
+
+    <!-- L'auréole du moment actif : elle ne sert qu'au seuil. -->
+    <g id="sym-halo">
+      <circle r="31" fill="none" stroke="#e3c879" stroke-width="1" opacity=".38"/>
+      <circle r="40" fill="none" stroke="#e3c879" stroke-width="1" opacity=".16"/>
+    </g>
+  </defs>
+</svg>

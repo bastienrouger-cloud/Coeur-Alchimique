@@ -67,18 +67,17 @@ function construireEtagere(hote) {
     fragments.push(rayon);
   }
 
+  /* Le cœur au centre de l'étagère est EXACTEMENT celui des cartes —
+     le même symbole de la planche, pas un second dessin. Depuis que les
+     deux sections n'en font qu'une, ils se regardent à trois cents
+     pixels l'un de l'autre : deux tracés différents pour le même objet
+     ne passaient plus. */
   const coeur = el("div", { class: "coeur-support" });
-  coeur.innerHTML = `
-    <svg class="coeur-svg" viewBox="0 0 100 100" role="img" aria-label="Le cœur, au centre de la bibliothèque intérieure">
-      <defs>
-        <linearGradient id="degradeCoeur" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#2f6bb5"/>
-          <stop offset="100%" stop-color="#16305a"/>
-        </linearGradient>
-      </defs>
-      <path d="M50 82C31 68 16 56.5 16 42.5A16.5 16.5 0 0 1 50 34a16.5 16.5 0 0 1 34 8.5C84 56.5 69 68 50 82z"
-            fill="url(#degradeCoeur)" stroke="rgba(246,241,230,.35)" stroke-width="1.2"/>
-    </svg>`;
+  coeur.innerHTML =
+    `<svg class="coeur-svg" viewBox="0 0 48 48" role="img"
+          aria-label="Le cœur, au centre de la bibliothèque intérieure">
+       <use href="#coeur-blesse"/>
+     </svg>`;
 
   hote.replaceChildren(...fragments, coeur);
   peindreEtagere(hote, "blesse");
@@ -94,86 +93,132 @@ function peindreEtagere(hote, etat) {
   const coeur = hote.querySelector(".coeur-svg");
   if (coeur) {
     coeur.style.setProperty("--halo-coeur", HALOS[etat]);
-    const stops = coeur.querySelectorAll("#degradeCoeur stop");
-    const couples = {
-      blesse: ["#2f6bb5", "#16305a"],
-      alchimique: ["#7f8ba6", "#9c7c3a"],
-      createur: ["#e3c879", "#c9a227"],
-    }[etat];
-    if (stops.length === 2 && couples) {
-      stops[0].setAttribute("stop-color", couples[0]);
-      stops[1].setAttribute("stop-color", couples[1]);
-    }
+    const usage = coeur.querySelector("use");
+    if (usage) usage.setAttribute("href", `#coeur-${etat}`);
   }
 }
 
-/* ---------- 2. Les trois états du cœur ---------- */
+/* ---------- 2. Les trois états du cœur ----------
+
+   Les cartes sont le sélecteur. Avant, une rangée de boutons au-dessus
+   répétait les trois mêmes noms que les cartes du bas : deux fois le
+   même contenu, et l'accroche des cartes était écrite en dur dans le
+   HTML au lieu de vivre dans /data. Les deux problèmes disparaissent
+   ensemble.
+
+   L'ordre du DOM est carte, panneau, carte, panneau, carte, panneau.
+   C'est celui de la lecture sur mobile — chaque détail suit sa carte.
+   Au-dessus de 48rem, le CSS place les trois cartes sur une rangée et
+   envoie le panneau ouvert en dessous, sur toute la largeur. Rien ne
+   bouge dans le DOM au redimensionnement : pas d'écouteur de resize,
+   pas de nœud déplacé, pas de focus perdu.
+
+   Un état est toujours ouvert — l'étagère de la section précédente en
+   a besoin pour se teindre. Donc aria-expanded, pas un accordéon qui
+   se referme. Cliquer la carte déjà ouverte ne fait rien.
+   ---------- */
 
 async function rendreEtats() {
-  const hoteOnglets = document.querySelector('[data-rendu="etats-onglets"]');
-  const hotePanneaux = document.querySelector('[data-rendu="etats-panneaux"]');
-  if (!hoteOnglets || !hotePanneaux) return;
+  const hote = document.querySelector('[data-rendu="etats"]');
+  if (!hote) return;
 
   const d = await donnees("etats-coeur");
   const etagere = document.querySelector('[data-rendu="etagere"]');
 
-  const onglets = d.etats.map((etat, i) =>
-    el("button", {
-      class: "onglet-etat",
+
+  const cartes = [];
+  const panneaux = [];
+  const enfants = [];
+
+  d.etats.forEach((etat, i) => {
+    /* Le titre ne peut pas être un <h3> : un bouton n'accepte que du
+       contenu de phrasé. Le nom de l'état est porté par le libellé du
+       bouton, ce qu'un lecteur d'écran annonce de toute façon. */
+    const carte = el("button", {
+      class: `carte-etat carte-etat--${etat.id}`,
       type: "button",
-      role: "tab",
-      id: `onglet-${etat.id}`,
+      id: `etat-${etat.id}`,
       "aria-controls": `panneau-${etat.id}`,
-      "aria-selected": String(i === 0),
-      tabindex: i === 0 ? "0" : "-1",
-      texte: etat.nom,
-    })
-  );
+      "aria-expanded": String(i === 0),
+    }, [
+      el("span", {
+        class: "carte-etat__coeur", "aria-hidden": "true",
+        html: `<svg viewBox="0 0 48 48"><use href="#coeur-${etat.id}"/></svg>`,
+      }),
+      el("span", { class: "carte-etat__titre", texte: etat.nom }),
+      el("span", { class: "carte-etat__accroche", texte: etat.accroche }),
+    ]);
 
-  const panneaux = d.etats.map((etat, i) =>
-    el(
-      "div",
-      {
-        class: "etat-panneau",
-        role: "tabpanel",
-        id: `panneau-${etat.id}`,
-        "aria-labelledby": `onglet-${etat.id}`,
-        hidden: i === 0 ? null : "",
-      },
-      [
-        el("div", {}, [
-          el("span", { class: "surtitre", texte: etat.sousTitre }),
-          el("h3", { texte: etat.nom }),
-          el("p", { class: "etat__resume", texte: etat.resume }),
-          el("p", { class: "attenue", texte: etat.texte }),
-        ]),
-        el("ul", { class: "liste-puces" }, etat.signes.map((s) => el("li", { texte: s }))),
-      ]
-    )
-  );
+    const panneau = el("div", {
+      class: "etat-panneau",
+      id: `panneau-${etat.id}`,
+      role: "region",
+      "aria-labelledby": `etat-${etat.id}`,
+      hidden: i === 0 ? null : "",
+    }, [
+      el("div", {}, [
+        el("span", { class: "surtitre", texte: etat.sousTitre }),
+        el("p", { class: "etat__resume", texte: etat.resume }),
+        el("p", { class: "attenue", texte: etat.texte }),
+      ]),
+      el("ul", { class: "liste-puces" }, etat.signes.map((x) => el("li", { texte: x }))),
+    ]);
 
-  hoteOnglets.replaceChildren(...onglets);
-  hotePanneaux.replaceChildren(...panneaux);
+    cartes.push(carte);
+    panneaux.push(panneau);
+    enfants.push(carte, panneau);
+  });
+
+  hote.append(...enfants);
 
   function choisir(index) {
-    onglets.forEach((o, i) => {
-      o.setAttribute("aria-selected", String(i === index));
-      o.tabIndex = i === index ? 0 : -1;
-    });
-    panneaux.forEach((p, i) => (i === index ? p.removeAttribute("hidden") : p.setAttribute("hidden", "")));
+    cartes.forEach((c, i) => c.setAttribute("aria-expanded", String(i === index)));
+    panneaux.forEach((p, i) =>
+      i === index ? p.removeAttribute("hidden") : p.setAttribute("hidden", ""));
     if (etagere) peindreEtagere(etagere, d.etats[index].id);
   }
 
-  onglets.forEach((onglet, i) => {
-    onglet.addEventListener("click", () => choisir(i));
-    onglet.addEventListener("keydown", (e) => {
-      const suivant = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
-      if (!suivant) return;
-      e.preventDefault();
-      const cible = (i + suivant + onglets.length) % onglets.length;
-      choisir(cible);
-      onglets[cible].focus();
-    });
+  cartes.forEach((carte, i) => carte.addEventListener("click", () => choisir(i)));
+}
+
+/* ---------- 2 bis. Les chiffres des deux chemins ----------
+
+   Les cartes « Les soins » et « Les e-learnings » de l'accueil sont du
+   texte éditorial, écrit dans index.html comme les autres blocs de la
+   page. Mais elles annoncent des montants, et ceux-là vivent dans
+   soins.json et elearnings.json.
+
+   Écrire « à partir de 100 € » en dur, c'était accepter qu'un jour la
+   page d'accueil annonce un prix que les pages détaillées ont changé.
+   On calcule donc à l'affichage. Le HTML garde une valeur de repli
+   visible, pour que la carte reste juste même si le JavaScript ne
+   tourne pas — elle sera simplement figée à la date du dernier commit.
+   ---------- */
+
+async function rendreChiffres() {
+  const cibles = document.querySelectorAll("[data-chiffre]");
+  if (!cibles.length) return;
+
+  const [soins, elearnings] = await Promise.all([donnees("soins"), donnees("elearnings")]);
+
+  const prixSoins = soins.options.map((o) => o.prix).filter((n) => typeof n === "number");
+  const prixParcours = elearnings.programmes.map((p) => p.prix).filter((n) => typeof n === "number");
+  const nombres = ["zéro", "un", "deux", "trois", "quatre", "cinq", "six", "sept",
+                   "huit", "neuf", "dix"];
+  const n = elearnings.programmes.length;
+
+  const valeurs = {
+    "soins-prix": prixSoins.length ? `à partir de ${prix(Math.min(...prixSoins))}` : null,
+    "elearnings-prix": prixParcours.length
+      ? `De ${prix(Math.min(...prixParcours))} à ${prix(Math.max(...prixParcours))}`
+      : null,
+    "elearnings-nombre": nombres[n] ? nombres[n][0].toUpperCase() + nombres[n].slice(1) : String(n),
+    "elearnings-nombre-chiffre": String(n),
+  };
+
+  cibles.forEach((cible) => {
+    const v = valeurs[cible.dataset.chiffre];
+    if (v) cible.textContent = v;
   });
 }
 
@@ -484,7 +529,13 @@ async function rendreSophie() {
 
 /* ---------- Démarrage ---------- */
 
-document.addEventListener("ca:socle-pret", () => {
+document.addEventListener("ca:socle-pret", async () => {
+  /* La planche des cœurs AVANT tout le reste : l'étagère et les cartes
+     s'en servent toutes les deux, et un <use> dont la cible n'est pas
+     encore dans le document reste vide. Les deux rendus partant en
+     parallèle, injecter depuis l'un d'eux était une course. */
+  if (typeof injecterPartial === "function") await injecterPartial("coeurs");
+
   Promise.all([
     rendreBibliotheque(),
     rendreEtats(),
@@ -493,7 +544,8 @@ document.addEventListener("ca:socle-pret", () => {
     rendreLivres(),
     rendreSophie(),
     rendreMediatheque(),
-    rendreIceberg(),
+    rendreMiroir(),
+    rendreChiffres(),
   ])
     .then(() => {
       // Les rayons de la médiathèque n'existaient pas au premier passage.
@@ -651,87 +703,150 @@ async function rendreMediatheque() {
 }
 
 /* =========================================================
-   L'iceberg
+   Le miroir d'eau
 
-   La métaphore de Sophie : la partie invisible est de loin la plus
-   grosse. Deux états — avant, après — et le même schéma qui bascule.
+   Le modèle de Sophie tient en trois temps, et sa géométrie est plus
+   simple qu'il n'y paraît. De haut en bas :
 
-   Le dessin ne bouge pas : ce sont les étiquettes qui changent de
-   côté. C'est le propos exact de Sophie, qui parle d'une « remise à
-   l'endroit » et non d'une transformation de l'iceberg lui-même.
+       au départ      masque · blessé · créateur
+       à l'arrivée    créateur · blessé · masque
 
-   Même dispositif que les trois états du cœur : role="tablist",
-   navigation aux flèches, panneaux liés par aria-controls. Un
-   visiteur au clavier a le même accès qu'à la souris.
+   C'est une symétrie exacte, et le blessé est l'axe : il ne bouge
+   jamais. Sa phrase — « il faut passer par le blessé pour atteindre le
+   créateur » — n'est donc pas une étape ajoutée à la métaphore, c'est
+   la métaphore. D'où l'eau plutôt que la glace : l'axe d'un reflet,
+   c'est la surface, et le blessé est dessus.
+
+   Un iceberg ne pouvait pas porter ça. Sa proportion est imposée par
+   la densité ; le retourner n'est pas une image de transformation mais
+   une image d'accident.
+
+   Les trois figures existent une seule fois et changent de rang. Le
+   rang est une donnée (1 à 5, la surface au 3), la position est du
+   CSS : l'animation viendra sans toucher à ce fichier.
    ========================================================= */
 
-async function rendreIceberg() {
-  const hote = document.querySelector('[data-rendu="iceberg"]');
+async function rendreMiroir() {
+  const hote = document.querySelector('[data-rendu="miroir"]');
   if (!hote) return;
 
-  const d = await donnees("iceberg");
-  const onglets = el("div", { class: "iceberg__onglets", role: "tablist", "aria-label": "Avant et après le travail" });
-  const zone = el("div", { class: "iceberg__zone" });
-  const etiquettes = el("div", { class: "iceberg__etiquettes" });
-  const legende = el("div", { class: "iceberg__legende" });
+  const d = await donnees("miroir");
 
-  const bloc = (e, cote) =>
-    el("div", { class: `iceberg__cote iceberg__cote--${cote}` },
-      [
-        el("p", { class: "iceberg__eau", texte: cote === "visible" ? "Le visible" : "L'invisible" }),
-        ...e[cote].map((x) =>
-          el("div", { class: "iceberg__marqueur" }, [
-            el("strong", { texte: x.nom }),
-            el("span", { texte: x.detail }),
-          ])
-        ),
-      ]);
+  /* La planche de symboles d'abord, les figures ensuite. Un <use> dont
+     la cible n'est pas encore dans le document reste vide, et tous les
+     navigateurs ne le réparent pas quand elle arrive après. */
+  hote.replaceChildren(el("div", { "data-partial": "miroir" }));
+  if (typeof injecterPartial === "function") await injecterPartial("miroir");
 
-  const montrer = (n) => {
-    const e = d.etats[n];
-    [...onglets.children].forEach((b, i) => {
-      b.setAttribute("aria-selected", String(i === n));
-      b.tabIndex = i === n ? 0 : -1;
-    });
-    etiquettes.replaceChildren(bloc(e, "visible"), bloc(e, "invisible"));
-    legende.replaceChildren(
-      el("h3", { texte: e.titre }),
-      el("p", { class: "attenue", texte: e.texte })
-    );
-    zone.dataset.etat = e.id;
-  };
+  const scene = el("div", { class: "miroir__scene" });
+  scene.append(el("div", { class: "miroir__eau", "aria-hidden": "true" }));
 
-  d.etats.forEach((e, i) => {
-    const b = el("button", {
-      class: "iceberg__onglet", type: "button", role: "tab",
-      id: `iceberg-onglet-${e.id}`, "aria-selected": "false", texte: e.bouton,
-    });
-    b.addEventListener("click", () => montrer(i));
-    b.addEventListener("keydown", (ev) => {
-      const pas = ev.key === "ArrowRight" ? 1 : ev.key === "ArrowLeft" ? -1 : 0;
-      if (!pas) return;
-      ev.preventDefault();
-      const suivant = (i + pas + d.etats.length) % d.etats.length;
-      montrer(suivant);
-      onglets.children[suivant].focus();
-    });
-    onglets.append(b);
+  /* Une figure par part : elle existe une fois pour toutes et ne fait
+     que changer de rang. C'est ce qui rendra l'animation gratuite —
+     un déplacement, pas une reconstruction. */
+  const figures = {};
+  d.figures.forEach((f) => {
+    const texte = el("div", { class: "miroir__texte" }, [
+      el("strong", { texte: f.nom }),
+      el("span", { class: "miroir__detail" }),
+    ]);
+    const n = el("div", { class: "miroir__fig" }, [
+      el("span", {
+        class: "miroir__symbole", "aria-hidden": "true",
+        html: `<svg viewBox="-34 -34 68 68"><use href="#sym-halo" class="miroir__auréole"/><use href="#sym-${f.id}"/></svg>`,
+      }),
+      texte,
+    ]);
+    figures[f.id] = { n, detail: texte.querySelector(".miroir__detail") };
+    scene.append(n);
   });
 
-  zone.append(el("div", { class: "iceberg__svg", "data-partial": "iceberg" }), etiquettes);
-  hote.replaceChildren(
-    el("div", { class: "entete-section" }, [
-      el("span", { class: "surtitre", texte: d.intro.surtitre }),
-      el("h2", { texte: d.intro.titre }),
+  const jalons = el("ol", { class: "miroir__jalons", "aria-hidden": "true" },
+    d.etats.map(() => el("li")));
+
+  const titre = el("h3");
+  const texte = el("p", { class: "attenue" });
+  const precedent = el("button", { class: "bouton bouton--contour", type: "button", texte: "Précédent" });
+  const suivant = el("button", { class: "bouton bouton--or", type: "button" });
+
+  let courant = 0;
+
+  const montrer = (n) => {
+    courant = n;
+    const e = d.etats[n];
+    scene.dataset.etat = e.id;
+
+    for (const [id, f] of Object.entries(figures)) {
+      const pos = e.figures[id];
+      f.n.dataset.rang = pos.rang;
+      /* Le rang 3, c'est la surface elle-même : ni dans l'air ni dans
+         l'eau. C'est le seul moment où une part est exactement au
+         partage, et c'est là que se fait le travail. */
+      f.n.dataset.zone = pos.rang < 3 ? "air" : pos.rang > 3 ? "eau" : "seuil";
+      f.detail.textContent = pos.detail;
+    }
+
+    [...jalons.children].forEach((li, i) => {
+      li.dataset.etat = i < n ? "passe" : i === n ? "courant" : "avenir";
+    });
+
+    titre.textContent = e.titre;
+    texte.textContent = e.texte;
+    precedent.disabled = n === 0;
+    suivant.textContent = n === d.etats.length - 1 ? "Revenir au départ" : "Continuer";
+  };
+
+  /* Pas d'onglets : on ne doit pas pouvoir sauter le passage. La
+     contrainte est le propos — « il faut passer par le blessé pour
+     atteindre le créateur ». Une rangée d'onglets dirait le contraire. */
+  precedent.addEventListener("click", () => montrer(Math.max(0, courant - 1)));
+  suivant.addEventListener("click", () => montrer((courant + 1) % d.etats.length));
+
+  hote.append(
+    el("div", { class: "entete-section entete-section--bande" }, [
+      el("div", {}, [
+        el("span", { class: "surtitre", texte: d.intro.surtitre }),
+        el("h2", { texte: d.intro.titre }),
+      ]),
       el("p", { class: "chapo attenue", texte: d.intro.chapo }),
     ]),
-    onglets,
-    el("div", { class: "iceberg" }, [zone, legende]),
-    el("p", { class: "attenue iceberg__note", texte: d.intro.note })
+    el("div", { class: "miroir" }, [
+      scene,
+      /* Les commandes sont un élément à part, placé juste après la
+         scène dans le DOM. Sur mobile, elles se retrouvent donc
+         directement sous les figures : on voit ce qu'on déplace au
+         moment où on appuie. Quand elles étaient au bas du panneau,
+         le bouton se trouvait à un écran et demi sous la scène — on
+         pilotait une animation qu'on ne voyait pas.
+         Sur grand écran, la grille les renvoie sous le texte. */
+      el("div", { class: "miroir__commandes" }, [jalons, precedent, suivant]),
+
+      /* Seuls le titre et le texte sont annoncés : mettre les boutons
+         dans la zone vive ferait relire « Continuer » à chaque étape. */
+      el("div", { class: "miroir__panneau", "aria-live": "polite" }, [titre, texte]),
+    ]),
+    el("p", { class: "attenue miroir__note", texte: d.intro.note })
   );
 
+  /* Le pas de la grille : la figure la plus haute, plus une marge.
+     Les libellés passent de une à trois lignes selon la largeur de
+     l'écran et la longueur des textes du JSON — c'est donc le contenu
+     qui décide, pas une valeur écrite à l'avance.
+     Borné en bas pour que la scène ne s'écrase pas, en haut pour
+     qu'elle ne s'étire pas sur grand écran. */
+  const ajusterPas = () => {
+    const hauteurs = Object.values(figures).map((f) => f.n.offsetHeight);
+    const pas = Math.min(84, Math.max(58, Math.max(...hauteurs) + 14));
+    scene.style.setProperty("--pas", `${pas}px`);
+  };
+
   montrer(0);
-  // Le fragment SVG est injecté après coup : l'hôte n'existait pas
-  // quand socle.js a fait sa passe.
-  if (typeof injecterPartial === "function") await injecterPartial("iceberg");
+  ajusterPas();
+
+  if (typeof ResizeObserver === "function") {
+    /* On observe une figure : elle change de hauteur quand le texte se
+       rompt autrement, ce qui est exactement le moment où le pas doit
+       être recalculé. */
+    new ResizeObserver(ajusterPas).observe(figures[d.figures[0].id].n);
+  }
 }

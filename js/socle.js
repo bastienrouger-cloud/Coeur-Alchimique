@@ -79,7 +79,8 @@ const PARTIALS = {
   entete: "partials/header.html",
   pied: "partials/footer.html",
   sceau: "partials/sceau.svg",
-  iceberg: "partials/iceberg.svg",
+  miroir: "partials/miroir.svg",
+  coeurs: "partials/coeurs.svg",
 };
 
 async function injecterPartial(nom) {

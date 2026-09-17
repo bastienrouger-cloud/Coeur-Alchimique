@@ -29,6 +29,7 @@
     {
       "id": "blesse",
       "nom": "Le cœur blessé",
+      "accroche": "Ce qui n'a pas pu s'exprimer s'est imprimé.",
       "sousTitre": "Le point de départ",
       "resume": "La bibliothèque est fermée, sombre, et certains rayons sont interdits.",
       "texte": "Il porte les blessures, les mémoires, les croyances et les limitations. C'est la part qui a appris à se protéger, à se retenir, à s'éloigner de son essence. Quand le cœur est dans cet état, les émotions ne circulent plus : elles se cristallisent. Ce qui ne s'exprime pas s'imprime.",
@@ -42,6 +43,7 @@
     {
       "id": "alchimique",
       "nom": "Le cœur alchimique",
+      "accroche": "Le lieu du passage. C'est là que se fait le soin.",
       "sousTitre": "Le passage",
       "resume": "La bibliothèque s'ouvre. On regarde, on comprend, on transforme.",
       "texte": "C'est l'œuvre alchimique qui s'opère, celle du soin. Le cœur devient le lieu de la transmutation : on va chercher le livre, on l'ouvre, on remonte à son origine, on écoute le message que portait l'émotion. Et ce qui était figé redevient mouvement. C'est là que se joue le passage du plomb à l'or — de la lourdeur à la légèreté, à la Lumière.",
@@ -56,6 +58,7 @@
     {
       "id": "createur",
       "nom": "Le cœur créateur",
+      "accroche": "L'histoire reste, mais elle ne retient plus : elle nourrit.",
       "sousTitre": "L'arrivée",
       "resume": "La bibliothèque est éclairée. Elle devient une ressource, plus un fardeau.",
       "texte": "C'est la part la plus libre, la plus créatrice, la plus intuitive. Celle qui sait encore rêver, imaginer, ressentir. Les mêmes souvenirs sont toujours là — mais ils ne pèsent plus : ils informent. Votre histoire cesse d'être ce qui vous retient pour devenir ce à partir de quoi vous créez.",

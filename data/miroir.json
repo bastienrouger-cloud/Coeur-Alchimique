@@ -1,0 +1,81 @@
+{
+  "intro": {
+    "surtitre": "La métaphore de Sophie",
+    "titre": "Ce que la surface montre",
+    "chapo": "Ce qui se voit d'une personne est une petite part de ce qu'elle porte. La surface fait le partage — et elle se comporte comme un miroir : à la fin, la même image est là, retournée.",
+    "note": "Le Masque Social ne disparaît jamais. Il cesse simplement d'avoir à tout porter."
+  },
+  "figures": [
+    {
+      "id": "masque",
+      "nom": "Masque Social"
+    },
+    {
+      "id": "blesse",
+      "nom": "Enfant Intérieur Blessé"
+    },
+    {
+      "id": "createur",
+      "nom": "Enfant Intérieur Créateur"
+    }
+  ],
+  "etats": [
+    {
+      "id": "initial",
+      "titre": "Le masque en surface",
+      "texte": "Ce qui se voit, c'est le Masque Social — le mental et l'ego. Il donne de la contenance et tient la place. Juste sous la surface, l'Enfant Intérieur Blessé garde les mémoires. Plus bas encore, hors d'atteinte, l'Enfant Intérieur Créateur.",
+      "figures": {
+        "masque": {
+          "rang": 2,
+          "detail": "Mental, ego — il tient la place"
+        },
+        "blesse": {
+          "rang": 4,
+          "detail": "Blessures, mémoires émotionnelles, croyances"
+        },
+        "createur": {
+          "rang": 5,
+          "detail": "Créativité, intuition, liberté, souveraineté"
+        }
+      }
+    },
+    {
+      "id": "passage",
+      "titre": "Le blessé remonte",
+      "texte": "On ne saute pas cette étape : il faut passer par le blessé pour atteindre le créateur. C'est ici que Sophie intervient. Ce qui était sous la surface vient à la lumière, se reconnaît, se dépose — et le masque n'a plus à tout tenir.",
+      "figures": {
+        "masque": {
+          "rang": 1,
+          "detail": "Il continue, mais il n'est plus seul"
+        },
+        "blesse": {
+          "rang": 3,
+          "detail": "Reconnu, écouté, déposé"
+        },
+        "createur": {
+          "rang": 5,
+          "detail": "Il attend juste en dessous"
+        }
+      }
+    },
+    {
+      "id": "endroit",
+      "titre": "La remise à l'endroit",
+      "texte": "Les mêmes trois parts, le même contenu — retournés autour de la surface. Le Créateur est en vue, le Blessé reste au centre, le Masque n'a plus besoin de s'exprimer. Sophie ne parle pas d'inversion mais de remise à l'endroit : c'est l'état d'origine qui réapparaît.",
+      "figures": {
+        "masque": {
+          "rang": 4,
+          "detail": "Il n'a plus besoin de s'exprimer"
+        },
+        "blesse": {
+          "rang": 2,
+          "detail": "Il reste au centre — mais il ne retient plus"
+        },
+        "createur": {
+          "rang": 1,
+          "detail": "Créativité, intuition, liberté, souveraineté"
+        }
+      }
+    }
+  ]
+}

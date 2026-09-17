@@ -83,6 +83,8 @@ Un prix, un titre ou une description modifié dans un JSON se répercute partout
 | `elearnings.json` | Les 7 parcours, le tutorat, les modalités d'achat | Accueil (les 3 moins chers) et page E-learnings |
 | `livres.json` | Les 7 ouvrages et carnets | Page Livres |
 | `sophie.json` | Présentation, frise, citation | Accueil (aperçu) et page Sophie |
+| `mediatheque.json` | Les trois rayons, les documents, les flux | Page Médiathèque |
+| `miroir.json` | Les trois temps du miroir d'eau | Accueil — composant interactif |
 
 **Exemple :** changer le prix de l'option 1 dans `soins.json` met à jour la carte de l'accueil
 et la fiche détaillée de la page Accompagnement, sans toucher au HTML.
@@ -92,6 +94,33 @@ et la fiche détaillée de la page Accompagnement, sans toucher au HTML.
 Ajouter un objet dans `elearnings.json` → `programmes`, avec un `id` en minuscules sans accent.
 Générer son placeholder (voir plus bas) ou déposer la vraie image à
 `assets/images/elearnings/<id>.webp`. Rien d'autre à faire : la carte et la fiche apparaissent seules.
+
+### Modifier le miroir d'eau
+
+Tout est dans `miroir.json`, y compris les positions. `intro` porte l'en-tête de la
+section, `figures` les trois noms en gras, et `etats` les trois temps — `titre` et
+`texte` pour le panneau de droite, `figures.<id>.detail` pour la ligne sous chaque nom.
+Les textes n'ont aucune longueur imposée : au seuil, le libellé s'écarte tout seul pour
+laisser passer la ligne d'eau.
+
+**Le champ à ne pas toucher à la légère, c'est `rang`.** Il va de 1 (tout en haut) à 5
+(le fond), et **le 3 est la surface**. La règle qui fait tenir le composant : le dernier
+état doit être le miroir du premier autour du 3.
+
+|  | masque | blessé | créateur |
+|---|---|---|---|
+| **initial** | 2 | 4 | 5 |
+| **passage** | 1 | **3** | 5 |
+| **endroit** | 4 | 2 | 1 |
+
+2↔4, 4↔2, 5↔1 : la symétrie est exacte, et le blessé ne quitte jamais l'axe. C'est ce
+qui donne son sens à la phrase de Sophie — « il faut passer par le blessé pour atteindre
+le créateur ». Déplacer un rang dans le premier état sans déplacer son symétrique dans
+le troisième : ça s'affichera encore, mais ça ne voudra plus dire la même chose.
+
+Les positions elles-mêmes sont en CSS (`--rang-1` à `--rang-5`, section 25). Une figure
+ne fait que changer de rang : c'est ce qui rend le déplacement animable sans toucher au
+JavaScript.
 
 ### Marquer une information manquante
 
