@@ -1,0 +1,148 @@
+{
+  "intro": {
+    "surtitre": "Tout ce qui se lit, s'écoute et se pratique",
+    "titre": "La Médiathèque",
+    "chapo": "Vingt ans de pratique déposés en un seul endroit. Une grande partie est en accès libre : commencez par là, sans rien acheter.",
+    "note": "Les documents s'ouvrent et se téléchargent directement, sans compte et sans adresse e-mail à laisser."
+  },
+  "rayons": [
+    {
+      "id": "lire",
+      "titre": "Lire",
+      "chapo": "Des récits et des textes, pour aborder par l'imaginaire ce que les mots directs n'atteignent pas."
+    },
+    {
+      "id": "ecouter",
+      "titre": "Écouter",
+      "chapo": "Des pratiques guidées, à suivre au casque, allongé·e, quand vous en avez besoin."
+    },
+    {
+      "id": "pratiquer",
+      "titre": "Pratiquer",
+      "chapo": "Des exercices à faire soi-même, du geste de cinq minutes au parcours de plusieurs semaines."
+    }
+  ],
+  "items": [
+    {
+      "id": "co-creer-une-autre-realite",
+      "rayon": "lire",
+      "acces": "libre",
+      "titre": "Co-créer une autre réalité",
+      "sousTitre": "Grâce à notre pouvoir créateur !",
+      "type": "E-book",
+      "detail": "24 pages · PDF",
+      "description": "À compléter.",
+      "fichier": "/assets/documents/co-creer-une-autre-realite.pdf"
+    },
+    {
+      "id": "dialogue-d-amour-avec-un-ange",
+      "rayon": "lire",
+      "acces": "libre",
+      "titre": "Dialogue d'Amour avec un Ange",
+      "type": "Conte initiatique",
+      "detail": "6 pages · PDF",
+      "description": "À compléter.",
+      "fichier": "/assets/documents/dialogue-d-amour-avec-un-ange.pdf"
+    },
+    {
+      "id": "l-enfant-reflet",
+      "rayon": "lire",
+      "acces": "libre",
+      "titre": "L'enfant-reflet",
+      "type": "Conte initiatique",
+      "detail": "6 pages · PDF",
+      "description": "À compléter.",
+      "fichier": "/assets/documents/l-enfant-reflet.pdf"
+    },
+    {
+      "id": "je-de-miroir",
+      "rayon": "lire",
+      "acces": "libre",
+      "titre": "Je de Miroir",
+      "type": "Conte initiatique",
+      "detail": "5 pages · PDF",
+      "description": "À compléter.",
+      "fichier": "/assets/documents/je-de-miroir.pdf"
+    },
+    {
+      "id": "les-livres",
+      "rayon": "lire",
+      "acces": "payant",
+      "titre": "Les livres et les carnets",
+      "sousTitre": "Sept ouvrages, de 10 à 23 €",
+      "type": "Livres",
+      "detail": "3 livres papier · 4 e-books",
+      "description": "Trois ouvrages parus aux Éditions du Net, deux carnets d'Apprentis-Sages (46 et 139 pages) et deux manuels d'exercices.",
+      "lien": "livres.html"
+    },
+    {
+      "id": "meditations",
+      "rayon": "ecouter",
+      "acces": "libre",
+      "titre": "Les méditations guidées",
+      "type": "Audio",
+      "detail": "À venir",
+      "description": "À compléter.",
+      "aRenseigner": "fichiers audio en cours de récupération"
+    },
+    {
+      "id": "chaine-video",
+      "rayon": "ecouter",
+      "acces": "libre",
+      "titre": "La chaîne vidéo",
+      "type": "Vidéo",
+      "detail": "Playlists thématiques",
+      "description": "Neutralité, souveraineté, libération émotionnelle.",
+      "aRenseigner": "adresse de la chaîne à renseigner"
+    },
+    {
+      "id": "l-ecran-interieur",
+      "rayon": "pratiquer",
+      "acces": "libre",
+      "titre": "L'écran intérieur",
+      "sousTitre": "Chemin d'éveil vers le meilleur de vous-m'aime",
+      "type": "Exercice",
+      "detail": "11 pages · PDF",
+      "description": "À compléter.",
+      "fichier": "/assets/documents/l-ecran-interieur.pdf"
+    },
+    {
+      "id": "l-atelier-creatif",
+      "rayon": "pratiquer",
+      "acces": "libre",
+      "titre": "L'atelier créatif",
+      "sousTitre": "Chemin d'éveil vers le meilleur de vous-m'aime",
+      "type": "Exercice",
+      "detail": "11 pages · PDF",
+      "description": "À compléter.",
+      "fichier": "/assets/documents/l-atelier-creatif.pdf"
+    },
+    {
+      "id": "les-e-learnings",
+      "rayon": "pratiquer",
+      "acces": "payant",
+      "titre": "Les sept parcours en autonomie",
+      "sousTitre": "De 77 € à 330 €",
+      "type": "E-learnings",
+      "detail": "Vidéos, livrets, audios, exercices",
+      "description": "Des parcours complets à faire à votre rythme, avec la possibilité d'échanger avec Sophie.",
+      "lien": "e-learnings.html"
+    }
+  ],
+  "flux": {
+    "titre": "Suivre au fil de l'eau",
+    "chapo": "Ce qui ne se range pas sur une étagère : ça paraît, ça se lit, puis ça passe.",
+    "entrees": [
+      {
+        "titre": "Le blog",
+        "description": "Des articles issus de vingt ans de pratique, de recherches et de formations.",
+        "aRenseigner": "articles à reprendre depuis l'ancien site"
+      },
+      {
+        "titre": "L'Infolettre de Lumière",
+        "description": "L'actualité de Cœur Alchimique. Sans pop-up et sans insistance.",
+        "aRenseigner": "service d'envoi à choisir, liste à exporter"
+      }
+    ]
+  }
+}

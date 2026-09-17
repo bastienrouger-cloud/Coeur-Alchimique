@@ -539,6 +539,35 @@ section {
 }
 .carte__media img { width: 100%; height: 100%; object-fit: cover; }
 
+/* Média en portrait — les couvertures de livres.
+
+   object-fit: contain et non cover : chaque couverture porte son titre
+   jusqu'aux bords, et chacune a sa propre couleur de fond (violet, vert,
+   magenta, blanc). Rogner couperait le texte ; « contain » les montre
+   entières, sur un fond neutre qui tient lieu de passe-partout.
+
+   Le rapport 0.68 est la moyenne des sept couvertures : le cadrage est
+   donc quasi plein pour toutes, avec un filet de marge selon les cas. */
+.carte__media--portrait {
+  aspect-ratio: 0.68;
+  background: rgba(7, 13, 24, 0.55);
+  margin-bottom: 1rem;
+}
+.carte__media--portrait img { object-fit: contain; }
+
+.livre__ligne {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-bottom: 0.9rem;
+}
+.livre__format { font-size: 0.85rem; color: var(--texte-sombre-fond-attenue); }
+
+/* Une grille de couvertures n'a pas besoin de colonnes aussi larges
+   qu'une grille de cartes de texte. */
+.grille--livres { grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+
 /* align-self : la carte est un conteneur flex en colonne, dont les
    enfants s'étirent sur toute la largeur par défaut. Une pastille qui
    s'étire n'est plus une pastille — ça se voyait peu à 350 px de
@@ -1398,3 +1427,156 @@ section {
 }
 .avertissement-js strong { color: var(--or-clair); }
 .avertissement-js a { color: var(--or-clair); }
+
+/* =========================================================
+   24. La Médiathèque
+
+   Trois rayons — Lire, Écouter, Pratiquer. Rangés par geste, parce
+   que ranger par prix serait commercial et ranger par format ne dit
+   rien de ce qu'on vient chercher.
+
+   Le filtre « accès libre » se fait en CSS, par un attribut sur la
+   section : rien n'est retiré du DOM, donc rien à reconstruire, et
+   l'état du bouton (aria-pressed) suffit à l'annoncer.
+   ========================================================= */
+
+.filtres { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.75rem; }
+
+.filtre {
+  font-family: var(--font-texte);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.6rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(227, 200, 121, 0.35);
+  background: transparent;
+  color: var(--texte-sombre-fond-attenue);
+  cursor: pointer;
+  transition: color var(--transition), background var(--transition),
+              border-color var(--transition);
+}
+.filtre:hover { color: var(--creme); border-color: rgba(227, 200, 121, 0.6); }
+.filtre[aria-pressed="true"] {
+  background: rgba(201, 162, 39, 0.18);
+  border-color: var(--or);
+  color: var(--or-pale);
+}
+
+.rayon[data-filtre="libre"] .carte[data-acces="payant"] { display: none; }
+
+/* Pastille d'accès : dorée quand c'est libre — sur ce site, l'or
+   marque ce qui compte, et le gratuit est la porte d'entrée. */
+.pastille-acces {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.pastille-acces--libre {
+  background: rgba(201, 162, 39, 0.18);
+  border: 1px solid rgba(227, 200, 121, 0.45);
+  color: var(--or-pale);
+}
+.pastille-acces--payant {
+  background: rgba(157, 192, 232, 0.12);
+  border: 1px solid rgba(157, 192, 232, 0.3);
+  color: var(--texte-sombre-fond-attenue);
+}
+
+.media__ligne {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+.media__detail { font-size: 0.85rem; color: var(--texte-sombre-fond-attenue); }
+.media__sous-titre {
+  font-family: var(--font-titre);
+  font-style: italic;
+  color: var(--or-pale);
+  margin-bottom: 0.4rem;
+}
+
+/* =========================================================
+   25. L'iceberg
+
+   La métaphore de Sophie : la partie invisible est de loin la plus
+   grosse. Deux états, un seul dessin.
+
+   Le dessin ne bouge pas — ce sont les étiquettes qui changent de
+   côté. C'est exactement son propos : elle parle d'une « remise à
+   l'endroit », pas d'une transformation de l'iceberg.
+   ========================================================= */
+
+.iceberg {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+  margin-top: 2rem;
+}
+@media (max-width: 900px) { .iceberg { grid-template-columns: 1fr; } }
+
+.iceberg__onglets { display: flex; gap: 0.5rem; }
+.iceberg__onglet {
+  font-family: var(--font-texte);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(227, 200, 121, 0.35);
+  background: transparent;
+  color: var(--texte-sombre-fond-attenue);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.iceberg__onglet[aria-selected="true"] {
+  background: rgba(201, 162, 39, 0.18);
+  border-color: var(--or);
+  color: var(--or-pale);
+}
+
+.iceberg__zone {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: center;
+}
+@media (max-width: 560px) { .iceberg__zone { grid-template-columns: 1fr; } }
+
+.iceberg__svg { width: min(100%, 15rem); }
+.iceberg__dessin { width: 100%; height: auto; display: block; }
+
+.iceberg__etiquettes { display: grid; gap: 1.25rem; }
+
+/* Le repère « Le visible / L'invisible » : c'est lui qui porte le sens
+   du schéma, il doit rester lisible même si les cartes bougent. */
+.iceberg__eau {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+}
+.iceberg__cote--visible .iceberg__eau { color: var(--or-clair); }
+.iceberg__cote--invisible .iceberg__eau { color: var(--bleu-pale); }
+
+.iceberg__marqueur {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.7rem 0.95rem;
+  margin-bottom: 0.5rem;
+  border-radius: var(--rayon-s);
+  border-left: 2px solid rgba(227, 200, 121, 0.4);
+  background: rgba(157, 192, 232, 0.07);
+}
+.iceberg__cote--invisible .iceberg__marqueur { border-left-color: rgba(157, 192, 232, 0.35); }
+.iceberg__marqueur strong { font-size: 0.97rem; }
+.iceberg__marqueur span { font-size: 0.85rem; color: var(--texte-sombre-fond-attenue); }
+
+.iceberg__legende h3 { color: var(--or-pale); }
+.iceberg__note { font-size: 0.9rem; margin-top: 1.5rem; font-style: italic; }

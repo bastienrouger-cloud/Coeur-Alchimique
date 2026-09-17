@@ -53,13 +53,19 @@ const CA = (() => {
     return n;
   }
 
-  /** Prix formaté à la française. */
+  /** Prix formaté à la française.
+      Les centimes ne s'affichent que s'il y en a : 12 € et 13,50 €.
+      Avec maximumFractionDigits à 0, 13,50 devenait « 14 € ». */
   function prix(valeur) {
     if (valeur === null || valeur === undefined) return "Prix à venir";
+    // minimumFractionDigits doit valoir 2 dès qu'il y a des centimes,
+    // sinon 13,50 s'affiche « 13,5 € ». On décide par valeur.
+    const centimes = Number.isInteger(valeur) ? 0 : 2;
     return new Intl.NumberFormat("fr-FR", {
       style: "currency",
       currency: "EUR",
-      maximumFractionDigits: 0,
+      minimumFractionDigits: centimes,
+      maximumFractionDigits: centimes,
     }).format(valeur);
   }
 
@@ -73,6 +79,7 @@ const PARTIALS = {
   entete: "partials/header.html",
   pied: "partials/footer.html",
   sceau: "partials/sceau.svg",
+  iceberg: "partials/iceberg.svg",
 };
 
 async function injecterPartial(nom) {
@@ -221,6 +228,11 @@ function activerSommaire() {
 
   const sections = [...document.querySelectorAll("section[id][data-sommaire]")];
   if (sections.length < 2) return;
+
+  // Rejouable : sur les pages dont les sections sont rendues en JS, on
+  // rappelle activerSommaire() une fois le rendu fini. Sans ce vidage,
+  // les entrées s'ajouteraient une deuxième fois.
+  hote.replaceChildren();
 
   const liens = new Map();
   const liste = CA.el(

@@ -206,7 +206,6 @@ async function rendreSoins() {
     detail: document.querySelector('[data-rendu="soins-detail"]'),
     benefices: document.querySelector('[data-rendu="soins-benefices"]'),
     faq: document.querySelector('[data-rendu="soins-faq"]'),
-    ateliers: document.querySelector('[data-rendu="ateliers"]'),
   };
   if (!Object.values(cibles).some(Boolean)) return;
 
@@ -255,13 +254,6 @@ async function rendreSoins() {
     );
   }
 
-  if (cibles.ateliers) {
-    cibles.ateliers.replaceChildren(
-      el("h3", { texte: d.ateliers.titre }),
-      el("p", { class: "attenue", texte: d.ateliers.texte }),
-      el("p", {}, [el("span", { class: "a-renseigner", texte: d.ateliers.statut })])
-    );
-  }
 }
 
 /* ---------- 4. Les e-learnings ---------- */
@@ -377,25 +369,37 @@ async function rendreLivres() {
 
   hote.replaceChildren(
     ...d.ouvrages.map((o) =>
-      el("article", { class: "carte", id: o.id }, [
-        el("div", { class: "carte__media" }, [
-          el("img", { src: url(o.image), alt: o.alt, loading: "lazy", width: "640", height: "400" }),
+      /* carte--livre : une couverture est un objet en portrait. La carte
+         standard rogne son média en 16/10, ce qui d'une couverture ne
+         garderait qu'une tranche horizontale — sans le titre. */
+      el("article", { class: "carte carte--livre", id: o.id }, [
+        el("div", { class: "carte__media carte__media--portrait" }, [
+          el("img", { src: url(o.image), alt: o.alt, loading: "lazy", width: "700", height: "1000" }),
         ]),
         el("span", { class: "etiquette", texte: o.type }),
         el("h3", { texte: o.titre }),
         o.sousTitre ? el("p", { class: "attenue", texte: o.sousTitre }) : null,
         el("p", { class: "attenue", texte: o.description }),
         el("div", { class: "carte__pied" }, [
-          o.prix ? el("p", { class: "prix", texte: prix(o.prix) }) : null,
+          el("p", { class: "livre__ligne" }, [
+            o.prix ? el("span", { class: "prix", texte: prix(o.prix) }) : null,
+            o.format ? el("span", { class: "livre__format", texte: o.format }) : null,
+          ]),
           o.lien
             ? el("a", {
                 class: "bouton bouton--contour",
                 href: o.lien,
                 target: "_blank",
                 rel: "noopener",
-                texte: `Voir chez ${o.editeur}`,
+                /* Sans éditeur, « Voir chez ${o.editeur} » affichait
+                   « Voir chez null ». Le libellé dit maintenant ce qui
+                   se passe : on quitte le site pour payer ailleurs. */
+                texte: o.editeur ? `Voir chez ${o.editeur}` : "Commander cet e-book",
               })
-            : el("span", { class: "a-renseigner", texte: `À renseigner : ${o.aRenseigner.join(", ")}` }),
+            : null,
+          o.aRenseigner && o.aRenseigner.length
+            ? el("span", { class: "a-renseigner", texte: `À renseigner : ${o.aRenseigner.join(", ")}` })
+            : null,
         ]),
       ])
     )
@@ -488,5 +492,246 @@ document.addEventListener("ca:socle-pret", () => {
     rendreElearnings(),
     rendreLivres(),
     rendreSophie(),
-  ]).catch((e) => console.error("Erreur de rendu :", e));
+    rendreMediatheque(),
+    rendreIceberg(),
+  ])
+    .then(() => {
+      // Les rayons de la médiathèque n'existaient pas au premier passage.
+      if (typeof activerSommaire === "function") activerSommaire();
+    })
+    .catch((e) => console.error("Erreur de rendu :", e));
 });
+
+/* =========================================================
+   La Médiathèque
+
+   Trois rayons — Lire, Écouter, Pratiquer — rangés par geste et non
+   par format ni par prix. Ranger par prix serait commercial ; ranger
+   par geste dit ce qu'on vient y chercher.
+
+   Le filtre « accès libre » se fait en CSS, par un attribut sur le
+   conteneur : aucun élément n'est retiré du DOM, donc rien à
+   reconstruire et l'état reste lisible pour un lecteur d'écran.
+   ========================================================= */
+
+async function rendreMediatheque() {
+  const hotes = {
+    intro: document.querySelector('[data-rendu="mediatheque-intro"]'),
+    filtres: document.querySelector('[data-rendu="mediatheque-filtres"]'),
+    rayons: document.querySelector('[data-rendu="mediatheque-rayons"]'),
+    flux: document.querySelector('[data-rendu="mediatheque-flux"]'),
+  };
+  if (!hotes.rayons) return;
+
+  const d = await donnees("mediatheque");
+
+  if (hotes.intro) {
+    hotes.intro.replaceChildren(
+      el("p", { class: "chapo attenue", texte: d.intro.chapo }),
+      el("p", { class: "attenue", texte: d.intro.note })
+    );
+  }
+
+  /* Une carte de la médiathèque. Trois cas :
+     - un fichier à télécharger  → lien direct, avec download
+     - un lien interne           → carte cliquable
+     - rien encore               → pastille « à renseigner » */
+  const carte = (i) => {
+    const cible = i.fichier ? url(i.fichier) : i.lien ? url(`pages/${i.lien}`) : null;
+
+    const entete = [
+      el("span", { class: "etiquette", texte: i.type }),
+      cible
+        ? el("h3", {}, [
+            el("a", {
+              href: cible,
+              download: i.fichier ? "" : null,
+              texte: i.titre,
+            }),
+          ])
+        : el("h3", { texte: i.titre }),
+      i.sousTitre ? el("p", { class: "media__sous-titre", texte: i.sousTitre }) : null,
+      el("p", { class: "attenue", texte: i.description }),
+    ];
+
+    const pied = el("div", { class: "carte__pied" }, [
+      el("p", { class: "media__ligne" }, [
+        el("span", {
+          class: `pastille-acces pastille-acces--${i.acces}`,
+          texte: i.acces === "libre" ? "Accès libre" : "Payant",
+        }),
+        i.detail ? el("span", { class: "media__detail", texte: i.detail }) : null,
+      ]),
+      i.aRenseigner ? el("span", { class: "a-renseigner", texte: `À renseigner : ${i.aRenseigner}` }) : null,
+      cible
+        ? el("span", { class: "carte__suite", texte: i.fichier ? "Télécharger le PDF" : "Découvrir" })
+        : null,
+    ]);
+
+    return el(
+      "article",
+      { class: `carte${cible ? " carte--lien" : ""}`, "data-acces": i.acces, id: i.id },
+      [...entete, pied]
+    );
+  };
+
+  /* Les rayons alternent dans l'échelle bleue, comme le reste du site. */
+  const teintes = [
+    ["var(--g2)", "var(--g3)"],
+    ["var(--g3)", "var(--g4)"],
+    ["var(--g4)", "var(--g2)"],
+  ];
+
+  hotes.rayons.replaceChildren(
+    ...d.rayons.map((r, n) => {
+      const items = d.items.filter((i) => i.rayon === r.id);
+      const [de, vers] = teintes[n % teintes.length];
+      return el(
+        "section",
+        {
+          id: `rayon-${r.id}`,
+          class: "fondu rayon",
+          style: `--de:${de}; --vers:${vers}`,
+          "data-theme": "sombre",
+          "data-sommaire": r.titre,
+        },
+        [
+          el("div", { class: "contenu" }, [
+            el("div", { class: "entete-section" }, [
+              el("span", { class: "surtitre", texte: `Rayon ${n + 1} sur ${d.rayons.length}` }),
+              el("h2", { texte: r.titre }),
+              el("p", { class: "chapo attenue", texte: r.chapo }),
+            ]),
+            el("div", { class: "grille grille--defilante" }, items.map(carte)),
+          ]),
+        ]
+      );
+    })
+  );
+
+  if (hotes.flux) {
+    hotes.flux.replaceChildren(
+      el("div", { class: "entete-section" }, [
+        el("h2", { texte: d.flux.titre }),
+        el("p", { class: "chapo attenue", texte: d.flux.chapo }),
+      ]),
+      el("div", { class: "grille" },
+        d.flux.entrees.map((e) =>
+          el("article", { class: "carte" }, [
+            el("h3", { texte: e.titre }),
+            el("p", { class: "attenue", texte: e.description }),
+            el("div", { class: "carte__pied" }, [
+              el("span", { class: "a-renseigner", texte: `À renseigner : ${e.aRenseigner}` }),
+            ]),
+          ])
+        )
+      )
+    );
+  }
+
+  /* Le filtre. aria-pressed porte l'état : le bouton dit lui-même s'il
+     est actif, sans qu'on ait à l'annoncer autrement. */
+  if (hotes.filtres) {
+    const compte = d.items.filter((i) => i.acces === "libre").length;
+    const bouton = el("button", {
+      class: "filtre",
+      type: "button",
+      "aria-pressed": "false",
+      texte: `N'afficher que l'accès libre (${compte})`,
+    });
+    bouton.addEventListener("click", () => {
+      const actif = bouton.getAttribute("aria-pressed") === "true";
+      bouton.setAttribute("aria-pressed", String(!actif));
+      document.querySelectorAll(".rayon").forEach((s) => {
+        s.dataset.filtre = actif ? "" : "libre";
+      });
+    });
+    hotes.filtres.replaceChildren(bouton);
+  }
+}
+
+/* =========================================================
+   L'iceberg
+
+   La métaphore de Sophie : la partie invisible est de loin la plus
+   grosse. Deux états — avant, après — et le même schéma qui bascule.
+
+   Le dessin ne bouge pas : ce sont les étiquettes qui changent de
+   côté. C'est le propos exact de Sophie, qui parle d'une « remise à
+   l'endroit » et non d'une transformation de l'iceberg lui-même.
+
+   Même dispositif que les trois états du cœur : role="tablist",
+   navigation aux flèches, panneaux liés par aria-controls. Un
+   visiteur au clavier a le même accès qu'à la souris.
+   ========================================================= */
+
+async function rendreIceberg() {
+  const hote = document.querySelector('[data-rendu="iceberg"]');
+  if (!hote) return;
+
+  const d = await donnees("iceberg");
+  const onglets = el("div", { class: "iceberg__onglets", role: "tablist", "aria-label": "Avant et après le travail" });
+  const zone = el("div", { class: "iceberg__zone" });
+  const etiquettes = el("div", { class: "iceberg__etiquettes" });
+  const legende = el("div", { class: "iceberg__legende" });
+
+  const bloc = (e, cote) =>
+    el("div", { class: `iceberg__cote iceberg__cote--${cote}` },
+      [
+        el("p", { class: "iceberg__eau", texte: cote === "visible" ? "Le visible" : "L'invisible" }),
+        ...e[cote].map((x) =>
+          el("div", { class: "iceberg__marqueur" }, [
+            el("strong", { texte: x.nom }),
+            el("span", { texte: x.detail }),
+          ])
+        ),
+      ]);
+
+  const montrer = (n) => {
+    const e = d.etats[n];
+    [...onglets.children].forEach((b, i) => {
+      b.setAttribute("aria-selected", String(i === n));
+      b.tabIndex = i === n ? 0 : -1;
+    });
+    etiquettes.replaceChildren(bloc(e, "visible"), bloc(e, "invisible"));
+    legende.replaceChildren(
+      el("h3", { texte: e.titre }),
+      el("p", { class: "attenue", texte: e.texte })
+    );
+    zone.dataset.etat = e.id;
+  };
+
+  d.etats.forEach((e, i) => {
+    const b = el("button", {
+      class: "iceberg__onglet", type: "button", role: "tab",
+      id: `iceberg-onglet-${e.id}`, "aria-selected": "false", texte: e.bouton,
+    });
+    b.addEventListener("click", () => montrer(i));
+    b.addEventListener("keydown", (ev) => {
+      const pas = ev.key === "ArrowRight" ? 1 : ev.key === "ArrowLeft" ? -1 : 0;
+      if (!pas) return;
+      ev.preventDefault();
+      const suivant = (i + pas + d.etats.length) % d.etats.length;
+      montrer(suivant);
+      onglets.children[suivant].focus();
+    });
+    onglets.append(b);
+  });
+
+  zone.append(el("div", { class: "iceberg__svg", "data-partial": "iceberg" }), etiquettes);
+  hote.replaceChildren(
+    el("div", { class: "entete-section" }, [
+      el("span", { class: "surtitre", texte: d.intro.surtitre }),
+      el("h2", { texte: d.intro.titre }),
+      el("p", { class: "chapo attenue", texte: d.intro.chapo }),
+    ]),
+    onglets,
+    el("div", { class: "iceberg" }, [zone, legende]),
+    el("p", { class: "attenue iceberg__note", texte: d.intro.note })
+  );
+
+  montrer(0);
+  // Le fragment SVG est injecté après coup : l'hôte n'existait pas
+  // quand socle.js a fait sa passe.
+  if (typeof injecterPartial === "function") await injecterPartial("iceberg");
+}
