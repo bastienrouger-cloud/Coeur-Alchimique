@@ -308,6 +308,26 @@ section {
 }
 .entete-section.centre { margin-inline: auto; text-align: center; }
 
+/* Le retour au rayon.
+
+   Livres et E-learnings ne sont plus dans la navigation : ce sont deux
+   rayons de la Médiathèque, qui y mène. Une page qu'on atteint par un
+   lien ou par un moteur de recherche doit dire d'où elle vient, sinon
+   le visiteur n'a aucun moyen de remonter à l'ensemble. */
+.retour-rayon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  color: var(--bleu-pale);
+  text-decoration: none;
+}
+.retour-rayon svg { width: 1em; height: 1em; flex: none; }
+.retour-rayon:hover { color: var(--or-clair); }
+
+
 /* Filet décoratif */
 .filet {
   width: 64px; height: 1px;
@@ -425,7 +445,7 @@ section {
   transition: color var(--transition), background var(--transition);
 }
 .nav-principale a:hover { color: var(--creme); background: rgba(157, 192, 232, 0.1); }
-.nav-principale a[aria-current="page"] { color: var(--or-clair); }
+.nav-principale a[aria-current] { color: var(--or-clair); }
 
 .bascule-menu {
   display: none;
@@ -624,6 +644,45 @@ section {
 
 .liste-puces { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
 .liste-puces li { position: relative; padding-left: 1.4rem; font-size: 0.95rem; }
+/* Les cartes pliables de « Vous n'êtes pas venu·e ici par hasard ».
+
+   Sur mobile, quatre cartes pleines forment une colonne de texte qu'on
+   fait défiler sans rien y chercher : le visiteur devrait lire les
+   quatre descriptions pour trouver celle qui le concerne. Repliées, les
+   quatre phrases tiennent dans un écran et il n'ouvre que la sienne.
+
+   Au-dessus de 45rem elles sont ouvertes et le résumé n'est plus
+   cliquable : rien à déplier quand tout tient côte à côte. C'est
+   socle.js qui pose et retire l'attribut `open` selon la largeur — CSS
+   ne peut pas forcer l'ouverture d'un <details>. */
+.carte--pliable { }
+.carte--pliable > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  cursor: pointer;
+  list-style: none;
+}
+.carte--pliable > summary::-webkit-details-marker { display: none; }
+.carte--pliable > summary > h3 { margin: 0; flex: 1; }
+.carte--pliable > summary::after {
+  content: "";
+  flex: none;
+  width: 0.62rem; height: 0.62rem;
+  border-right: 1.5px solid var(--or);
+  border-bottom: 1.5px solid var(--or);
+  transform: translateY(-0.18rem) rotate(45deg);
+  transition: transform 220ms ease;
+}
+.carte--pliable[open] > summary::after { transform: translateY(0.12rem) rotate(-135deg); }
+.carte--pliable > p { margin: 0.9rem 0 0; }
+.carte--pliable > summary:focus-visible { outline: 2px solid var(--or); outline-offset: 4px; }
+
+@media (min-width: 45rem) {
+  .carte--pliable > summary { cursor: default; pointer-events: none; }
+  .carte--pliable > summary::after { display: none; }
+}
+
 .liste-puces li::before {
   content: "";
   position: absolute;
@@ -727,26 +786,20 @@ section {
 /* Sur mobile l'étagère colle aussi, mais raccourcie : à hauteur pleine
    elle mangeait la moitié de l'écran et il ne restait plus la place
    d'afficher une carte ouverte en dessous. */
+/* Sous 60rem, l'étagère ne s'affiche pas du tout.
+
+   Elle a d'abord été épinglée puis raccourcie, pour rester sous les yeux
+   au moment où on choisit un état. Mais épinglée, elle passe forcément
+   par-dessus le texte qui défile dessous, et son fond dégradé ne le
+   masque qu'à moitié : on lit à travers une étagère.
+
+   Rien n'est perdu. L'étape 02 dit déjà que chaque émotion y est rangée,
+   l'étape 03 que le cœur en est le moteur, et chaque carte d'état porte
+   son propre cœur et décrit la bibliothèque en toutes lettres — fermée
+   et sombre, ouverte, habitée. Le dessin illustrait ; il ne portait
+   aucune information à lui seul. */
 @media (max-width: 59.99rem) {
-  .moteur__scene {
-    position: sticky;
-    top: calc(var(--h-entete, 4.5rem) + 0.75rem);
-    z-index: 1;
-    /* Épinglée, elle passe AU-DESSUS des cartes qui défilent dessous et
-       leur volait le clic. Elle est décorative (aria-hidden) : elle
-       laisse tout passer. */
-    pointer-events: none;
-    padding-bottom: 0.75rem;
-    background: linear-gradient(180deg,
-      rgb(from var(--de, #142943) r g b / 0.96) 82%,
-      rgb(from var(--de, #142943) r g b / 0) 100%);
-  }
-  .moteur__scene .etagere { padding: 0.9rem; }
-  .moteur__scene .etagere__rayon { height: 46px; margin-bottom: 9px; }
-  /* L'étagère raccourcie, le cœur doit suivre : à 118px il occupait
-     presque la moitié de sa hauteur. */
-  .moteur__scene .coeur-svg { width: 78px; height: 78px; }
-  .moteur__legende { display: none; }
+  .moteur__scene { display: none; }
 }
 
 @media (min-width: 60rem) {
@@ -1492,6 +1545,10 @@ section {
 /* Une ancre visée par le sommaire ne doit pas se caler sous les deux
    barres collantes : on réserve leur hauteur au-dessus de chaque cible. */
 [data-sommaire] { scroll-margin-top: calc(var(--h-entete, 72px) + 3.5rem); }
+
+/* Toute section qu'on peut viser par une ancre doit s'arrêter SOUS
+   l'en-tête collante, sinon son titre se gare derrière. */
+section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
 
 /* =========================================================
    21. Rangées de cartes défilantes sur mobile

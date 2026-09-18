@@ -124,13 +124,20 @@ async function garnirSocle() {
   // On compare les noms de fichier : insensible à la racine d'hébergement.
   const pageActuelle = (window.location.pathname.split("/").pop() || "index.html").toLowerCase();
 
+  // Une entrée peut couvrir plusieurs pages : « Médiathèque » reste
+  // allumée quand on est sur Livres ou E-learnings, qui sont ses rayons.
+  // Sur la page elle-même c'est "page" ; sur une page fille, "true" —
+  // « l'élément courant du groupe », ce qui est exactement le cas.
   const lien = (entree) => {
-    const cible = entree.href.split("/").pop().toLowerCase();
+    const nomFichier = (h) => h.split("/").pop().toLowerCase();
+    const cible = nomFichier(entree.href);
+    const filles = (entree.aussi || []).map(nomFichier);
     return CA.el("li", {}, [
       CA.el("a", {
         href: CA.url(entree.href),
         texte: entree.label,
-        "aria-current": cible === pageActuelle ? "page" : null,
+        "aria-current":
+          cible === pageActuelle ? "page" : filles.includes(pageActuelle) ? "true" : null,
       }),
     ]);
   };
@@ -308,12 +315,50 @@ function activerMenu() {
   });
 }
 
+/* ---------- Cartes pliables ----------
+
+   Un <details> ne s'ouvre pas en CSS : `open` est un attribut, pas une
+   propriété. Pour qu'une carte soit repliée sur mobile et ouverte sur
+   écran large, il faut donc poser et retirer l'attribut, et suivre les
+   changements de largeur — sinon une rotation de téléphone laisse les
+   cartes dans l'état de l'orientation précédente.
+
+   Le HTML les écrit ouvertes : sans JavaScript, tout se lit. */
+
+const SEUIL_PLIAGE = "(max-width: 44.99rem)";
+
+function activerCartesPliables() {
+  const cartes = document.querySelectorAll(".carte--pliable");
+  if (!cartes.length) return;
+
+  const etroit = window.matchMedia(SEUIL_PLIAGE);
+
+  const appliquer = () => {
+    cartes.forEach((carte) => {
+      // Sur écran large on rouvre tout ; en repassant en étroit on
+      // replie, sauf celle que le visiteur venait d'ouvrir lui-même.
+      if (!etroit.matches) carte.open = true;
+      else carte.open = carte.dataset.ouvertParLeVisiteur === "true";
+    });
+  };
+
+  cartes.forEach((carte) => {
+    carte.addEventListener("toggle", () => {
+      if (etroit.matches) carte.dataset.ouvertParLeVisiteur = String(carte.open);
+    });
+  });
+
+  etroit.addEventListener("change", appliquer);
+  appliquer();
+}
+
 /* ---------- Démarrage ---------- */
 
 document.addEventListener("DOMContentLoaded", async () => {
   await Promise.all(Object.keys(PARTIALS).map(injecterPartial));
   await garnirSocle();
   activerMenu();
+  activerCartesPliables();
   suivreHauteurEntete();
   activerSommaire();
   document.dispatchEvent(new CustomEvent("ca:socle-pret"));

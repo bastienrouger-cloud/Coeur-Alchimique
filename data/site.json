@@ -1,6 +1,6 @@
 {
   "nom": "Cœur Alchimique",
-  "baseline": "De l'Enfant Intérieur Blessé à l'Enfant Intérieur Créateur.",
+  "baseline": "Au cœur de l'enfant intérieur.",
   "praticienne": "Sophie Loret",
   "email": "contact@coeuralchimique.fr",
   "delaiReponse": "Je réponds sous 48 heures ouvrées.",
@@ -16,16 +16,12 @@
       "href": "/pages/accompagnement.html"
     },
     {
-      "label": "E-learnings",
-      "href": "/pages/e-learnings.html"
-    },
-    {
-      "label": "Livres",
-      "href": "/pages/livres.html"
-    },
-    {
       "label": "Médiathèque",
-      "href": "/pages/mediatheque.html"
+      "href": "/pages/mediatheque.html",
+      "aussi": [
+        "/pages/livres.html",
+        "/pages/e-learnings.html"
+      ]
     },
     {
       "label": "Sophie",

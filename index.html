@@ -75,9 +75,14 @@
                fait la molette — descendre d'une section — et divisait
                l'attention en deux au moment où elle devrait être entière.
                La descente est maintenant dite par une flèche, qui ne
-               prétend pas être une offre. -->
+               prétend pas être une offre.
+
+               Le bouton ne part plus vers la page Accompagnement : il
+               descend aux deux chemins. Il y a deux façons d'avancer, et
+               envoyer d'emblée vers l'une des deux, c'est choisir à la
+               place du visiteur. Ici il voit les deux et tranche. -->
           <div class="groupe-boutons">
-            <a class="bouton bouton--or" href="pages/accompagnement.html">Découvrir l'accompagnement</a>
+            <a class="bouton bouton--or" href="#par-ou-commencer">Par où commencer</a>
           </div>
           <a class="hero__descente" href="#la-bibliotheque">
             <span class="sr-only">Aller à la démarche</span>
@@ -98,23 +103,30 @@
           <h2>Vous n'êtes pas venu·e ici par hasard</h2>
           <hr class="filet">
         </div>
+        <!-- Des <details> et non des <div> : sur mobile, quatre cartes
+             pleines font une colonne de texte qu'on fait défiler sans
+             rien y chercher. Repliées, les quatre phrases se lisent d'un
+             coup d'œil et on n'ouvre que celle qui a arrêté le regard.
+             Au-dessus de 45rem elles sont ouvertes et non cliquables :
+             c'est socle.js qui plie et déplie selon la largeur. Sans
+             JavaScript, l'attribut `open` du HTML les laisse ouvertes. -->
         <div class="grille">
-          <div class="carte">
-            <h3>Les mêmes situations reviennent</h3>
+          <details class="carte carte--pliable" open>
+            <summary><h3>Les mêmes situations reviennent</h3></summary>
             <p class="attenue">Des visages différents, un scénario identique. Vous voyez le schéma, vous le nommez même très bien — et il recommence.</p>
-          </div>
-          <div class="carte">
-            <h3>Une émotion surgit sans prévenir</h3>
+          </details>
+          <details class="carte carte--pliable" open>
+            <summary><h3>Une émotion surgit sans prévenir</h3></summary>
             <p class="attenue">Une colère, une tristesse, une peur disproportionnée par rapport à ce qui vient de se passer. Comme si elle venait d'ailleurs.</p>
-          </div>
-          <div class="carte">
-            <h3>Vous avez compris, mais rien ne bouge</h3>
+          </details>
+          <details class="carte carte--pliable" open>
+            <summary><h3>Vous avez compris, mais rien ne bouge</h3></summary>
             <p class="attenue">Vous savez d'où ça vient. Vous l'avez lu, vous en avez parlé. La compréhension est là, le soulagement non.</p>
-          </div>
-          <div class="carte">
-            <h3>Quelque chose d'ancien pèse</h3>
+          </details>
+          <details class="carte carte--pliable" open>
+            <summary><h3>Quelque chose d'ancien pèse</h3></summary>
             <p class="attenue">Sans nom, sans image précise. Une fatigue de fond, un poids que vous portez sans savoir depuis quand.</p>
-          </div>
+          </details>
         </div>
 
         <!-- La section posait une question et s'arrêtait sur un point
@@ -184,8 +196,8 @@
               <h3>Les trois états du cœur</h3>
               <p class="attenue">
                 Selon l'état dans lequel il se trouve, les mêmes souvenirs ne pèsent
-                pas du tout le même poids. Choisissez un état : la bibliothèque, à côté,
-                change avec lui.
+                pas du tout le même poids. Choisissez un état — c'est toute la
+                bibliothèque qui change avec lui.
               </p>
             </div>
 
@@ -211,7 +223,7 @@
     </section>
 
     <!-- 6. Les deux chemins ------------------------------------------ -->
-    <section class="fondu" style="--de:var(--g4); --vers:var(--g3)" data-theme="sombre">
+    <section id="par-ou-commencer" class="fondu" style="--de:var(--g4); --vers:var(--g3)" data-theme="sombre">
       <div class="contenu">
         <div class="entete-section centre">
           <span class="surtitre">Deux façons d'avancer</span>

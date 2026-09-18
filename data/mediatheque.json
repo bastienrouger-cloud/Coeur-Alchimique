@@ -137,11 +137,6 @@
         "titre": "Le blog",
         "description": "Des articles issus de vingt ans de pratique, de recherches et de formations.",
         "aRenseigner": "articles à reprendre depuis l'ancien site"
-      },
-      {
-        "titre": "L'Infolettre de Lumière",
-        "description": "L'actualité de Cœur Alchimique. Sans pop-up et sans insistance.",
-        "aRenseigner": "service d'envoi à choisir, liste à exporter"
       }
     ]
   }
