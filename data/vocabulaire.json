@@ -27,7 +27,7 @@
     {
       "id": "enfant-interieur-blesse",
       "terme": "Enfant Intérieur Blessé",
-      "definition": "C'est la part qui porte les mémoires, les croyances et les limitations. Celle qui a appris très tôt à se protéger, à se retenir, à ne pas déranger. Quand elle tient les commandes, les mêmes situations reviennent : ce n'est pas vous qui les choisissez, c'est elle qui reconnaît un terrain familier. Je ne cherche jamais à la faire taire — c'est par elle qu'on passe.",
+      "definition": "C'est la part qui porte les mémoires, les blessures émotionnelles — transgénérationnelles, karmiques, d'incarnation — les croyances et les limitations. Celle qui a appris très tôt à se protéger, à se retenir, à ne pas déranger. Quand elle tient les commandes, les mêmes situations reviennent : ce n'est pas vous qui les choisissez, c'est elle qui reconnaît un terrain familier. Je ne cherche jamais à la faire taire — c'est par elle qu'on passe.",
       "voirAussi": [
         "enfant-interieur",
         "enfant-interieur-createur",
@@ -37,7 +37,7 @@
     {
       "id": "enfant-interieur-createur",
       "terme": "Enfant Intérieur Créateur",
-      "definition": "La même part, une fois qu'elle n'a plus à se protéger. C'est là que se trouvent la curiosité, l'intuition, l'élan, la liberté de choisir. Elle n'est pas à construire : elle est là depuis le début, sous le reste. On ne l'atteint pas en sautant par-dessus le blessé — on l'atteint en passant par lui.",
+      "definition": "La même part, une fois qu'elle n'a plus à se protéger, car elle est libérée et transformée. C'est là que se trouvent la curiosité, l'intuition, l'élan, la liberté de choisir. Elle n'est pas à construire : elle est là depuis le début, sous le reste. On ne l'atteint pas en sautant par-dessus le blessé — on l'atteint en passant par lui, par son accueil, sa libération profonde.",
       "voirAussi": [
         "enfant-interieur-blesse",
         "puissance-creatrice"
@@ -46,7 +46,7 @@
     {
       "id": "masque-social",
       "terme": "Masque Social",
-      "definition": "Le mental et l'ego réunis : la part qui tient la place, donne de la contenance, sait quoi répondre. Il n'est pas votre ennemi et il ne disparaît jamais — il a souvent tenu la maison pendant des années. Ce qui change, c'est qu'il cesse d'avoir à tout porter tout seul.",
+      "definition": "Le mental et l'ego réunis : la part qui tient la place et protège l'Enfant Intérieur Blessé. Elle donne de la contenance, elle sait quoi répondre. Il n'est pas votre ennemi et il ne disparaît jamais — il a souvent tenu la maison pendant des années. Ce qui change, c'est que non seulement il n'est plus seul à porter, mais qu'il reprend sa véritable place aux côtés de l'Enfant Intérieur Créateur.",
       "voirAussi": [
         "enfant-interieur-blesse"
       ]
@@ -63,7 +63,7 @@
     {
       "id": "transmutation",
       "terme": "Transmutation",
-      "definition": "Le mot vient de l'alchimie : transformer le plomb en or. Je l'emploie au sens figuré et il dit exactement ce que je fais. Il ne s'agit pas de vider la bibliothèque de vos souvenirs ni de réécrire ce qui a eu lieu, mais de changer ce que ça pèse : de la lourdeur à la légèreté.",
+      "definition": "Le mot vient de l'alchimie : transformer le plomb en or. Je l'emploie au sens figuré et il dit exactement ce que je fais. Il ne s'agit pas de vider la bibliothèque de vos souvenirs, mais de transformer ce qui est lourd, pesant, douloureux pour vous : de la lourdeur à la légèreté.",
       "voirAussi": [
         "coeur-alchimique",
         "cristallisation"
@@ -81,7 +81,7 @@
     {
       "id": "memoire-emotionnelle",
       "terme": "Mémoire émotionnelle",
-      "definition": "Tout ce que vous avez ressenti est rangé quelque part. Les joies, les peurs, les colères, ce qui a été dit et surtout ce qui ne l'a pas été. J'en parle comme d'une bibliothèque : rien ne s'efface, tout est classé, parfois tout au fond, parfois à portée de main.",
+      "definition": "Tout ce que vous avez ressenti est rangé quelque part. Les joies, les peurs, les colères, les tristesses, les frustrations, les culpabilités — tout ce qui a été ressenti, entendu, mais qui n'a pas été exprimé. J'en parle comme d'une bibliothèque : rien ne s'efface, tout est classé, parfois tout au fond, parfois à portée de main.",
       "voirAussi": [
         "cristallisation",
         "enfant-interieur"
@@ -90,7 +90,7 @@
     {
       "id": "blessure-d-incarnation",
       "terme": "Blessure d'incarnation",
-      "definition": "La toute première empreinte, celle d'avant les souvenirs : ce qui a été ressenti au moment d'arriver au monde et dans les tout premiers temps. Je l'emploie pour désigner une coloration de fond, pas un événement qu'on pourrait dater. Elle teinte votre façon de vivre les situations, et elle se rejoue dans vos relations et vos choix.",
+      "definition": "La toute première empreinte, celle d'avant les souvenirs : ce qui a été ressenti au moment d'arriver au monde et dans les tout premiers temps, souvent jusque vers l'âge de sept ans. Elle est à l'origine de ce que vous vivez — des rencontres, des amitiés, des amours. C'est le fil rouge de votre histoire, et le révéler ouvre la suite.",
       "voirAussi": [
         "enfant-interieur-blesse",
         "memoire-emotionnelle"
@@ -99,7 +99,7 @@
     {
       "id": "therapie-holistique",
       "terme": "Thérapie holistique",
-      "definition": "« Holistique » veut dire qui considère l'ensemble. Je ne prends pas une émotion isolément, mais la personne entière : ce qu'elle ressent, ce qu'elle croit, son histoire, son élan. Ce n'est ni une spécialité médicale ni une psychothérapie — c'est un accompagnement, qui se mène à côté de vos suivis et non à leur place.",
+      "definition": "« Holistique » veut dire qui considère l'ensemble. Je ne prends pas une émotion isolément, mais la personne entière : ce qu'elle ressent, ce qu'elle croit, son histoire, son élan. J'ai réuni plusieurs outils dans une méthode que j'appelle Cœur Alchimique : l'Art-thérapie Alchimique, l'Analyse Transactionnelle, la Communication Non Violente, l'intelligence émotionnelle. Ce n'est ni une spécialité médicale ni une psychothérapie — c'est un accompagnement, qui se mène à côté de vos suivis et non à leur place.",
       "voirAussi": [
         "soin-de-liberation-emotionnelle"
       ]
@@ -109,17 +109,7 @@
       "terme": "Puissance Créatrice",
       "definition": "Votre capacité à faire, à choisir, à inventer votre vie plutôt qu'à la subir. Je parle aussi de Force de Vie. C'est ce qui se remet à circuler quand l'Enfant Intérieur Créateur reprend sa place.",
       "voirAussi": [
-        "enfant-interieur-createur",
-        "moi-superieur"
-      ]
-    },
-    {
-      "id": "moi-superieur",
-      "terme": "Moi Supérieur",
-      "definition": "La part de vous qui sait déjà. Celle qui, quand on lui laisse de la place, répond avant le mental. Plusieurs de mes carnets d'exercices servent uniquement à rétablir cette conversation-là : apprendre à distinguer sa voix de celle de l'ego.",
-      "voirAussi": [
-        "masque-social",
-        "puissance-creatrice"
+        "enfant-interieur-createur"
       ]
     },
     {

@@ -2259,6 +2259,35 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
   .miroir__panneau   { padding-bottom: 0.7rem; }
 }
 
+/* L'en-tête de la section se cale sur la grille du miroir.
+
+   La bande d'en-tête a sa propre géométrie (1,05fr / 1fr) et le miroir
+   la sienne (1fr / 1fr, plus un bloc de 34rem centré dans la colonne de
+   droite). Résultat : le chapô commençait 135 px à gauche du texte qui
+   se trouve juste en dessous, ce qui se voit d'autant plus qu'ils sont
+   l'un au-dessus de l'autre et qu'ils se ressemblent.
+
+   On lui redonne exactement les mêmes colonnes, le même écart et le
+   même bloc centré : les deux paragraphes partagent enfin une marge.
+
+   Au seuil de la bande (75rem) et non à celui du miroir (56,25rem) :
+   entre les deux, l'en-tête n'est pas une grille, et un bloc centré
+   dans un en-tête empilé donne un décalage de 32 px qui ressemble à
+   une faute. Dans cette plage, le chapô reste sous le titre — il se
+   lit comme un en-tête, pas comme une colonne. */
+@media (min-width: 75rem) {
+  .entete-section--miroir {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+  .entete-section--miroir > :first-child { max-width: none; }
+  .entete-section--miroir .chapo {
+    width: 100%;
+    max-width: 34rem;
+    margin: 0 auto;
+  }
+}
+
 /* ---- La scène ---- */
 
 /* La scène n'a plus de hauteur fixe : elle vaut cinq fois le pas, et

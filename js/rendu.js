@@ -1160,7 +1160,7 @@ async function rendreMiroir() {
   suivant.addEventListener("click", () => montrer((courant + 1) % d.etats.length));
 
   hote.append(
-    el("div", { class: "entete-section entete-section--bande" }, [
+    el("div", { class: "entete-section entete-section--bande entete-section--miroir" }, [
       el("div", {}, [
         el("span", { class: "surtitre", texte: d.intro.surtitre }),
         el("h2", { texte: d.intro.titre }),

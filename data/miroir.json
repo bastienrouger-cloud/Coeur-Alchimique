@@ -1,9 +1,9 @@
 {
   "intro": {
-    "surtitre": "La métaphore de l'eau",
+    "surtitre": "La métaphore de Sophie",
     "titre": "Ce que la surface montre",
-    "chapo": "Ce qui se voit d'une personne est une petite part de ce qu'elle porte. La surface fait le partage — et elle se comporte comme un miroir : à la fin, la même image est là, retournée.",
-    "note": "Le Masque Social ne disparaît jamais. Il cesse simplement d'avoir à tout porter."
+    "chapo": "Ce qui se voit d'une personne est une petite part de ce qu'elle porte. La surface fait le partage — et elle se comporte comme un miroir : à la fin, les mêmes parts sont là, retournées, et transformées au passage.",
+    "note": "Le Masque Social ne disparaît jamais. Il cesse simplement d'avoir à tout porter, et reprend sa place aux côtés de l'Enfant Intérieur Créateur."
   },
   "figures": [
     {
@@ -42,7 +42,7 @@
     {
       "id": "passage",
       "titre": "Le blessé remonte",
-      "texte": "On ne saute pas cette étape : il faut passer par le blessé pour atteindre le créateur. C'est ici que Sophie intervient. Ce qui était sous la surface vient à la lumière, se reconnaît, se dépose — et le masque n'a plus à tout tenir.",
+      "texte": "On ne saute pas cette étape : il faut passer par le blessé pour atteindre le créateur. C'est ici que Sophie intervient. Ce qui était sous la surface est mis en lumière, est reconnu et se dépose — et le masque n'a plus à tout tenir.",
       "figures": {
         "masque": {
           "rang": 1,
@@ -61,15 +61,15 @@
     {
       "id": "endroit",
       "titre": "La remise à l'endroit",
-      "texte": "Les mêmes trois parts, le même contenu — retournés autour de la surface. Le Créateur est en vue, le Blessé reste au centre, le Masque n'a plus besoin de s'exprimer. Sophie ne parle pas d'inversion mais de remise à l'endroit : c'est l'état d'origine qui réapparaît.",
+      "texte": "Les mêmes trois parts, retournées autour de la surface — mais pas tout à fait le même contenu : le blessé est de plus en plus libéré et transformé. Le Créateur est en vue, le Masque n'a plus son rôle de protecteur. Sophie ne parle pas d'inversion mais de remise à l'endroit : c'est l'état originel qui réapparaît.",
       "figures": {
         "masque": {
           "rang": 4,
-          "detail": "Il n'a plus besoin de s'exprimer"
+          "detail": "Il n'a plus son rôle de protecteur"
         },
         "blesse": {
           "rang": 2,
-          "detail": "Il reste au centre — mais il ne retient plus"
+          "detail": "Libéré, transformé — il ne retient plus"
         },
         "createur": {
           "rang": 1,

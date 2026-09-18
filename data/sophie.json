@@ -11,10 +11,10 @@
   ],
   "frise": [
     {
-      "periode": "~10 ans",
+      "periode": "1989 – 1999",
       "titre": "L'Alchimie Spirituelle",
-      "texte": "Pratique auprès d'un Maître Alchimiste. De grandes transformations s'opèrent : transmuter peu à peu son « plomb » en or.",
-      "aRenseigner": "Nom du Maître Alchimiste et période exacte à confirmer."
+      "texte": "Pratique auprès d'André Bouguénec, son Maître Alchimiste. De grandes transformations s'opèrent : transmuter peu à peu son « plomb » en or.",
+      "aRenseigner": "Dates à confirmer : André Bouguénec est mort en 1997."
     },
     {
       "periode": "Janvier 2009",
@@ -47,16 +47,21 @@
       "texte": "Approfondissement de l'Alchimie Intérieure, de la Souveraineté, de la liberté intérieure par le Retour à Soi, et des États de Conscience Modifiée."
     },
     {
-      "periode": "Date à confirmer",
-      "titre": "Hypnose Onirique — Yann Loup Renard",
-      "texte": "Formation à l'hypnose onirique.",
-      "aRenseigner": "Date à confirmer."
+      "periode": "En cours",
+      "titre": "Hypnose Onirique — Yann Loù Renard",
+      "texte": "Formation à l'hypnose onirique, suivie en e-learning.",
+      "aRenseigner": "Année d'achèvement à confirmer."
     }
   ],
   "filConducteur": {
     "titre": "Le fil conducteur",
     "texte": "Au fil de ce parcours, une même ligne revient : les émotions, la transmutation, la création et la créativité. La question a toujours été la même — comment activer cette part-là, en soi et chez les autres.",
-    "chaine": ["Émotions", "Transmutation", "Création", "Créativité"]
+    "chaine": [
+      "Émotions",
+      "Transmutation",
+      "Création",
+      "Créativité"
+    ]
   },
   "citation": "Transformer le « plomb » de mes blessures, de mes émotions, de mes blocages en « or », en joie, en créativité, en paix, fait partie de mon chemin de vie tant professionnel que personnel. Et c'est cela que je mets à votre disposition."
 }
