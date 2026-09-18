@@ -634,7 +634,6 @@ async function rendreMediatheque() {
     action: l.lien
       ? { href: l.lien, texte: l.editeur ? "Commander chez l'éditeur" : "L'obtenir", externe: true }
       : null,
-    secondaire: { href: url("pages/livres.html"), texte: "Tous les livres et carnets" },
   });
 
   const oeuvreParcours = (p) => ({
@@ -652,7 +651,6 @@ async function rendreMediatheque() {
     prix: p.prix,
     faits: p.contenu || [],
     action: { href: url(`pages/e-learnings.html#${p.id}`), texte: "Voir le parcours" },
-    secondaire: null,
   });
 
   const oeuvres = [
@@ -680,13 +678,6 @@ async function rendreMediatheque() {
             el("p", { texte: o.description }),
             o.faits.length
               ? el("ul", { class: "liste-puces fiche__faits" }, o.faits.map((x) => el("li", { texte: x })))
-              : null,
-            /* Le lien secondaire reste dans le flux du texte. Dans la
-               barre d'action, il faisait une troisième ligne à une barre
-               collante qui mange déjà un tiers de l'écran sur
-               téléphone. */
-            o.secondaire
-              ? el("a", { class: "fiche__lien-discret", href: o.secondaire.href, texte: o.secondaire.texte })
               : null,
           ]),
         ]),
@@ -1200,10 +1191,15 @@ async function rendreMiroir() {
      qui décide, pas une valeur écrite à l'avance.
      Borné en bas pour que la scène ne s'écrase pas, en haut pour
      qu'elle ne s'étire pas sur grand écran. */
+  /* `--pas` est posé sur `.miroir` et non sur la scène : la colonne de
+     droite s'en sert pour caler ses jalons exactement sur la ligne
+     d'eau, qui est à 2,5 pas du haut. Une propriété personnalisée
+     s'hérite, la scène la lit donc toujours. */
+  const racine = hote.querySelector(".miroir");
   const ajusterPas = () => {
     const hauteurs = Object.values(figures).map((f) => f.n.offsetHeight);
     const pas = Math.min(84, Math.max(58, Math.max(...hauteurs) + 14));
-    scene.style.setProperty("--pas", `${pas}px`);
+    racine.style.setProperty("--pas", `${pas}px`);
   };
 
   montrer(0);

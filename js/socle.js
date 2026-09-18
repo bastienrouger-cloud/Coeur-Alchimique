@@ -222,6 +222,78 @@ function suivreHauteurEntete() {
   else window.addEventListener("resize", publier);
 }
 
+/* ---------- L'en-tête qui s'efface ----------
+
+   Descendre, c'est lire : on rend l'écran au texte. Remonter, c'est
+   chercher : on rend la navigation immédiatement, sans attendre d'être
+   revenu tout en haut.
+
+   Trois garde-fous, chacun pour un défaut précis :
+
+   - un seuil de 6 px avant de décider. Sans lui, le tremblement d'un
+     pavé tactile ou le rebond d'un téléphone en fin de course fait
+     clignoter l'en-tête.
+   - jamais cachée dans les premiers 120 px : en haut de page, l'en-tête
+     fait partie de la page, la faire disparaître au premier coup de
+     molette est gratuit et désorientant.
+   - jamais cachée si le menu mobile est ouvert, ni si le focus clavier
+     est dedans. Escamoter ce qu'on est en train d'utiliser, c'est le
+     genre de détail qui rend un site inutilisable au clavier.
+
+   La lecture de scrollY est repoussée dans un requestAnimationFrame :
+   l'événement `scroll` part des dizaines de fois par seconde, et lire
+   une position force le navigateur à recalculer la mise en page. */
+
+const SEUIL_BASCULE = 6;
+const ZONE_HAUTE = 120;
+
+function activerEnteteEscamotable() {
+  const entete = document.querySelector(".entete");
+  if (!entete) return;
+
+  let dernier = window.scrollY;
+  let enAttente = false;
+
+  const cacher = (oui) => {
+    if ((entete.dataset.cachee === "true") === oui) return;
+    entete.dataset.cachee = String(oui);
+    document.body.dataset.enteteCachee = String(oui);
+  };
+
+  const evaluer = () => {
+    enAttente = false;
+    const y = Math.max(0, window.scrollY);
+    const delta = y - dernier;
+
+    if (Math.abs(delta) < SEUIL_BASCULE) return;
+    dernier = y;
+
+    if (y <= ZONE_HAUTE) return cacher(false);
+
+    const menuOuvert = document.querySelector('.nav-principale[data-ouvert="true"]');
+    if (menuOuvert || entete.contains(document.activeElement)) return cacher(false);
+
+    cacher(delta > 0);
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (enAttente) return;
+      enAttente = true;
+      requestAnimationFrame(evaluer);
+    },
+    { passive: true }
+  );
+
+  // Un lien d'ancre amène le focus dans la page : l'en-tête ne doit pas
+  // rester cachée par-dessus la cible.
+  window.addEventListener("hashchange", () => {
+    dernier = window.scrollY;
+    cacher(false);
+  });
+}
+
 /* ---------- Sommaire de page ----------
 
    Construit depuis le DOM : toute <section id data-sommaire="Libellé">
@@ -366,6 +438,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   activerMenu();
   activerCartesPliables();
   suivreHauteurEntete();
+  activerEnteteEscamotable();
   activerSommaire();
   document.dispatchEvent(new CustomEvent("ca:socle-pret"));
 });
