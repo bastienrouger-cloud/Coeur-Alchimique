@@ -421,7 +421,7 @@ async function rendreLivres() {
         el("div", { class: "carte__media carte__media--portrait" }, [
           el("img", { src: url(o.image), alt: o.alt, loading: "lazy", width: "700", height: "1000" }),
         ]),
-        el("span", { class: "etiquette", texte: o.type }),
+        el("span", { class: "etiquette", texte: o.genre }),
         el("h3", { texte: o.titre }),
         o.sousTitre ? el("p", { class: "attenue", texte: o.sousTitre }) : null,
         el("p", { class: "attenue", texte: o.description }),
@@ -544,6 +544,8 @@ document.addEventListener("ca:socle-pret", async () => {
     rendreLivres(),
     rendreSophie(),
     rendreMediatheque(),
+    rendreVocabulaire(),
+    rendreArticles(),
     rendreMiroir(),
     rendreChiffres(),
   ])
@@ -561,21 +563,25 @@ document.addEventListener("ca:socle-pret", async () => {
    par format ni par prix. Ranger par prix serait commercial ; ranger
    par geste dit ce qu'on vient y chercher.
 
-   Le filtre « accès libre » se fait en CSS, par un attribut sur le
-   conteneur : aucun élément n'est retiré du DOM, donc rien à
-   reconstruire et l'état reste lisible pour un lecteur d'écran.
+   Il y a eu un bouton « n'afficher que l'accès libre ». Il partait
+   d'une bonne intention — mettre le gratuit en avant — et proposait en
+   fait de masquer tout ce qui se vend, sur la seule page où les livres
+   et les parcours sont visibles depuis que la navigation tient en
+   quatre entrées. Les pastilles d'accès disent déjà ce qui est libre.
    ========================================================= */
 
 async function rendreMediatheque() {
   const hotes = {
     intro: document.querySelector('[data-rendu="mediatheque-intro"]'),
-    filtres: document.querySelector('[data-rendu="mediatheque-filtres"]'),
     rayons: document.querySelector('[data-rendu="mediatheque-rayons"]'),
-    flux: document.querySelector('[data-rendu="mediatheque-flux"]'),
   };
   if (!hotes.rayons) return;
 
-  const d = await donnees("mediatheque");
+  const [d, livres, elearnings] = await Promise.all([
+    donnees("mediatheque"),
+    donnees("livres"),
+    donnees("elearnings"),
+  ]);
 
   if (hotes.intro) {
     hotes.intro.replaceChildren(
@@ -584,46 +590,192 @@ async function rendreMediatheque() {
     );
   }
 
-  /* Une carte de la médiathèque. Trois cas :
+  const f = fiche();
+
+  /* ---- Les œuvres : livres et parcours ----
+
+     Elles ne sont pas recopiées dans mediatheque.json. Elles sont lues
+     dans livres.json et elearnings.json, les mêmes fichiers que les
+     pages dédiées : un prix corrigé à un endroit est corrigé partout,
+     et deux pages ne peuvent pas annoncer deux montants différents.
+
+     Une œuvre s'ouvre dans la fiche plutôt que d'emmener ailleurs.
+     C'est ce qui permet de les ranger avec les documents gratuits sans
+     casser la lecture : on consulte une couverture et on revient au
+     rayon, exactement comme on repose un livre sur une étagère. */
+
+  /* La pastille dorée porte le GENRE, jamais le support.
+
+     Elle mélangeait les deux : « Livre » (un support) côtoyait
+     « Carnet » et « Manuel » (des genres), au même rang et dans la même
+     couleur. Un Carnet d'Apprentis-Sages est un e-book : les deux mots
+     ne répondent pas à la même question, et les mettre sur le même
+     bouton dorait l'un au hasard de l'autre.
+
+     Le support n'est pas perdu pour autant — il est écrit en toutes
+     lettres dans la ligne du pied (« Livre broché · 198 pages »,
+     « E-book · 46 pages », « PDF · 6 pages »), et stocké à part dans le
+     champ `support` des JSON, prêt pour le jour où une recherche voudra
+     filtrer dessus. */
+  const oeuvreLivre = (l) => ({
+    id: `livre-${l.id}`,
+    rayon: "lire",
+    acces: "payant",
+    etiquette: l.genre,
+    titre: l.titre,
+    sousTitre: l.sousTitre || null,
+    detail: l.format,
+    image: l.image,
+    alt: l.alt,
+    portrait: true,
+    description: l.description,
+    prix: l.prix,
+    faits: [l.editeur, l.format, l.parution ? `Paru en ${l.parution}` : null].filter(Boolean),
+    action: l.lien
+      ? { href: l.lien, texte: l.editeur ? "Commander chez l'éditeur" : "L'obtenir", externe: true }
+      : null,
+    secondaire: { href: url("pages/livres.html"), texte: "Tous les livres et carnets" },
+  });
+
+  const oeuvreParcours = (p) => ({
+    id: `parcours-${p.id}`,
+    rayon: "pratiquer",
+    acces: "payant",
+    etiquette: "Parcours",
+    titre: p.nom,
+    sousTitre: p.promesse,
+    detail: ["En ligne", p.duree, p.niveau].filter(Boolean).join(" · "),
+    image: p.image,
+    alt: p.alt,
+    portrait: false,
+    description: p.description,
+    prix: p.prix,
+    faits: p.contenu || [],
+    action: { href: url(`pages/e-learnings.html#${p.id}`), texte: "Voir le parcours" },
+    secondaire: null,
+  });
+
+  const oeuvres = [
+    ...livres.ouvrages.map(oeuvreLivre),
+    ...elearnings.programmes.map(oeuvreParcours),
+  ];
+
+  const ouvrirOeuvre = (o, declencheur) => {
+    if (!f) return;
+    f.ouvrir(
+      [
+        /* La couverture est un objet posé à côté du texte, comme sur la
+           carte : même langage, et la fiche ne s'ouvre plus sur une
+           bande d'image qui repousse le titre hors de l'écran. */
+        el("div", { class: "fiche__colonnes" }, [
+          o.image
+            ? el("div", { class: "fiche__media" }, [
+                el("img", { src: url(o.image), alt: o.alt || "", loading: "lazy" }),
+              ])
+            : null,
+          el("div", { class: "fiche__texte" }, [
+            el("span", { class: "etiquette", texte: o.etiquette }),
+            el("h3", { id: "fiche-titre", tabindex: "-1", texte: o.titre }),
+            o.sousTitre ? el("p", { class: "fiche__sous-titre", texte: o.sousTitre }) : null,
+            el("p", { texte: o.description }),
+            o.faits.length
+              ? el("ul", { class: "liste-puces fiche__faits" }, o.faits.map((x) => el("li", { texte: x })))
+              : null,
+            /* Le lien secondaire reste dans le flux du texte. Dans la
+               barre d'action, il faisait une troisième ligne à une barre
+               collante qui mange déjà un tiers de l'écran sur
+               téléphone. */
+            o.secondaire
+              ? el("a", { class: "fiche__lien-discret", href: o.secondaire.href, texte: o.secondaire.texte })
+              : null,
+          ]),
+        ]),
+        el("div", { class: "fiche__actions" }, [
+          o.prix !== undefined && o.prix !== null
+            ? el("span", { class: "prix", texte: prix(o.prix) })
+            : null,
+          o.action
+            ? el("a", {
+                class: "bouton bouton--or",
+                href: o.action.href,
+                rel: o.action.externe ? "noopener" : null,
+                target: o.action.externe ? "_blank" : null,
+                texte: o.action.texte,
+              })
+            : null,
+        ]),
+      ],
+      { declencheur, hash: o.id, large: true }
+    );
+  };
+
+  /* Une carte de la médiathèque. Quatre cas :
+     - une œuvre                 → bouton, ouvre la fiche
      - un fichier à télécharger  → lien direct, avec download
      - un lien interne           → carte cliquable
      - rien encore               → pastille « à renseigner » */
-  const carte = (i) => {
-    const cible = i.fichier ? url(i.fichier) : i.lien ? url(`pages/${i.lien}`) : null;
-
-    const entete = [
-      el("span", { class: "etiquette", texte: i.type }),
-      cible
-        ? el("h3", {}, [
-            el("a", {
-              href: cible,
-              download: i.fichier ? "" : null,
-              texte: i.titre,
-            }),
-          ])
-        : el("h3", { texte: i.titre }),
-      i.sousTitre ? el("p", { class: "media__sous-titre", texte: i.sousTitre }) : null,
-      el("p", { class: "attenue", texte: i.description }),
-    ];
-
-    const pied = el("div", { class: "carte__pied" }, [
-      el("p", { class: "media__ligne" }, [
-        el("span", {
-          class: `pastille-acces pastille-acces--${i.acces}`,
-          texte: i.acces === "libre" ? "Accès libre" : "Payant",
-        }),
-        i.detail ? el("span", { class: "media__detail", texte: i.detail }) : null,
+  const carteOeuvre = (o) =>
+    el("button", { type: "button", class: "carte carte--ouvrante", id: o.id,
+                   "data-acces": o.acces, onclick: (e) => ouvrirOeuvre(o, e.currentTarget) }, [
+      /* La couverture et l'étiquette partagent une rangée : sans cadre,
+         la place à droite de la couverture était vide, et l'étiquette
+         plus bas repoussait le titre d'une ligne pour rien. En rangée,
+         elles ne peuvent pas se chevaucher — ce qui arriverait avec une
+         étiquette en position absolue sur un visuel en paysage. */
+      el("span", { class: "carte__visuel" }, [
+        o.image
+          ? el("span", { class: `carte__media${o.portrait ? " carte__media--portrait" : ""}` }, [
+              el("img", { src: url(o.image), alt: "", loading: "lazy" }),
+            ])
+          : null,
+        el("span", { class: "etiquette", texte: o.etiquette }),
       ]),
-      i.aRenseigner ? el("span", { class: "a-renseigner", texte: `À renseigner : ${i.aRenseigner}` }) : null,
-      cible
-        ? el("span", { class: "carte__suite", texte: i.fichier ? "Télécharger le PDF" : "Découvrir" })
-        : null,
+      el("span", { class: "carte__titre", texte: o.titre }),
+      o.sousTitre ? el("span", { class: "media__sous-titre", texte: o.sousTitre }) : null,
+      el("span", { class: "carte__pied" }, [
+        /* Même ligne que sur les documents libres : accès, support,
+           puis prix. C'est ici — et nulle part ailleurs sur la carte —
+           qu'on lit « Livre broché » ou « E-book », puisque la pastille
+           dorée ne porte plus que le genre. */
+        el("span", { class: "media__ligne" }, [
+          el("span", { class: "pastille-acces pastille-acces--payant", texte: "Payant" }),
+          o.detail ? el("span", { class: "media__detail", texte: o.detail }) : null,
+          o.prix !== undefined && o.prix !== null
+            ? el("span", { class: "media__detail media__prix", texte: prix(o.prix) })
+            : null,
+        ]),
+        el("span", { class: "carte__suite", texte: "En savoir plus" }),
+      ]),
     ]);
 
+  const carteDocument = (i) => {
+    const cible = i.fichier ? url(i.fichier) : i.lien ? url(`pages/${i.lien}`) : null;
     return el(
       "article",
       { class: `carte${cible ? " carte--lien" : ""}`, "data-acces": i.acces, id: i.id },
-      [...entete, pied]
+      [
+        el("span", { class: "etiquette", texte: i.genre }),
+        cible
+          ? el("h3", {}, [el("a", { href: cible, download: i.fichier ? "" : null, texte: i.titre })])
+          : el("h3", { texte: i.titre }),
+        i.sousTitre ? el("p", { class: "media__sous-titre", texte: i.sousTitre }) : null,
+        el("p", { class: "attenue", texte: i.description }),
+        el("div", { class: "carte__pied" }, [
+          el("p", { class: "media__ligne" }, [
+            el("span", {
+              class: `pastille-acces pastille-acces--${i.acces}`,
+              texte: i.acces === "libre" ? "Accès libre" : "Payant",
+            }),
+            i.detail ? el("span", { class: "media__detail", texte: i.detail }) : null,
+          ]),
+          i.aRenseigner
+            ? el("span", { class: "a-renseigner", texte: `À renseigner : ${i.aRenseigner}` })
+            : null,
+          cible
+            ? el("span", { class: "carte__suite", texte: i.fichier ? "Télécharger le PDF" : "Découvrir" })
+            : null,
+        ]),
+      ]
     );
   };
 
@@ -635,9 +787,16 @@ async function rendreMediatheque() {
   ];
 
   hotes.rayons.replaceChildren(
-    ...d.rayons.map((r, n) => {
-      const items = d.items.filter((i) => i.rayon === r.id);
-      const [de, vers] = teintes[n % teintes.length];
+    ...d.rayons.map((r, rang) => {
+      /* Le libre d'abord, les œuvres ensuite. Ce n'est pas une question
+         de hiérarchie mais d'entrée : on propose de lire avant de
+         proposer d'acheter, et une fois qu'on est convaincu, ce qui se
+         vend est là, au même endroit, sans avoir à chercher. */
+      const cartes = [
+        ...d.items.filter((i) => i.rayon === r.id).map(carteDocument),
+        ...oeuvres.filter((o) => o.rayon === r.id).map(carteOeuvre),
+      ];
+      const [de, vers] = teintes[rang % teintes.length];
       return el(
         "section",
         {
@@ -650,56 +809,263 @@ async function rendreMediatheque() {
         [
           el("div", { class: "contenu" }, [
             el("div", { class: "entete-section" }, [
-              el("span", { class: "surtitre", texte: `Rayon ${n + 1} sur ${d.rayons.length}` }),
+              el("span", { class: "surtitre", texte: `Rayon ${rang + 1} sur ${d.rayons.length}` }),
               el("h2", { texte: r.titre }),
               el("p", { class: "chapo attenue", texte: r.chapo }),
             ]),
-            el("div", { class: "grille grille--defilante" }, items.map(carte)),
+            el("div", { class: "grille grille--defilante" }, cartes),
+            etagereDecorative(rang),
           ]),
         ]
       );
     })
   );
 
-  if (hotes.flux) {
-    hotes.flux.replaceChildren(
-      el("div", { class: "entete-section" }, [
-        el("h2", { texte: d.flux.titre }),
-        el("p", { class: "chapo attenue", texte: d.flux.chapo }),
-      ]),
-      el("div", { class: "grille" },
-        d.flux.entrees.map((e) =>
-          el("article", { class: "carte" }, [
-            el("h3", { texte: e.titre }),
-            el("p", { class: "attenue", texte: e.description }),
-            el("div", { class: "carte__pied" }, [
-              el("span", { class: "a-renseigner", texte: `À renseigner : ${e.aRenseigner}` }),
-            ]),
-          ])
-        )
-      )
-    );
-  }
+  // Arrivée directe sur #livre-xxx ou #parcours-xxx.
+  const cible = location.hash.slice(1);
+  const o = oeuvres.find((x) => x.id === cible);
+  if (o) ouvrirOeuvre(o, document.getElementById(cible));
+}
 
-  /* Le filtre. aria-pressed porte l'état : le bouton dit lui-même s'il
-     est actif, sans qu'on ait à l'annoncer autrement. */
-  if (hotes.filtres) {
-    const compte = d.items.filter((i) => i.acces === "libre").length;
-    const bouton = el("button", {
-      class: "filtre",
-      type: "button",
-      "aria-pressed": "false",
-      texte: `N'afficher que l'accès libre (${compte})`,
+/* =========================================================
+   Les étagères décoratives
+
+   Un filet posé entre deux sections, avec une rangée de tranches de
+   livres dessus. C'est du décor, donc c'est aria-hidden et ça ne coûte
+   pas une image : quelques <span> et un dégradé.
+
+   Les largeurs et les hauteurs sont tirées d'un générateur à graine.
+   Du vrai hasard donnerait une étagère différente à chaque rendu — et
+   comme le rendu se rejoue à chaque chargement, l'étagère bougerait
+   sans raison d'une page à l'autre. Avec une graine, le rayon 1 a
+   toujours la même étagère, et elle diffère de celle du rayon 2.
+   ========================================================= */
+
+function etagereDecorative(graine = 0, nombre = 90) {
+  // Générateur congruentiel linéaire : trois lignes, pas de dépendance,
+  // et une suite parfaitement reproductible pour une graine donnée.
+  let etat = (graine + 1) * 9301 + 49297;
+  const suivant = () => {
+    etat = (etat * 9301 + 49297) % 233280;
+    return etat / 233280;
+  };
+
+  /* Assez de tranches pour couvrir le plus large des écrans : la rangée
+     est coupée à la largeur disponible (overflow), donc mieux vaut en
+     avoir de trop que de s'arrêter au tiers de la page — une étagère
+     qui s'interrompt au milieu ressemble à un graphique en barres. */
+  const tranches = Array.from({ length: nombre }, () => {
+    // Un vide de temps en temps : une étagère entièrement pleine sur
+    // deux mètres, ça n'existe pas et ça se voit.
+    if (suivant() < 0.09) {
+      return el("span", { class: "etagere-deco__vide", style: `--l:${8 + Math.round(suivant() * 14)}px` });
+    }
+    const h = 42 + Math.round(suivant() * 46);   // 42 → 88 %
+    const l = 7 + Math.round(suivant() * 15);    // 7 → 22 px
+    const teinte = suivant();
+    // Une tranche dorée de temps en temps. Une rangée d'un seul bleu se
+    // lit comme un graphique en barres ; c'est la variation de couleur
+    // qui la fait basculer du côté des livres.
+    const doree = suivant() < 0.14;
+    return el("span", {
+      class: `etagere-deco__livre${doree ? " etagere-deco__livre--or" : ""}`,
+      style: `--h:${h}%; --l:${l}px; --o:${(0.3 + teinte * 0.45).toFixed(2)}`,
     });
-    bouton.addEventListener("click", () => {
-      const actif = bouton.getAttribute("aria-pressed") === "true";
-      bouton.setAttribute("aria-pressed", String(!actif));
-      document.querySelectorAll(".rayon").forEach((s) => {
-        s.dataset.filtre = actif ? "" : "libre";
-      });
-    });
-    hotes.filtres.replaceChildren(bouton);
+  });
+
+  return el("div", { class: "etagere-deco", "aria-hidden": "true" }, [
+    el("div", { class: "etagere-deco__rangee" }, tranches),
+    el("div", { class: "etagere-deco__filet" }),
+  ]);
+}
+
+/* =========================================================
+   Le vocabulaire et les articles
+
+   Deux sections bâties sur le même moule de carte, avec une
+   destination différente : un mot s'ouvre dans une fiche par-dessus la
+   page, un article ouvre une page à lui. C'est volontaire — la
+   question posée était de savoir si les deux peuvent tenir au même
+   endroit, et la seule façon d'y répondre est de les voir côte à côte.
+
+   La fiche est un <dialog> natif. Il donne gratuitement ce qu'une
+   fausse modale en <div> oblige à réécrire et à rater : le piège au
+   clavier, la fermeture par Échap, le fond inerte, le retour du focus
+   sur le mot qu'on venait d'ouvrir.
+   ========================================================= */
+
+/* La fiche partagée.
+
+   Un seul <dialog> par page, dont le contenu change : une définition du
+   vocabulaire, un livre, un parcours. Centraliser évite d'avoir trois
+   modales aux comportements légèrement différents — et c'est toujours
+   par les différences qu'une modale devient inutilisable au clavier.
+
+   `hash` rend la fiche ouverte partageable et permet d'arriver
+   directement dessus. On remplace l'entrée d'historique au lieu d'en
+   empiler une : sinon, dix renvois « voir aussi » demandent dix retours
+   en arrière pour sortir de la page.
+*/
+function creerFiche() {
+  const dlg = document.getElementById("fiche");
+  if (!dlg) return null;
+  const corps = dlg.querySelector("[data-fiche-corps]");
+  let origine = null;
+
+  dlg.addEventListener("close", () => {
+    if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+    if (origine) origine.focus();
+    origine = null;
+  });
+
+  // Cliquer à côté referme. <dialog> ne le fait pas tout seul, et
+  // l'événement vise l'élément lui-même quand on touche le fond.
+  dlg.addEventListener("click", (e) => {
+    if (e.target === dlg) dlg.close();
+  });
+
+  return {
+    ouvrir(noeuds, { declencheur = null, hash = null, large = false } = {}) {
+      if (declencheur) origine = declencheur;
+      /* Deux largeurs, parce que deux contenus. Une définition est un
+         paragraphe : au-delà de 36rem l'œil perd la ligne suivante en
+         revenant à la marge. Une œuvre a une couverture à montrer à
+         côté du texte, et c'est la colonne de texte — pas la fiche —
+         qui garde la mesure de lecture. */
+      dlg.classList.toggle("fiche--large", large);
+      corps.replaceChildren(...[].concat(noeuds).filter(Boolean));
+      corps.scrollTop = 0;
+      if (!dlg.open) dlg.showModal();
+      if (hash) history.replaceState(null, "", `#${hash}`);
+      const titre = corps.querySelector("#fiche-titre");
+      if (titre) titre.focus();
+    },
+  };
+}
+
+let FICHE = null;
+function fiche() {
+  if (FICHE === null) FICHE = creerFiche();
+  return FICHE;
+}
+
+function enteteDeSection(intro) {
+  return el("div", { class: "entete-section" }, [
+    intro.surtitre ? el("span", { class: "surtitre", texte: intro.surtitre }) : null,
+    el("h2", { texte: intro.titre }),
+    intro.chapo ? el("p", { class: "chapo attenue", texte: intro.chapo }) : null,
+    intro.note ? el("p", { class: "attenue", texte: intro.note }) : null,
+  ]);
+}
+
+async function rendreVocabulaire() {
+  const hoteIntro = document.querySelector('[data-rendu="vocabulaire-intro"]');
+  const hoteTermes = document.querySelector('[data-rendu="vocabulaire-termes"]');
+  if (!hoteTermes) return;
+
+  const d = await donnees("vocabulaire");
+  const parId = new Map(d.termes.map((t) => [t.id, t]));
+  const f = fiche();
+
+  if (hoteIntro) hoteIntro.replaceChildren(enteteDeSection(d.intro));
+
+  const ouvrir = (id, declencheur) => {
+    const t = parId.get(id);
+    if (!t || !f) return;
+    f.ouvrir(
+      [
+        el("h3", { id: "fiche-titre", tabindex: "-1", texte: t.terme }),
+        el("p", { texte: t.definition }),
+        (t.voirAussi || []).length
+          ? el("div", { class: "fiche__voir-aussi" }, [
+              el("span", { class: "surtitre", texte: "Voir aussi" }),
+              el(
+                "ul",
+                {},
+                t.voirAussi
+                  .filter((autre) => parId.has(autre))
+                  .map((autre) =>
+                    el("li", {}, [
+                      el("button", {
+                        type: "button",
+                        class: "fiche__renvoi",
+                        texte: parId.get(autre).terme,
+                        onclick: () => ouvrir(autre),
+                      }),
+                    ])
+                  )
+              ),
+            ])
+          : null,
+      ],
+      { declencheur, hash: `mot-${id}` }
+    );
+  };
+
+  hoteTermes.replaceChildren(
+    el(
+      "div",
+      { class: "mots" },
+      d.termes.map((t) =>
+        el("button", {
+          type: "button",
+          class: "mot",
+          id: `mot-${t.id}`,
+          texte: t.terme,
+          onclick: (e) => ouvrir(t.id, e.currentTarget),
+        })
+      )
+    ),
+    etagereDecorative(3)
+  );
+
+  // Arrivée directe sur #mot-xxx : la définition s'ouvre.
+  if (location.hash.startsWith("#mot-")) {
+    const id = location.hash.slice(5);
+    if (parId.has(id)) ouvrir(id, document.getElementById(`mot-${id}`));
   }
+}
+
+async function rendreArticles() {
+  const hoteIntro = document.querySelector('[data-rendu="articles-intro"]');
+  const hoteListe = document.querySelector('[data-rendu="articles-liste"]');
+  if (!hoteListe) return;
+
+  const d = await donnees("articles");
+  if (hoteIntro) hoteIntro.replaceChildren(enteteDeSection(d.intro));
+
+  const dateLisible = (iso) => {
+    if (!iso) return null;
+    return new Date(iso).toLocaleDateString("fr-FR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  };
+
+  hoteListe.replaceChildren(
+    el(
+      "div",
+      { class: "grille grille--defilante" },
+      d.articles.map((a) => {
+        const cible = a.lien ? url(`pages/${a.lien}`) : null;
+        return el("article", { class: `carte${cible ? " carte--lien" : ""}`, id: a.id }, [
+          el("h3", {}, [cible ? el("a", { href: cible, texte: a.titre }) : el("span", { texte: a.titre })]),
+          el("p", { class: "attenue", texte: a.resume }),
+          el("div", { class: "carte__pied" }, [
+            el("p", { class: "media__ligne" }, [
+              dateLisible(a.date) ? el("span", { class: "media__detail", texte: dateLisible(a.date) }) : null,
+              a.lecture ? el("span", { class: "media__detail", texte: a.lecture }) : null,
+            ]),
+            a.aRenseigner
+              ? el("span", { class: "a-renseigner", texte: `À renseigner : ${a.aRenseigner}` })
+              : null,
+            cible ? el("span", { class: "carte__suite", texte: "Lire l'article" }) : null,
+          ]),
+        ]);
+      })
+    )
+  );
 }
 
 /* =========================================================

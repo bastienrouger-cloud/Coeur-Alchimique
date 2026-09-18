@@ -45,6 +45,12 @@ const CA = (() => {
       if (cle === "class") n.className = valeur;
       else if (cle === "html") n.innerHTML = valeur;
       else if (cle === "texte") n.textContent = valeur;
+      // onclick: () => … doit devenir un écouteur. Passé à
+      // setAttribute, une fonction est convertie en texte : le
+      // navigateur en refait une, hors de sa fermeture, et toutes
+      // les variables qu'elle utilisait ont disparu.
+      else if (cle.startsWith("on") && typeof valeur === "function")
+        n.addEventListener(cle.slice(2), valeur);
       else n.setAttribute(cle, valeur);
     }
     for (const enfant of [].concat(enfants)) {

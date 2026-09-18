@@ -43,24 +43,80 @@
 
   <main id="principal">
 
-    <section class="hero fondu halo-haut-gauche" style="--de:var(--g0); --vers:var(--g2)" data-theme="sombre">
+    <!-- La photo et le voile sont en z-index négatif dans la section,
+         qui porte isolation:isolate : ils restent derrière le contenu
+         sans jamais passer sous le reste de la page.
+
+         Deux largeurs seulement, et non trois comme sur l'accueil :
+         l'original fait 1536 px de large malgré son nom de fichier.
+         Fabriquer un 2400 reviendrait à étirer des pixels inventés —
+         plus lourd à télécharger, pas plus net à l'écran. -->
+    <section class="hero hero--illustre hero--voile-bleu" style="--vers:var(--g2)" data-theme="sombre">
+      <div class="hero__photo" aria-hidden="true">
+        <img src="../assets/images/mediatheque/hero-mediatheque-1536.webp"
+             srcset="../assets/images/mediatheque/hero-mediatheque-1200.webp 1200w,
+                     ../assets/images/mediatheque/hero-mediatheque-1536.webp 1536w"
+             sizes="100vw"
+             alt="" width="1536" height="1024" fetchpriority="high">
+      </div>
+      <div class="hero__voile" aria-hidden="true"></div>
+
       <div class="contenu">
         <div class="entete-section">
           <span class="surtitre">Tout ce qui se lit, s'écoute et se pratique</span>
           <h1>La Médiathèque</h1>
           <div data-rendu="mediatheque-intro"></div>
         </div>
-        <div class="filtres" data-rendu="mediatheque-filtres" role="group" aria-label="Filtrer la médiathèque"></div>
       </div>
     </section>
 
     <div data-rendu="mediatheque-rayons"></div>
 
-    <section class="fondu" style="--de:var(--g2); --vers:var(--g1)" data-theme="sombre">
-      <div class="contenu--etroit">
-        <div data-rendu="mediatheque-flux"></div>
+    <!-- Le vocabulaire. Les cartes ne portent que le mot : c'est une
+         planche de contact, pas une page de dictionnaire. On ouvre
+         celui qui accroche, et la définition arrive dans une fiche
+         par-dessus la page, sans quitter le rayon où on était.
+
+         Chaque terme a son ancre (#mot-xxx) : un article pourra
+         pointer directement sur une définition. -->
+    <section id="vocabulaire" class="fondu" style="--de:var(--g2); --vers:var(--g3)"
+             data-theme="sombre" data-sommaire="Vocabulaire">
+      <div class="contenu">
+        <div data-rendu="vocabulaire-intro"></div>
+        <div data-rendu="vocabulaire-termes"></div>
       </div>
     </section>
+
+    <!-- Les articles. Même moule de carte, destination différente :
+         une page à soi, pas une fiche par-dessus. C'est précisément la
+         question qu'on s'est posée — un mot et un article peuvent-ils
+         vivre au même endroit ? Les deux sections sont côte à côte pour
+         qu'on puisse trancher en les regardant. -->
+    <section id="articles" class="fondu" style="--de:var(--g3); --vers:var(--g1)"
+             data-theme="sombre" data-sommaire="Articles">
+      <div class="contenu">
+        <div data-rendu="articles-intro"></div>
+        <div data-rendu="articles-liste"></div>
+      </div>
+    </section>
+
+    <!-- La fiche. Un seul <dialog> pour toute la page : son contenu est
+         remplacé à chaque ouverture — une définition du vocabulaire, ou
+         la présentation d'un livre ou d'un parcours. L'élément natif
+         donne le piège au clavier, la fermeture par Échap, le fond
+         inerte et le retour du focus, sans une ligne de JavaScript pour
+         les refaire mal. -->
+    <dialog class="fiche" id="fiche" aria-labelledby="fiche-titre">
+      <form method="dialog" class="fiche__fermer-forme">
+        <button class="fiche__fermer" type="submit" aria-label="Fermer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+               stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18"/>
+          </svg>
+        </button>
+      </form>
+      <div class="fiche__corps" data-fiche-corps></div>
+    </dialog>
 
   </main>
 

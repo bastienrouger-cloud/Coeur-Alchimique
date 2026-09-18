@@ -1,0 +1,134 @@
+{
+  "intro": {
+    "surtitre": "Les mots que j'emploie",
+    "titre": "Vocabulaire",
+    "chapo": "J'utilise des mots qui m'appartiennent, hérités de vingt ans de pratique. Aucun n'est un terme médical, aucun ne désigne un diagnostic. Voici ce que je mets derrière chacun.",
+    "note": "Ouvrez un mot pour en lire la définition."
+  },
+  "termes": [
+    {
+      "id": "soin-de-liberation-emotionnelle",
+      "terme": "Soin de Libération Émotionnelle",
+      "definition": "C'est le nom que je donne à mes séances. Nous partons d'une situation qui se rejoue, d'une émotion qui revient, d'un poids que vous portez sans savoir depuis quand. Je vous accompagne à la rencontre de la part de vous qui l'a vécue en premier. Ce qui s'était figé là est écouté, reconnu, et peut enfin se déposer. C'est un accompagnement au ressenti et à la compréhension de soi — il vient en complément d'un suivi médical ou psychologique, jamais à sa place.",
+      "voirAussi": [
+        "enfant-interieur-blesse",
+        "coeur-alchimique"
+      ]
+    },
+    {
+      "id": "enfant-interieur",
+      "terme": "Enfant Intérieur",
+      "definition": "Ce n'est pas une image poétique : c'est la part de vous qui a ressenti avant de savoir nommer. Celle qui a vécu vos premières joies et vos premières blessures, à un âge où l'on n'a pas encore les mots pour dire ce qui arrive. Elle est toujours là, et elle garde tout.",
+      "voirAussi": [
+        "enfant-interieur-blesse",
+        "enfant-interieur-createur"
+      ]
+    },
+    {
+      "id": "enfant-interieur-blesse",
+      "terme": "Enfant Intérieur Blessé",
+      "definition": "C'est la part qui porte les mémoires, les croyances et les limitations. Celle qui a appris très tôt à se protéger, à se retenir, à ne pas déranger. Quand elle tient les commandes, les mêmes situations reviennent : ce n'est pas vous qui les choisissez, c'est elle qui reconnaît un terrain familier. Je ne cherche jamais à la faire taire — c'est par elle qu'on passe.",
+      "voirAussi": [
+        "enfant-interieur",
+        "enfant-interieur-createur",
+        "masque-social"
+      ]
+    },
+    {
+      "id": "enfant-interieur-createur",
+      "terme": "Enfant Intérieur Créateur",
+      "definition": "La même part, une fois qu'elle n'a plus à se protéger. C'est là que se trouvent la curiosité, l'intuition, l'élan, la liberté de choisir. Elle n'est pas à construire : elle est là depuis le début, sous le reste. On ne l'atteint pas en sautant par-dessus le blessé — on l'atteint en passant par lui.",
+      "voirAussi": [
+        "enfant-interieur-blesse",
+        "puissance-creatrice"
+      ]
+    },
+    {
+      "id": "masque-social",
+      "terme": "Masque Social",
+      "definition": "Le mental et l'ego réunis : la part qui tient la place, donne de la contenance, sait quoi répondre. Il n'est pas votre ennemi et il ne disparaît jamais — il a souvent tenu la maison pendant des années. Ce qui change, c'est qu'il cesse d'avoir à tout porter tout seul.",
+      "voirAussi": [
+        "enfant-interieur-blesse"
+      ]
+    },
+    {
+      "id": "coeur-alchimique",
+      "terme": "Cœur Alchimique",
+      "definition": "L'état du cœur pendant le passage — celui où le soin se fait. Ni le cœur fermé du départ, ni le cœur ouvert de l'arrivée : le lieu du changement. C'est de là que vient le nom de mon travail.",
+      "voirAussi": [
+        "transmutation",
+        "soin-de-liberation-emotionnelle"
+      ]
+    },
+    {
+      "id": "transmutation",
+      "terme": "Transmutation",
+      "definition": "Le mot vient de l'alchimie : transformer le plomb en or. Je l'emploie au sens figuré et il dit exactement ce que je fais. Il ne s'agit pas de vider la bibliothèque de vos souvenirs ni de réécrire ce qui a eu lieu, mais de changer ce que ça pèse : de la lourdeur à la légèreté.",
+      "voirAussi": [
+        "coeur-alchimique",
+        "cristallisation"
+      ]
+    },
+    {
+      "id": "cristallisation",
+      "terme": "Cristallisation",
+      "definition": "Ce qui arrive à une émotion qui n'a pas pu se dire. Elle ne s'en va pas : elle se fige, et elle attend. C'est pour ça qu'une réaction peut paraître démesurée par rapport à ce qui vient de se passer — la charge ne vient pas de l'instant présent, elle vient de tout ce qui s'était figé avant.",
+      "voirAussi": [
+        "memoire-emotionnelle",
+        "transmutation"
+      ]
+    },
+    {
+      "id": "memoire-emotionnelle",
+      "terme": "Mémoire émotionnelle",
+      "definition": "Tout ce que vous avez ressenti est rangé quelque part. Les joies, les peurs, les colères, ce qui a été dit et surtout ce qui ne l'a pas été. J'en parle comme d'une bibliothèque : rien ne s'efface, tout est classé, parfois tout au fond, parfois à portée de main.",
+      "voirAussi": [
+        "cristallisation",
+        "enfant-interieur"
+      ]
+    },
+    {
+      "id": "blessure-d-incarnation",
+      "terme": "Blessure d'incarnation",
+      "definition": "La toute première empreinte, celle d'avant les souvenirs : ce qui a été ressenti au moment d'arriver au monde et dans les tout premiers temps. Je l'emploie pour désigner une coloration de fond, pas un événement qu'on pourrait dater. Elle teinte votre façon de vivre les situations, et elle se rejoue dans vos relations et vos choix.",
+      "voirAussi": [
+        "enfant-interieur-blesse",
+        "memoire-emotionnelle"
+      ]
+    },
+    {
+      "id": "therapie-holistique",
+      "terme": "Thérapie holistique",
+      "definition": "« Holistique » veut dire qui considère l'ensemble. Je ne prends pas une émotion isolément, mais la personne entière : ce qu'elle ressent, ce qu'elle croit, son histoire, son élan. Ce n'est ni une spécialité médicale ni une psychothérapie — c'est un accompagnement, qui se mène à côté de vos suivis et non à leur place.",
+      "voirAussi": [
+        "soin-de-liberation-emotionnelle"
+      ]
+    },
+    {
+      "id": "puissance-creatrice",
+      "terme": "Puissance Créatrice",
+      "definition": "Votre capacité à faire, à choisir, à inventer votre vie plutôt qu'à la subir. Je parle aussi de Force de Vie. C'est ce qui se remet à circuler quand l'Enfant Intérieur Créateur reprend sa place.",
+      "voirAussi": [
+        "enfant-interieur-createur",
+        "moi-superieur"
+      ]
+    },
+    {
+      "id": "moi-superieur",
+      "terme": "Moi Supérieur",
+      "definition": "La part de vous qui sait déjà. Celle qui, quand on lui laisse de la place, répond avant le mental. Plusieurs de mes carnets d'exercices servent uniquement à rétablir cette conversation-là : apprendre à distinguer sa voix de celle de l'ego.",
+      "voirAussi": [
+        "masque-social",
+        "puissance-creatrice"
+      ]
+    },
+    {
+      "id": "mal-a-dit",
+      "terme": "Mal-a-dit",
+      "definition": "Un jeu de mots que j'aime : ce qui n'a pas pu se dire continue de travailler en nous et finit par se faire entendre autrement. C'est une image, pas une théorie médicale — je n'établis aucun diagnostic et je n'attribue aucune cause à quoi que ce soit.",
+      "voirAussi": [
+        "cristallisation"
+      ]
+    }
+  ]
+}

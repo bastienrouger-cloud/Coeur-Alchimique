@@ -1,0 +1,36 @@
+{
+  "intro": {
+    "surtitre": "Ce que j'écris",
+    "titre": "Articles",
+    "chapo": "Des textes courts, écrits au fil de la pratique. Certains reprennent des articles de mon ancien blog, d'autres sont nouveaux. Tout est en accès libre.",
+    "note": null
+  },
+  "articles": [
+    {
+      "id": "ce-qui-ne-s-exprime-pas-s-imprime",
+      "titre": "Ce qui ne s'exprime pas s'imprime",
+      "resume": "Une émotion qu'on ne laisse pas passer ne disparaît pas pour autant. Elle se range, elle attend, et elle revient au premier terrain qui lui ressemble.",
+      "date": "2026-09-18",
+      "lecture": "4 min",
+      "lien": "article-ce-qui-ne-s-exprime-pas-s-imprime.html"
+    },
+    {
+      "id": "pourquoi-comprendre-ne-suffit-pas",
+      "titre": "Pourquoi comprendre ne suffit pas",
+      "resume": "Vous savez d'où ça vient. Vous l'avez lu, vous en avez parlé, vous pourriez l'expliquer à quelqu'un d'autre. Et pourtant rien ne bouge.",
+      "date": null,
+      "lecture": null,
+      "lien": null,
+      "aRenseigner": "texte à écrire ou à reprendre du blog"
+    },
+    {
+      "id": "l-enfant-interieur-n-est-pas-une-metaphore",
+      "titre": "L'Enfant Intérieur n'est pas une métaphore",
+      "resume": "On me dit souvent que l'expression fait image. Je crois au contraire qu'elle désigne quelque chose de très concret, et que c'est justement pour ça qu'on peut travailler avec.",
+      "date": null,
+      "lecture": null,
+      "lien": null,
+      "aRenseigner": "texte à écrire ou à reprendre du blog"
+    }
+  ]
+}

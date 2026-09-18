@@ -968,6 +968,22 @@ section {
 .transmutation__de { color: var(--bleu-pale); }
 .transmutation__vers { color: var(--or-clair); }
 
+/* ---------- 9 bis. Le corps d'un article ----------
+
+   Le seul endroit du site où il y a vraiment du texte suivi. Tout se
+   joue sur le rythme vertical : un intertitre doit appartenir
+   visiblement au paragraphe qui le suit, donc l'espace au-dessus est
+   nettement plus grand que celui du dessous. */
+.prose > * + * { margin-top: 1.15rem; }
+.prose h2 {
+  margin-top: clamp(2.2rem, 5vw, 3rem);
+  margin-bottom: 0.2rem;
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  color: var(--or-pale);
+}
+.prose h2 + p { margin-top: 0.6rem; }
+.prose + .cadre { margin-top: clamp(2.5rem, 6vw, 4rem); }
+
 /* ---------- 10. Le cadre (complément médical) ---------- */
 .cadre {
   border: 1px solid rgba(20, 36, 61, 0.18);
@@ -1352,6 +1368,39 @@ section {
       var(--vers) 100%);
 }
 
+/* Le voile bleu — pour un hero à texte aligné à gauche.
+
+   Trois couches, de la plus haute à la plus basse :
+
+   1. le fondu du bas. C'est lui qui fait que la photo n'a pas de bord :
+      elle se dissout dans la couleur de la section suivante. Sans lui,
+      l'image s'arrête net sur une ligne droite et le raccord se voit.
+   2. la lisibilité à gauche, où se trouve le texte. À droite le voile
+      s'allège : on veut voir la bibliothèque.
+   3. le filtre bleu, qui ramène la photo dans l'échelle du site. Une
+      image, même bien choisie, n'a jamais exactement nos bleus.
+
+   `transparent` est proscrit dans un dégradé : c'est rgba(0,0,0,0), et
+   l'interpolation vers une couleur opaque passe par du gris. On écrit
+   donc la même couleur avec une alpha nulle. */
+.hero--voile-bleu .hero__voile {
+  background-image:
+    linear-gradient(180deg,
+      rgb(from var(--g0) r g b / 0.45) 0%,
+      rgb(from var(--g0) r g b / 0) 26%,
+      rgb(from var(--vers) r g b / 0) 52%,
+      rgb(from var(--vers) r g b / 0.72) 86%,
+      var(--vers) 100%),
+    linear-gradient(100deg,
+      rgb(from var(--g0) r g b / 0.9) 0%,
+      rgb(from var(--g0) r g b / 0.72) 32%,
+      rgb(from var(--g0) r g b / 0.28) 66%,
+      rgb(from var(--g0) r g b / 0.42) 100%),
+    linear-gradient(0deg,
+      rgb(from var(--bleu-vif) r g b / 0.3),
+      rgb(from var(--bleu-vif) r g b / 0.3));
+}
+
 /* ---- Le sceau ---- */
 .sceau-bloc {
   position: relative;
@@ -1551,34 +1600,50 @@ section {
 section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
 
 /* =========================================================
-   21. Rangées de cartes défilantes sur mobile
+   21. La bande défilante
 
-   Sur grand écran, une grille. Sur téléphone, trois cartes empilées
-   font trois écrans de défilement pour une seule idée : on les met
-   côte à côte dans une bande qui défile au doigt, avec accroche.
+   Une grille `auto-fit` fait ce qu'on lui demande : quand les cartes ne
+   tiennent plus sur une ligne, elle les replie sur la suivante. À
+   1000 px, un rayon de quatre cartes devient donc deux rangées de deux,
+   et à 700 px quatre cartes empilées — quatre écrans de défilement pour
+   un seul rayon, sans que rien n'indique que les autres existent.
 
-   La carte suivante dépasse volontairement de quelques pour cent :
-   c'est ce débord qui dit qu'il y a autre chose à droite. Sans lui,
-   une bande horizontale passe inaperçue.
+   Ici les cartes restent sur une ligne, quoi qu'il arrive, et la ligne
+   défile. La largeur est fixe (`flex-basis`), donc dès qu'une carte de
+   plus qu'il n'en tient est présente, la suivante dépasse du bord : ce
+   fragment est toute l'information dont on a besoin pour comprendre
+   qu'on peut pousser vers la droite. Un bouton « suivant » ou des
+   points de pagination diraient la même chose en prenant de la place.
+
+   Quand tout tient — quatre cartes sur un grand écran — il n'y a pas
+   de débordement, donc pas de défilement, et la bande ne se distingue
+   pas d'une grille ordinaire.
+
+   `overflow-x: auto` impose `overflow-y: auto` : le survol qui soulève
+   la carte de 4 px serait rogné en haut. D'où le rembourrage vertical.
    ========================================================= */
 
-@media (max-width: 760px) {
-  .grille--defilante {
-    display: flex;
-    gap: 1rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 0.75rem;
-    scrollbar-width: none;
-    /* Pas de débord jusqu'aux bords de l'écran : un margin négatif en
-       vw rouvrirait la barre de défilement horizontale de la page. */
-  }
-  .grille--defilante::-webkit-scrollbar { display: none; }
-  .grille--defilante > * {
-    flex: 0 0 85%;
-    scroll-snap-align: start;
-  }
+.grille--defilante {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-block: 0.5rem 1.25rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(227, 200, 121, 0.45) transparent;
+  /* Pas de débord jusqu'aux bords de l'écran : un margin négatif en vw
+     rouvrirait la barre de défilement horizontale de la page. */
 }
+.grille--defilante > * {
+  flex: 0 0 min(85%, 21rem);
+  scroll-snap-align: start;
+}
+.grille--defilante::-webkit-scrollbar { height: 6px; }
+.grille--defilante::-webkit-scrollbar-thumb {
+  background: rgba(227, 200, 121, 0.45);
+  border-radius: 999px;
+}
+.grille--defilante::-webkit-scrollbar-track { background: transparent; }
 
 /* =========================================================
    22. Cartes cliquables et cartes d'action
@@ -1729,6 +1794,322 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
 
 .rayon[data-filtre="libre"] .carte[data-acces="payant"] { display: none; }
 
+/* Une carte qui ouvre une fiche plutôt que d'emmener ailleurs.
+
+   C'est un <button> et non un lien : il n'y a pas de destination, il y
+   a une fiche qui s'ouvre sur place. Un lecteur d'écran a besoin de la
+   différence, et le clavier aussi — un lien répond à Entrée, un bouton
+   à Entrée et à Espace.
+
+   Un bouton n'hérite ni de la police, ni de la couleur, ni de
+   l'alignement du texte : tout est à remettre. */
+.carte--ouvrante {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+.carte--ouvrante .carte__titre {
+  font-family: var(--font-titre);
+  font-size: 1.3rem;
+  line-height: 1.25;
+  color: var(--creme);
+}
+.carte--ouvrante:hover .carte__titre { color: var(--or-pale); }
+.carte--ouvrante:focus-visible { outline: 2px solid var(--or); outline-offset: 3px; }
+/* La couverture est un objet posé sur la carte, pas une image dans un
+   cadre.
+
+   Le cadre pleine largeur a été essayé : une couverture est en portrait,
+   une carte est large, et il restait de chaque côté deux bandes vides
+   qu'il fallait ensuite remplir — zoom flouté, teinte dominante, voile.
+   Chaque remplissage crée son propre problème : sur les trois couvertures
+   des Éditions du Net, qui sont blanches, un fond flouté vire au gris et
+   rend la carte plus terne qu'un aplat bleu nuit.
+
+   Sans cadre, il n'y a plus de bandes à remplir. La couverture a sa
+   propre largeur, une ombre portée la décolle du fond, et la carte
+   garde son bleu : les couleurs à l'écran appartiennent aux livres et
+   non à l'interface. C'est aussi moins de code.
+
+   `max-width: 100%` pour les visuels en paysage — les repères des
+   parcours font 960 × 600 et déborderaient de la carte. */
+.carte__visuel {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+/* La couverture cède un peu de place à l'étiquette plutôt que de passer
+   dessous — mais pas toute : sous 5,5rem une couverture n'est plus
+   lisible. Au-delà, c'est à l'étiquette de se replier sur deux lignes.
+   Le vocabulaire des genres est court pour que ça n'arrive presque
+   jamais. */
+.carte__visuel .carte__media { flex: 0 1 auto; min-width: 5.5rem; }
+.carte__visuel .etiquette {
+  flex: 0 1 auto;
+  text-align: center;
+  white-space: normal;
+}
+
+.carte--ouvrante .carte__media {
+  display: flex;
+  aspect-ratio: auto;
+  height: auto;
+  margin: 0;
+  background: transparent;
+  border-radius: 0;
+  overflow: visible;
+}
+/* La boîte épouse l'image, elle ne l'encadre pas : à hauteur fixe, un
+   visuel en paysage était centré dans une boîte de 180 px et l'ombre
+   portée dessinait un rectangle vide autour de lui. */
+.carte--ouvrante .carte__media img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 180px;
+  border-radius: 2px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* =========================================================
+   Les étagères décoratives
+
+   Un filet doré, une rangée de tranches de livres posées dessus. Le
+   décor est dans le flux de la section, à l'intérieur : posé entre
+   deux sections il aurait son propre fond et couperait le dégradé qui
+   les raccorde.
+
+   `overflow: hidden` sur la rangée : le nombre de tranches est fixe,
+   donc sur un écran étroit les dernières sortent — elles sont coupées
+   proprement au lieu d'élargir la page.
+   ========================================================= */
+
+.etagere-deco {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  opacity: 0.75;
+}
+.etagere-deco__rangee {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 46px;
+  overflow: hidden;
+  /* Les tranches s'éteignent aux deux bouts, comme le filet en dessous :
+     sinon la rangée se termine par une coupe franche au milieu de nulle
+     part, là où la largeur de l'écran est tombée. */
+  mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+}
+.etagere-deco__vide { flex: 0 0 var(--l, 10px); }
+.etagere-deco__livre {
+  flex: 0 0 var(--l, 12px);
+  height: var(--h, 70%);
+  border-radius: 2px 2px 0 0;
+  background: rgb(from var(--bleu-pale) r g b / var(--o, 0.4));
+  background-image: linear-gradient(100deg,
+    rgba(255, 255, 255, 0.16) 0 18%,
+    transparent 18% 82%,
+    rgba(0, 0, 0, 0.28) 82% 100%);
+}
+.etagere-deco__livre--or { background-color: rgb(from var(--or) r g b / var(--o, 0.4)); }
+.etagere-deco__filet {
+  height: 1px;
+  background: linear-gradient(90deg,
+    rgb(from var(--or) r g b / 0) 0%,
+    rgb(from var(--or) r g b / 0.55) 12%,
+    rgb(from var(--or) r g b / 0.55) 88%,
+    rgb(from var(--or) r g b / 0) 100%);
+  box-shadow: 0 1px 10px rgb(from var(--or) r g b / 0.2);
+}
+
+/* =========================================================
+   Le vocabulaire
+
+   Les cartes ne portent que le mot. C'est une planche de contact et
+   non une page de dictionnaire : on balaie, on s'arrête sur celui
+   qu'on ne connaît pas, on l'ouvre. Mettre un extrait de définition
+   sous chaque mot rendrait la planche illisible et ferait double
+   emploi avec la fiche.
+
+   Ce sont des <button> et non des cartes cliquables : ils n'emmènent
+   nulle part, ils ouvrent quelque chose sur place. Le clavier et les
+   lecteurs d'écran ont besoin de cette distinction.
+   ========================================================= */
+
+.mots { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+.mot {
+  font-family: var(--font-titre);
+  font-size: 1.12rem;
+  padding: 0.7rem 1.3rem;
+  border-radius: 999px;
+  border: 1px solid rgba(157, 192, 232, 0.22);
+  background: rgba(157, 192, 232, 0.06);
+  color: var(--creme);
+  cursor: pointer;
+  text-align: left;
+  transition: color var(--transition), background var(--transition),
+              border-color var(--transition), transform var(--transition);
+}
+.mot:hover {
+  transform: translateY(-2px);
+  border-color: rgba(227, 200, 121, 0.55);
+  color: var(--or-pale);
+}
+.mot:focus-visible { outline: 2px solid var(--or); outline-offset: 3px; }
+
+/* La fiche de définition.
+
+   <dialog> apporte le piège au clavier, la fermeture par Échap, le
+   fond inerte et le fond assombri. Reste à l'habiller — et à ne pas
+   oublier que ::backdrop est un pseudo-élément à part, qui n'hérite
+   de rien. */
+.fiche {
+  width: min(36rem, calc(100vw - 2.5rem));
+  max-height: min(88vh, 54rem);
+  padding: 0;
+  border: 1px solid rgba(227, 200, 121, 0.28);
+  border-radius: var(--rayon);
+  background: #0e1c31;
+  color: var(--creme);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+  overflow: visible;
+}
+.fiche::backdrop { background: rgba(4, 8, 16, 0.72); }
+.fiche__corps {
+  padding: 2.1rem 2.1rem 2.3rem;
+  overflow-y: auto;
+  max-height: inherit;
+  /* La barre de défilement par défaut est claire : sur un fond bleu
+     nuit, c'est un ruban blanc collé au bord de la fiche. On la reprend
+     dans les couleurs de la maison, fine, sans rail. */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(227, 200, 121, 0.38) transparent;
+}
+.fiche__corps::-webkit-scrollbar { width: 8px; }
+.fiche__corps::-webkit-scrollbar-track { background: transparent; }
+.fiche__corps::-webkit-scrollbar-thumb {
+  background: rgba(227, 200, 121, 0.38);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.fiche__corps:hover::-webkit-scrollbar-thumb { background: rgba(227, 200, 121, 0.6); background-clip: content-box; }
+
+/* La fiche d'une œuvre : plus large, et en deux colonnes dès qu'il y a
+   la place. La couverture à gauche, le texte à droite — ce qui raccourcit
+   la colonne de texte d'autant, et supprime le défilement dans la
+   plupart des cas au lieu de l'habiller. */
+.fiche--large { width: min(52rem, calc(100vw - 3rem)); }
+
+.fiche__colonnes { display: grid; gap: 1.6rem; }
+@media (min-width: 46rem) {
+  .fiche__colonnes {
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: 2.2rem;
+    align-items: start;
+  }
+}
+.fiche__texte > * + * { margin-top: 0.9rem; }
+.fiche__texte .etiquette { margin: 0; }
+.fiche__texte h3 { margin: 0.7rem 0 0; }
+.fiche__corps h3 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.45rem, 3.4vw, 1.9rem);
+  color: var(--or-pale);
+  padding-right: 2rem;
+}
+.fiche__corps h3:focus { outline: none; }
+.fiche__corps p { margin: 0; color: var(--texte-sombre-fond); }
+
+.fiche__fermer-forme { margin: 0; }
+.fiche__fermer {
+  position: absolute;
+  top: 0.9rem; right: 0.9rem;
+  width: 2.2rem; height: 2.2rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(157, 192, 232, 0.22);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--texte-sombre-fond-attenue);
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+.fiche__fermer:hover { color: var(--or-pale); border-color: rgba(227, 200, 121, 0.55); }
+.fiche__fermer svg { width: 1rem; height: 1rem; }
+
+.fiche__media { display: flex; justify-content: flex-start; }
+.fiche__media img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 17rem;
+  border-radius: 2px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+@media (max-width: 45.99rem) {
+  .fiche__media img { max-height: 12rem; }
+}
+
+.fiche__sous-titre {
+  font-style: italic;
+  color: var(--texte-sombre-fond-attenue);
+}
+.fiche__faits { margin-top: 1.3rem; }
+/* La barre d'action colle en bas du corps qui défile.
+
+   Une fiche de livre dépasse souvent la hauteur disponible : sans ça,
+   le prix et le bouton se trouvent sous la ligne de flottaison de la
+   fiche, et rien ne dit qu'ils existent. Collés, ils sont toujours là,
+   et le texte défile derrière. */
+.fiche__actions {
+  position: sticky;
+  bottom: -2.3rem;
+  margin: 1.7rem -2.1rem -2.3rem;
+  padding: 1.1rem 2.1rem 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem 1.2rem;
+  background: linear-gradient(180deg, rgb(14 28 49 / 0) 0%, #0e1c31 42%);
+  border-radius: 0 0 var(--rayon) var(--rayon);
+}
+.fiche__lien-discret {
+  display: inline-block;
+  margin-top: 1.2rem;
+  font-size: 0.88rem;
+  color: var(--texte-sombre-fond-attenue);
+}
+.fiche__lien-discret:hover { color: var(--or-pale); }
+
+/* Sur un écran étroit, le bouton prend toute la largeur restante :
+   « Commander chez l'éditeur » se cassait en deux lignes et la barre
+   collante finissait par occuper le tiers de la fiche. */
+@media (max-width: 30rem) {
+  .fiche__actions { gap: 0.8rem; }
+  .fiche__actions .bouton { flex: 1 1 auto; text-align: center; padding-inline: 1rem; }
+}
+
+.fiche__voir-aussi { margin-top: 1.6rem; padding-top: 1.1rem; border-top: 1px solid rgba(157, 192, 232, 0.16); }
+.fiche__voir-aussi ul { list-style: none; margin: 0.6rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.fiche__renvoi {
+  font-family: var(--font-texte);
+  font-size: 0.88rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(157, 192, 232, 0.22);
+  background: transparent;
+  color: var(--bleu-pale);
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+.fiche__renvoi:hover { color: var(--or-pale); border-color: rgba(227, 200, 121, 0.55); }
+
 /* Pastille d'accès : dorée quand c'est libre — sur ce site, l'or
    marque ce qui compte, et le gratuit est la porte d'entrée. */
 .pastille-acces {
@@ -1759,6 +2140,10 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
   margin-bottom: 0.6rem;
 }
 .media__detail { font-size: 0.85rem; color: var(--texte-sombre-fond-attenue); }
+/* Le prix est un détail comme les autres par la taille, mais il se
+   lit en premier dans la ligne : c'est la seule information qu'on
+   vient y chercher sans l'avoir cherchée. */
+.media__prix { color: var(--or-pale); font-weight: 600; }
 .media__sous-titre {
   font-family: var(--font-titre);
   font-style: italic;
