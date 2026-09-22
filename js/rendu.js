@@ -209,8 +209,12 @@ async function rendreChiffres() {
 
   const valeurs = {
     "soins-prix": prixSoins.length ? `à partir de ${prix(Math.min(...prixSoins))}` : null,
+    /* Un prix plancher, et non une fourchette. Face à « à partir de
+       100 € » sur la carte voisine, « de 77 € à 330 € » ne dit pas la
+       même chose : l'une annonce un point d'entrée, l'autre un plafond.
+       Le visiteur compare deux chemins, pas deux grilles tarifaires. */
     "elearnings-prix": prixParcours.length
-      ? `De ${prix(Math.min(...prixParcours))} à ${prix(Math.max(...prixParcours))}`
+      ? `à partir de ${prix(Math.min(...prixParcours))}`
       : null,
     "elearnings-nombre": nombres[n] ? nombres[n][0].toUpperCase() + nombres[n].slice(1) : String(n),
     "elearnings-nombre-chiffre": String(n),
@@ -739,32 +743,91 @@ async function rendreMediatheque() {
       ]),
     ]);
 
+  /* Une carte de document. Trois formes, selon ce qu'il y a au bout :
+
+     - un audio        → le lecteur est DANS la carte. Une méditation de
+                         quinze minutes, on la lance et on part ailleurs :
+                         l'enfermer dans une fiche modale obligerait à
+                         garder la fiche ouverte, ou à couper le son en la
+                         fermant. Et une carte cliquable en entier avalerait
+                         les clics sur le lecteur — donc pas de
+                         `carte--lien` ici.
+     - un lien externe → nouvel onglet, `rel=noopener`.
+     - un fichier ou   → la carte entière est cliquable, comme avant.
+       une page
+  */
   const carteDocument = (i) => {
-    const cible = i.fichier ? url(i.fichier) : i.lien ? url(`pages/${i.lien}`) : null;
+    const audio = i.support === "Audio" && i.fichier;
+    const externe = i.lien && /^https?:/.test(i.lien);
+    const cible = i.fichier ? url(i.fichier) : i.lien ? (externe ? i.lien : url(`pages/${i.lien}`)) : null;
+    const cliquable = cible && !audio;
+
+    const titre = cliquable
+      ? el("h3", {}, [
+          el("a", {
+            href: cible,
+            download: i.fichier ? "" : null,
+            rel: externe ? "noopener" : null,
+            target: externe ? "_blank" : null,
+            texte: i.titre,
+          }),
+        ])
+      : el("h3", { texte: i.titre });
+
+    const suite = !cible
+      ? null
+      : audio
+        ? null
+        : el("span", {
+            class: "carte__suite",
+            texte: externe ? "Ouvrir la chaîne" : i.fichier ? "Télécharger le PDF" : "Découvrir",
+          });
+
     return el(
       "article",
-      { class: `carte${cible ? " carte--lien" : ""}`, "data-acces": i.acces, id: i.id },
+      { class: `carte${cliquable ? " carte--lien" : ""}${audio ? " carte--audio" : ""}`,
+        "data-acces": i.acces, id: i.id },
       [
-        el("span", { class: "etiquette", texte: i.genre }),
-        cible
-          ? el("h3", {}, [el("a", { href: cible, download: i.fichier ? "" : null, texte: i.titre })])
-          : el("h3", { texte: i.titre }),
+        /* Même rangée visuel + étiquette que les œuvres : les contes ont
+           désormais une couverture, et une étiquette posée dessous
+           repousserait le titre d'une ligne pour rien. Sans image, la
+           rangée ne contient que l'étiquette et ne change rien. */
+        el("div", { class: "carte__visuel" }, [
+          i.image
+            ? el("div", { class: "carte__media carte__media--portrait" }, [
+                el("img", { src: url(i.image), alt: "", loading: "lazy" }),
+              ])
+            : null,
+          el("span", { class: "etiquette", texte: i.genre }),
+        ]),
+        titre,
         i.sousTitre ? el("p", { class: "media__sous-titre", texte: i.sousTitre }) : null,
         el("p", { class: "attenue", texte: i.description }),
         el("div", { class: "carte__pied" }, [
+          /* preload="none" : sans lui, six lecteurs sur une page lancent
+             six requêtes avant qu'on ait touché quoi que ce soit. */
+          audio
+            ? el("audio", { class: "lecteur", controls: "", preload: "none", src: cible })
+            : null,
           el("p", { class: "media__ligne" }, [
             el("span", {
               class: `pastille-acces pastille-acces--${i.acces}`,
               texte: i.acces === "libre" ? "Accès libre" : "Payant",
             }),
             i.detail ? el("span", { class: "media__detail", texte: i.detail }) : null,
+            audio
+              ? el("a", {
+                  class: "media__telecharger",
+                  href: cible,
+                  download: "",
+                  texte: "Télécharger",
+                })
+              : null,
           ]),
           i.aRenseigner
             ? el("span", { class: "a-renseigner", texte: `À renseigner : ${i.aRenseigner}` })
             : null,
-          cible
-            ? el("span", { class: "carte__suite", texte: i.fichier ? "Télécharger le PDF" : "Découvrir" })
-            : null,
+          suite,
         ]),
       ]
     );

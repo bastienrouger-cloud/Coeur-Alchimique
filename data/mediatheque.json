@@ -14,7 +14,7 @@
     {
       "id": "ecouter",
       "titre": "Écouter",
-      "chapo": "Des pratiques guidées, à suivre au casque, allongé·e, quand vous en avez besoin."
+      "chapo": "Des méditations et des pratiques guidées, à suivre au casque, allongé·e, quand vous en avez besoin. Tout est en écoute libre."
     },
     {
       "id": "pratiquer",
@@ -43,6 +43,7 @@
       "genre": "Conte",
       "support": "PDF",
       "detail": "PDF · 6 pages",
+      "image": "/assets/images/contes/dialogue-d-amour-avec-un-ange.webp",
       "description": "À compléter.",
       "fichier": "/assets/documents/dialogue-d-amour-avec-un-ange.pdf"
     },
@@ -50,10 +51,11 @@
       "id": "l-enfant-reflet",
       "rayon": "lire",
       "acces": "libre",
-      "titre": "L'enfant-reflet",
+      "titre": "L'enfant-Reflet",
       "genre": "Conte",
       "support": "PDF",
       "detail": "PDF · 6 pages",
+      "image": "/assets/images/contes/l-enfant-reflet.webp",
       "description": "À compléter.",
       "fichier": "/assets/documents/l-enfant-reflet.pdf"
     },
@@ -65,30 +67,86 @@
       "genre": "Conte",
       "support": "PDF",
       "detail": "PDF · 5 pages",
+      "image": "/assets/images/contes/je-de-miroir.webp",
       "description": "À compléter.",
       "fichier": "/assets/documents/je-de-miroir.pdf"
     },
     {
-      "id": "meditations",
+      "id": "meditation-acceptation-lacher-prise",
       "rayon": "ecouter",
       "acces": "libre",
-      "titre": "Les méditations guidées",
+      "titre": "Acceptation et lâcher-prise",
       "genre": "Méditation",
       "support": "Audio",
-      "detail": "Audio · à venir",
-      "description": "À compléter.",
-      "aRenseigner": "fichiers audio en cours de récupération"
+      "detail": "Audio · 15 min",
+      "description": "Une méditation guidée pour déposer ce qu'on tient serré. Vous n'avez rien à faire d'autre qu'écouter et vous laisser conduire.",
+      "fichier": "/assets/audio/meditation-acceptation-lacher-prise.mp3"
+    },
+    {
+      "id": "pratique-enfant-interieur-blesse",
+      "rayon": "ecouter",
+      "acces": "libre",
+      "titre": "À la rencontre de l'Enfant Intérieur Blessé",
+      "genre": "Pratique",
+      "support": "Audio",
+      "detail": "Audio · 18 min",
+      "description": "Je vous accompagne pas à pas jusqu'à la part de vous qui a appris à se protéger. On s'en approche, on l'écoute, on lui donne de la place.",
+      "fichier": "/assets/audio/pratique-enfant-interieur-blesse.mp3"
+    },
+    {
+      "id": "pratique-enfant-interieur-createur",
+      "rayon": "ecouter",
+      "acces": "libre",
+      "titre": "À la rencontre de l'Enfant Intérieur Créateur",
+      "genre": "Pratique",
+      "support": "Audio",
+      "detail": "Audio · 15 min",
+      "description": "La suite du chemin : retrouver la part curieuse, intuitive, celle qui invente. Elle est là depuis le début — cette pratique sert à la rejoindre.",
+      "fichier": "/assets/audio/pratique-enfant-interieur-createur.mp3"
+    },
+    {
+      "id": "pratique-liberation-recalibrage",
+      "rayon": "ecouter",
+      "acces": "libre",
+      "titre": "Libération et recalibrage",
+      "genre": "Pratique",
+      "support": "Audio",
+      "detail": "Audio · 13 min",
+      "description": "Une pratique pour déposer ce qui pèse et revenir à votre propre rythme. À faire allongé·e, au casque, quand vous en avez besoin.",
+      "fichier": "/assets/audio/pratique-liberation-recalibrage.mp3"
+    },
+    {
+      "id": "pratique-force-de-vie-creatrice",
+      "rayon": "ecouter",
+      "acces": "libre",
+      "titre": "La Force de Vie Créatrice",
+      "genre": "Pratique",
+      "support": "Audio",
+      "detail": "Audio · 9 min",
+      "description": "La plus courte des six. Un moment pour sentir circuler ce qui vous porte, et le laisser reprendre de la place.",
+      "fichier": "/assets/audio/pratique-force-de-vie-creatrice.mp3"
+    },
+    {
+      "id": "pratique-systeme-nerveux",
+      "rayon": "ecouter",
+      "acces": "libre",
+      "titre": "Le voyage intérieur",
+      "genre": "Pratique",
+      "support": "Audio",
+      "detail": "Audio · 16 min",
+      "description": "Une descente guidée à l'intérieur de soi, à la lumière de ce que j'appelle le Soleil Intérieur. On observe, on dépose, on remonte.",
+      "fichier": "/assets/audio/pratique-systeme-nerveux.mp3"
     },
     {
       "id": "chaine-video",
       "rayon": "ecouter",
       "acces": "libre",
-      "titre": "La chaîne vidéo",
+      "titre": "La chaîne YouTube",
       "genre": "Vidéo",
       "support": "Vidéo",
       "detail": "Playlists thématiques",
-      "description": "Neutralité, souveraineté, libération émotionnelle.",
-      "aRenseigner": "adresse de la chaîne à renseigner"
+      "description": "Les vidéos de Sophie, en accès libre : neutralité, souveraineté, libération émotionnelle.",
+      "lien": "https://www.youtube.com/@SophieLORET"
     },
     {
       "id": "l-ecran-interieur",

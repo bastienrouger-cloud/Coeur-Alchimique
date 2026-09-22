@@ -1875,7 +1875,7 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
   white-space: normal;
 }
 
-.carte--ouvrante .carte__media {
+.carte__visuel .carte__media {
   display: flex;
   aspect-ratio: auto;
   height: auto;
@@ -1887,7 +1887,7 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
 /* La boîte épouse l'image, elle ne l'encadre pas : à hauteur fixe, un
    visuel en paysage était centré dans une boîte de 180 px et l'ombre
    portée dessinait un rectangle vide autour de lui. */
-.carte--ouvrante .carte__media img {
+.carte__visuel .carte__media img {
   width: auto;
   max-width: 100%;
   height: auto;
@@ -2144,6 +2144,39 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
   transition: color var(--transition), border-color var(--transition);
 }
 .fiche__renvoi:hover { color: var(--or-pale); border-color: rgba(227, 200, 121, 0.55); }
+
+/* Le lecteur audio.
+
+   Le contrôle natif, pas un lecteur maison : il apporte le clavier, le
+   défilement, la vitesse de lecture, l'affichage sur l'écran verrouillé
+   du téléphone et la reprise après un appel. Tout ça est déjà écrit et
+   mieux écrit qu'on ne le referait.
+
+   On ne peut pas le repeindre — chaque navigateur dessine le sien dans
+   un DOM fantôme fermé. Le seul levier propre est `color-scheme: dark` :
+   le navigateur rend alors sa propre variante sombre du contrôle, au
+   lieu du gris clair par défaut qui tranchait sur le bleu nuit. C'est
+   mieux qu'un `filter: invert`, qui retourne aussi les couleurs et ment
+   sur l'état des icônes. */
+.carte--audio .lecteur {
+  display: block;
+  width: 100%;
+  height: 40px;
+  margin-bottom: 0.9rem;
+  color-scheme: dark;
+}
+
+/* Le téléchargement est un service, pas une invitation : il se tient au
+   bout de la ligne d'informations, discret, et ne concurrence pas le
+   bouton de lecture. */
+.media__telecharger {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--texte-sombre-fond-attenue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.media__telecharger:hover { color: var(--or-pale); }
 
 /* Pastille d'accès : dorée quand c'est libre — sur ce site, l'or
    marque ce qui compte, et le gratuit est la porte d'entrée. */
@@ -2477,13 +2510,25 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
 .chemin h3 { margin: 0; font-size: clamp(1.5rem, 2.6vw, 1.9rem); }
 .chemin > p { margin: 0; }
 
+/* L'emblème et la pastille sur une seule rangée — le même parti que
+   `.carte__visuel` sur les cartes de la Médiathèque. La pastille ne
+   peut pas être posée en absolu : elle se replie sur deux lignes quand
+   le libellé est long, et elle passerait alors sur l'emblème. */
+.chemin__visuel {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.chemin__visuel .etiquette { flex: 0 1 auto; text-align: center; white-space: normal; }
+
 /* L'emblème. Deux dessins tracés sur la même grille, même épaisseur,
    même dégradé : ils doivent se lire comme une paire, pas comme deux
    illustrations trouvées séparément. */
 .chemin__embleme {
   width: clamp(4.5rem, 9vw, 6rem);
   aspect-ratio: 1;
-  margin-bottom: 0.25rem;
+  flex: 0 0 auto;
 }
 .chemin__embleme svg { width: 100%; height: 100%; display: block; overflow: visible; }
 .chemin:hover .chemin__embleme { opacity: 1; }

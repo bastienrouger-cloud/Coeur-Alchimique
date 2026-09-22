@@ -18,6 +18,10 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://bastienrouger-cloud.github.io/Coeur-Alchimique/">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/icons/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#0a1628">
   <link rel="preload" href="assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
   <script src="js/socle.js" defer></script>
@@ -61,7 +65,7 @@
 
       <div class="contenu">
         <div class="hero__pile">
-          <span class="surtitre">Soins de libération émotionnelle</span>
+          <span class="surtitre">libération émotionnelle - thérapie holistique</span>
           <h1 class="hero__titre"> Vos émotions sont le chemin, pas le problème...</h1>
           <p class="hero__baseline">De l'Enfant Intérieur Blessé à l'Enfant Intérieur Créateur.</p>
           <div class="sceau-bloc" data-partial="sceau"></div>
@@ -243,18 +247,24 @@
         <div class="chemins">
 
           <article class="chemin carte--lien">
-            <div class="chemin__embleme" aria-hidden="true">
-              <!-- Deux cercles qui se recouvrent : la séance se fait à deux,
-                   et ce qui compte se passe dans l'intersection. -->
-              <svg viewBox="0 0 96 96">
-                <path d="M48 29.6 A22 22 0 0 1 48 66.4 A22 22 0 0 1 48 29.6 Z"
-                      fill="var(--or)" opacity=".22"/>
-                <circle cx="36" cy="48" r="22" fill="none" stroke="url(#embOr)" stroke-width="1.4"/>
-                <circle cx="60" cy="48" r="22" fill="none" stroke="url(#embOr)" stroke-width="1.4"/>
-                <circle cx="48" cy="48" r="3.2" fill="url(#embOr)"/>
-              </svg>
+            <!-- L'emblème et la pastille partagent une rangée, comme le
+                 visuel et le genre sur les cartes de la Médiathèque : la
+                 place à droite de l'emblème était vide, et la pastille
+                 posée dessous repoussait le titre d'une ligne pour rien. -->
+            <div class="chemin__visuel">
+              <div class="chemin__embleme" aria-hidden="true">
+                <!-- Deux cercles qui se recouvrent : la séance se fait à deux,
+                     et ce qui compte se passe dans l'intersection. -->
+                <svg viewBox="0 0 96 96">
+                  <path d="M48 29.6 A22 22 0 0 1 48 66.4 A22 22 0 0 1 48 29.6 Z"
+                        fill="var(--or)" opacity=".22"/>
+                  <circle cx="36" cy="48" r="22" fill="none" stroke="url(#embOr)" stroke-width="1.4"/>
+                  <circle cx="60" cy="48" r="22" fill="none" stroke="url(#embOr)" stroke-width="1.4"/>
+                  <circle cx="48" cy="48" r="3.2" fill="url(#embOr)"/>
+                </svg>
+              </div>
+              <span class="etiquette">Accompagné·e</span>
             </div>
-            <span class="etiquette">Accompagné·e</span>
             <h3><a href="pages/accompagnement.html">Les soins</a></h3>
             <p class="attenue">
               Une séance en tête-à-tête, à distance. Sophie vous accompagne à la
@@ -271,32 +281,35 @@
           </article>
 
           <article class="chemin carte--lien">
-            <div class="chemin__embleme" aria-hidden="true">
-              <!-- Une spirale : un seul trait, parti d'un point, qui s'ouvre.
-                   On avance de son propre côté et à son propre rythme.
-                   (Des ondes concentriques avaient été essayées : ça se
-                   lisait comme une icône Wi-Fi.) -->
-              <svg viewBox="0 0 96 96">
-                <path d="M43 48 a5 5 0 0 1 10 0 a10 10 0 0 1 -20 0
-                         a15 15 0 0 1 30 0 a20 20 0 0 1 -40 0 a25 25 0 0 1 50 0"
-                      fill="none" stroke="url(#embOr)" stroke-width="1.5"
-                      stroke-linecap="round"/>
-                <circle cx="43" cy="48" r="3.2" fill="url(#embOr)"/>
-              </svg>
+            <div class="chemin__visuel">
+              <div class="chemin__embleme" aria-hidden="true">
+                <!-- Une spirale : un seul trait, parti d'un point, qui s'ouvre.
+                     On avance de son propre côté et à son propre rythme.
+                     (Des ondes concentriques avaient été essayées : ça se
+                     lisait comme une icône Wi-Fi.) -->
+                <svg viewBox="0 0 96 96">
+                  <path d="M43 48 a5 5 0 0 1 10 0 a10 10 0 0 1 -20 0
+                           a15 15 0 0 1 30 0 a20 20 0 0 1 -40 0 a25 25 0 0 1 50 0"
+                        fill="none" stroke="url(#embOr)" stroke-width="1.5"
+                        stroke-linecap="round"/>
+                  <circle cx="43" cy="48" r="3.2" fill="url(#embOr)"/>
+                </svg>
+              </div>
+              <span class="etiquette">En autonomie</span>
             </div>
-            <span class="etiquette">En autonomie</span>
             <h3><a href="pages/e-learnings.html">Les e-learnings</a></h3>
             <p class="attenue">
-              <span data-chiffre="elearnings-nombre">Sept</span> parcours à faire
-              seul·e, chez vous, quand vous voulez. Chacun réunit des exercices
+              Des parcours à faire seul·e, chez vous, quand vous voulez.
+              Chacun réunit des exercices
               intégratifs, des méditations et des pratiques autour d'un thème —
               la neutralité, la souveraineté, l'élévation. Et la possibilité
               d'échanger avec Sophie en cours de route.
             </p>
             <ul class="chemin__faits">
-              <li><span data-chiffre="elearnings-nombre-chiffre">7</span>&nbsp;parcours indépendants</li>
+              <li>Chez vous, quand vous voulez</li>
               <li>À votre rythme, sans ordre imposé</li>
-              <li><span data-chiffre="elearnings-prix">De 77 € à 330 €</span></li>
+              <li><span data-chiffre="elearnings-nombre">Sept</span> parcours,
+                  <span data-chiffre="elearnings-prix">à partir de 77&nbsp;€</span></li>
             </ul>
             <span class="carte__suite">Voir les parcours</span>
           </article>
@@ -323,7 +336,7 @@
           <div>
             <span class="surtitre">Qui vous accompagne</span>
             <h2>Sophie Loret</h2>
-            <p class="etat__resume" style="color:#8a6b1c">Vingt années de cheminement intérieur, d'ouverture du Cœur et de la Conscience.</p>
+            <p class="etat__resume" style="color:#8a6b1c">Thérapeute holistique. Depuis près de vingt ans, j'accompagne chacun à guérir son Enfant Intérieur Blessé et à révéler son Enfant Intérieur Créateur.</p>
             <p class="attenue">
               Une dizaine d'années d'Alchimie Spirituelle, puis la bascule vers l'accompagnement :
               coaching certifié, Analyse Transactionnelle, Communication Non Violente,
