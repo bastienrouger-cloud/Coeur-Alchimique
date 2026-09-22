@@ -220,9 +220,20 @@ async function rendreChiffres() {
     "elearnings-nombre-chiffre": String(n),
   };
 
+  /* Une même valeur ne tombe pas toujours au même endroit d'une phrase.
+     « Sept parcours » ouvre une carte sur l'accueil, mais arrive en
+     milieu de phrase sur la page d'accompagnement ; « à partir de 77 € »
+     fait l'inverse. Plutôt que de multiplier les clés, on laisse le
+     HTML demander la casse dont il a besoin. */
+  const casse = (v, quelle) => {
+    if (quelle === "bas") return v[0].toLowerCase() + v.slice(1);
+    if (quelle === "haut") return v[0].toUpperCase() + v.slice(1);
+    return v;
+  };
+
   cibles.forEach((cible) => {
     const v = valeurs[cible.dataset.chiffre];
-    if (v) cible.textContent = v;
+    if (v) cible.textContent = casse(v, cible.dataset.casse);
   });
 }
 
@@ -457,6 +468,47 @@ async function rendreLivres() {
 
 /* ---------- 6. Sophie ---------- */
 
+/* Les quatre emblèmes du fil conducteur.
+
+   Ils viennent de sa page « Mon parcours » de l'ancien site, où la même
+   chaîne — Émotions, Transmutation, Création, Créativité — était déjà
+   illustrée par quatre petits dessins au trait, dans un cuivre clair.
+   On les redessine ici plutôt que de les découper en images : quatre
+   tracés de quelques lignes, nets à toutes les tailles, qui prennent
+   l'or du site au lieu du cuivre de l'ancien.
+
+   Même grille que les autres emblèmes du site — viewBox de 48, trait
+   de 1,6 — pour qu'ils se lisent comme une famille et non comme un
+   jeu d'icônes rapporté. */
+const EMBLEMES_FIL = {
+  "Émotions":
+    '<path d="M24 37 C15.5 30.4 11 26.4 11 22 C11 18.3 14.1 15.8 17.4 15.8' +
+    ' C19.9 15.8 22.4 17.2 24 19.5 C25.6 17.2 28.1 15.8 30.6 15.8' +
+    ' C33.9 15.8 37 18.3 37 22 C37 26.4 32.5 30.4 24 37 Z"/>',
+  "Transmutation":
+    '<circle cx="24" cy="24" r="13"/><circle cx="24" cy="24" r="7.5"/>' +
+    '<circle cx="24" cy="24" r="2.6" fill="currentColor" stroke="none"/>',
+  "Création":
+    '<path d="M24 9 L24 39 M9 24 L39 24 M13.4 13.4 L34.6 34.6 M34.6 13.4 L13.4 34.6"/>',
+  "Créativité":
+    '<path d="M24 36 C24 27 27.5 20 32 15 C34.5 23 32 32 24 36 Z"/>' +
+    '<path d="M24 36 C24 27 20.5 20 16 15 C13.5 23 16 32 24 36 Z"/>' +
+    '<path d="M24 36 C20 31 20 23 24 17 C28 23 28 31 24 36 Z"/>',
+};
+
+const emblemeFil = (nom) =>
+  EMBLEMES_FIL[nom]
+    ? el("span", {
+        class: "chaine__embleme",
+        "aria-hidden": "true",
+        html:
+          '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor"' +
+          ' stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
+          EMBLEMES_FIL[nom] + "</svg>",
+      })
+    : null;
+
+
 async function rendreSophie() {
   const cibles = {
     presentation: document.querySelector('[data-rendu="sophie-presentation"]'),
@@ -515,7 +567,10 @@ async function rendreSophie() {
         { class: "chaine" },
         d.filConducteur.chaine.flatMap((maillon, i) => [
           i > 0 ? el("span", { class: "chaine__lien", texte: "→", "aria-hidden": "true" }) : null,
-          el("span", { class: "chaine__maillon", texte: maillon }),
+          el("span", { class: "chaine__maillon" }, [
+            emblemeFil(maillon),
+            el("span", { texte: maillon }),
+          ]),
         ])
       )
     );

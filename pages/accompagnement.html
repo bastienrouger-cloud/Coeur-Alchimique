@@ -47,7 +47,24 @@
 
   <main id="principal">
 
-    <section class="hero fondu halo-haut-gauche" style="--de:var(--g0); --vers:var(--g1)" data-theme="sombre">
+    <!-- L'illustration est composée pour ce gabarit : le sujet occupe
+         le tiers droit, la gauche est un aplat de nuit. C'est là que
+         tombe le texte, et le voile n'a donc presque rien à masquer.
+
+         Pas de `.fondu` sur un `hero--illustre` : son fond, c'est
+         l'image. La section ne déclare que --vers, dont le voile se
+         sert pour se raccorder à la section suivante. -->
+    <section class="hero hero--illustre hero--voile-bleu hero--sans-teinte" style="--vers:var(--g1)" data-theme="sombre">
+      <div class="hero__photo" aria-hidden="true">
+        <img src="../assets/images/accompagnement/hero-accompagnement-1800.webp"
+             srcset="../assets/images/accompagnement/hero-accompagnement-1200.webp 1200w,
+                     ../assets/images/accompagnement/hero-accompagnement-1800.webp 1800w,
+                     ../assets/images/accompagnement/hero-accompagnement-2400.webp 2400w"
+             sizes="100vw"
+             alt="" width="2400" height="1600" fetchpriority="high">
+      </div>
+      <div class="hero__voile" aria-hidden="true"></div>
+
       <div class="contenu">
         <div class="entete-section">
           <span class="surtitre">L'accompagnement</span>
@@ -107,6 +124,46 @@
           <hr class="filet">
         </div>
         <div class="grille grille--2" data-rendu="soins-detail"></div>
+
+        <!-- Le second chemin, au rang en dessous.
+
+             Sa place est ici et pas ailleurs : c'est juste après avoir
+             lu un prix qu'on se demande s'il existe autre chose. Une
+             section à part, avec son h2 et ses cartes, en ferait une
+             offre concurrente de la séance ; une carte-action en fait
+             ce qu'elle est — une porte de côté.
+
+             Le nombre et le prix ne sont pas écrits en dur : ils sont
+             calculés depuis elearnings.json, comme sur l'accueil. -->
+        <a class="carte-action carte-action--embleme mt-l" href="e-learnings.html">
+          <span class="carte-action__embleme" aria-hidden="true">
+            <!-- La même spirale que sur l'accueil : un seul trait, parti
+                 d'un point, qui s'ouvre. On avance de son propre côté. -->
+            <svg viewBox="0 0 96 96">
+              <defs>
+                <linearGradient id="embOrAcc" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#f0e0b8"/>
+                  <stop offset="100%" stop-color="#c9a227"/>
+                </linearGradient>
+              </defs>
+              <path d="M43 48 a5 5 0 0 1 10 0 a10 10 0 0 1 -20 0
+                       a15 15 0 0 1 30 0 a20 20 0 0 1 -40 0 a25 25 0 0 1 50 0"
+                    fill="none" stroke="url(#embOrAcc)" stroke-width="1.5"
+                    stroke-linecap="round"/>
+              <circle cx="43" cy="48" r="3.2" fill="url(#embOrAcc)"/>
+            </svg>
+          </span>
+          <div>
+            <h3>Vous préférez avancer par vous-même&nbsp;?</h3>
+            <p>
+              Le même travail existe en autonomie :
+              <span data-chiffre="elearnings-nombre" data-casse="bas">sept</span> parcours à faire chez vous,
+              quand vous voulez, avec la possibilité de m'écrire en cours de route.
+              <span data-chiffre="elearnings-prix" data-casse="haut">À partir de 77&nbsp;€</span>.
+            </p>
+          </div>
+          <span class="carte-action__fleche" aria-hidden="true">→</span>
+        </a>
       </div>
     </section>
 

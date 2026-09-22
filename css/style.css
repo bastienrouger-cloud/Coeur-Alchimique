@@ -1096,11 +1096,23 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
 .chaine__maillon {
   font-family: var(--font-titre);
   font-size: clamp(1rem, 2vw, 1.3rem);
-  padding: 0.4rem 1.1rem;
+  padding: 0.4rem 1.1rem 0.4rem 0.8rem;
   border-radius: 999px;
   border: 1px solid currentColor;
   opacity: 0.85;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
+/* L'emblème hérite de `currentColor` : il prend la couleur du maillon
+   et suit donc le thème de la section sans avoir à être redéclaré. */
+.chaine__embleme {
+  width: 1.35em;
+  height: 1.35em;
+  flex: none;
+  display: block;
+}
+.chaine__embleme svg { width: 100%; height: 100%; display: block; }
 .chaine__lien { opacity: 0.5; }
 
 /* ---------- 14. Accordéon (FAQ) ---------- */
@@ -1421,6 +1433,34 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
       rgb(from var(--bleu-vif) r g b / 0.3));
 }
 
+/* Variante sans le filtre bleu — pour une illustration déjà dans nos
+   couleurs.
+
+   Le troisième calque ci-dessus existe pour ramener une photo dans
+   l'échelle du site : une image trouvée n'a jamais exactement nos
+   bleus. Appliqué à un dessin qui les a déjà, il ne corrige rien et
+   coûte cher — il éteint l'or. Sur le hero d'accompagnement, la lueur
+   que la femme tient dans ses mains virait au gris.
+
+   On garde les deux calques qui servent à quelque chose : le fondu du
+   bas, qui dissout l'image dans la section suivante, et l'assombrissement
+   de gauche, qui tient la lisibilité du titre. Et on allège la droite,
+   puisqu'il n'y a rien à y masquer. */
+.hero--voile-bleu.hero--sans-teinte .hero__voile {
+  background-image:
+    linear-gradient(180deg,
+      rgb(from var(--g0) r g b / 0.45) 0%,
+      rgb(from var(--g0) r g b / 0) 26%,
+      rgb(from var(--vers) r g b / 0) 52%,
+      rgb(from var(--vers) r g b / 0.72) 86%,
+      var(--vers) 100%),
+    linear-gradient(100deg,
+      rgb(from var(--g0) r g b / 0.72) 0%,
+      rgb(from var(--g0) r g b / 0.5) 32%,
+      rgb(from var(--g0) r g b / 0.12) 66%,
+      rgb(from var(--g0) r g b / 0.2) 100%);
+}
+
 /* ---- Le sceau ---- */
 .sceau-bloc {
   position: relative;
@@ -1482,6 +1522,24 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
       linear-gradient(180deg,
         rgba(7, 13, 24, 0.62) 0%,
         rgba(7, 13, 24, 0.90) 42%,
+        var(--vers) 100%);
+  }
+
+  /* Sur un écran étroit, le texte ne passe plus à côté de l'image : il
+     passe dessus. Le voile doit donc changer de sens — un dégradé
+     horizontal ne protège plus rien quand la colonne de texte fait
+     toute la largeur.
+
+     La règle générique juste au-dessus fait exactement cela, mais elle
+     ne s'applique pas ici : `.hero--voile-bleu.hero--sans-teinte` la
+     bat en spécificité. Il faut donc la redire. Un peu plus douce,
+     parce qu'on veut garder la lueur visible sous le texte. */
+  .hero--voile-bleu.hero--sans-teinte .hero__voile {
+    background-image:
+      linear-gradient(180deg,
+        rgb(from var(--g0) r g b / 0.58) 0%,
+        rgb(from var(--g0) r g b / 0.82) 46%,
+        rgb(from var(--g0) r g b / 0.78) 70%,
         var(--vers) 100%);
   }
 }
@@ -1736,6 +1794,23 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
   transform: translateY(-3px);
   border-color: rgba(227, 200, 121, 0.6);
 }
+/* Variante avec emblème : trois colonnes au lieu de deux. Sans cette
+   règle, le troisième enfant passerait à la ligne — la grille n'en
+   déclare que deux. */
+.carte-action--embleme { grid-template-columns: auto 1fr auto; }
+.carte-action__embleme {
+  width: clamp(2.75rem, 7vw, 3.75rem);
+  aspect-ratio: 1;
+  flex: none;
+}
+.carte-action__embleme svg { width: 100%; height: 100%; display: block; overflow: visible; }
+/* Sur un écran étroit, l'emblème passe au-dessus du texte plutôt que de
+   lui prendre la moitié de la largeur. */
+@media (max-width: 34rem) {
+  .carte-action--embleme { grid-template-columns: 1fr auto; }
+  .carte-action__embleme { grid-column: 1 / -1; }
+}
+
 .carte-action h3 { margin: 0 0 0.25rem; color: var(--or-pale); }
 .carte-action p { margin: 0; color: var(--texte-sombre-fond-attenue); font-size: 0.97rem; }
 .carte-action__fleche {
