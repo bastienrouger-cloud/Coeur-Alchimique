@@ -32,7 +32,7 @@
       "genre": "Enseignements",
       "support": "E-book",
       "detail": "E-book · 24 pages",
-      "description": "À compléter.",
+      "description": "Le plus engagé des textes que je mets en accès libre. J'y dis comment je vois le monde dans lequel nous vivons, et pourquoi je crois que rien n'y changera tant qu'on attendra de l'extérieur ce qui se joue à l'intérieur. Puis comment s'y prendre : reconnaître ce qu'on crée déjà sans le savoir, et se mettre à le faire exprès. C'est ma vision des choses, celle qui sous-tend ma façon d'accompagner — pas un exposé neutre.",
       "fichier": "/assets/documents/co-creer-une-autre-realite.pdf"
     },
     {
@@ -41,10 +41,10 @@
       "acces": "libre",
       "titre": "Dialogue d'Amour avec un Ange",
       "genre": "Conte",
-      "support": "PDF",
-      "detail": "PDF · 6 pages",
+      "support": "E-book",
+      "detail": "E-book · 12 pages",
       "image": "/assets/images/contes/dialogue-d-amour-avec-un-ange.webp",
-      "description": "À compléter.",
+      "description": "Nafasir est pleine de questions et n'a plus de réponses. À bout, elle s'endort — et rencontre un Chérubin au détour du labyrinthe. Ce qui suit est un long dialogue sur l'Amour : ce qu'il est, où il se loge, pourquoi il faut passer par le cœur pour l'atteindre. Un conte à lire lentement.",
       "fichier": "/assets/documents/dialogue-d-amour-avec-un-ange.pdf"
     },
     {
@@ -53,10 +53,10 @@
       "acces": "libre",
       "titre": "L'enfant-Reflet",
       "genre": "Conte",
-      "support": "PDF",
-      "detail": "PDF · 6 pages",
+      "support": "E-book",
+      "detail": "E-book · 9 pages",
       "image": "/assets/images/contes/l-enfant-reflet.webp",
-      "description": "À compléter.",
+      "description": "Le petit Astro parle à l'envers. Personne ne le comprend — ni ses parents, ni la maîtresse, ni les autres enfants — jusqu'au jour où sa voisine de table vient s'asseoir en face de lui et prend le temps. Un conte sur ce que devient un enfant qu'on n'écoute pas, et sur le peu qu'il faut parfois pour que cela change.",
       "fichier": "/assets/documents/l-enfant-reflet.pdf"
     },
     {
@@ -65,10 +65,10 @@
       "acces": "libre",
       "titre": "Je de Miroir",
       "genre": "Conte",
-      "support": "PDF",
-      "detail": "PDF · 5 pages",
+      "support": "E-book",
+      "detail": "E-book · 8 pages",
       "image": "/assets/images/contes/je-de-miroir.webp",
-      "description": "À compléter.",
+      "description": "Un jeune lys, seul au milieu d'un lac, traverse l'orage sans savoir encore ce qu'il est. Quand le calme revient, le soleil lui parle. Et un jour, en se penchant sur l'eau, il aperçoit une fleur blanche qu'il n'avait jamais vue — c'est lui. Un conte sur le moment où l'on se voit pour la première fois.",
       "fichier": "/assets/documents/je-de-miroir.pdf"
     },
     {
@@ -155,9 +155,9 @@
       "titre": "L'écran intérieur",
       "sousTitre": "Chemin d'éveil vers le meilleur de vous-m'aime",
       "genre": "Exercice",
-      "support": "PDF",
-      "detail": "PDF · 11 pages",
-      "description": "À compléter.",
+      "support": "E-book",
+      "detail": "E-book · 11 pages",
+      "description": "Chacun a en soi une petite salle de cinéma. On s'y installe, les lumières s'éteignent, l'écran s'allume — et ce qui s'y projette vient de vous : des images, des rêves, des intuitions. Vous vous en servez déjà sans le savoir ; ce livret vous apprend à le faire exprès. Premier volet du Chemin d'éveil vers le meilleur de vous-m'aime. Un texte ancien : ce que j'y appelle le Moi Supérieur, je le nomme aujourd'hui l'Enfant Intérieur Créateur.",
       "fichier": "/assets/documents/l-ecran-interieur.pdf"
     },
     {
@@ -167,9 +167,9 @@
       "titre": "L'atelier créatif",
       "sousTitre": "Chemin d'éveil vers le meilleur de vous-m'aime",
       "genre": "Exercice",
-      "support": "PDF",
-      "detail": "PDF · 11 pages",
-      "description": "À compléter.",
+      "support": "E-book",
+      "detail": "E-book · 11 pages",
+      "description": "Un exercice de quinze à vingt minutes, à refaire aussi souvent que vous le voulez. On se met au calme, on respire, on se rend disponible — puis on suit les trois temps de la visualisation créative : demander, croire, recevoir. Second volet du Chemin d'éveil vers le meilleur de vous-m'aime. Un texte ancien : ce que j'y appelle le Moi Supérieur, je le nomme aujourd'hui l'Enfant Intérieur Créateur.",
       "fichier": "/assets/documents/l-atelier-creatif.pdf"
     }
   ]

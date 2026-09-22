@@ -780,7 +780,15 @@ async function rendreMediatheque() {
         ? null
         : el("span", {
             class: "carte__suite",
-            texte: externe ? "Ouvrir la chaîne" : i.fichier ? "Télécharger le PDF" : "Découvrir",
+            /* Le libellé suit le support annoncé, pas l'extension du
+               fichier : les documents libres sont présentés comme des
+               e-books gratuits, pas comme des PDF. Si un jour un autre
+               support atterrit ici, le repli reste juste. */
+            texte: externe
+              ? "Ouvrir la chaîne"
+              : i.fichier
+                ? (i.support === "E-book" ? "Télécharger l'e-book" : "Télécharger")
+                : "Découvrir",
           });
 
     return el(

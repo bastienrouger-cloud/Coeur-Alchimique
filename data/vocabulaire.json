@@ -2,7 +2,7 @@
   "intro": {
     "surtitre": "Les mots que j'emploie",
     "titre": "Vocabulaire",
-    "chapo": "J'utilise des mots qui m'appartiennent, hérités de vingt ans de pratique. Aucun n'est un terme médical, aucun ne désigne un diagnostic. Voici ce que je mets derrière chacun.",
+    "chapo": "J'utilise des mots qui m'appartiennent, hérités de vingt ans de pratique. Certains sont de moi, d'autres existaient bien avant — je ne les réinvente pas, je dis ce que je mets derrière quand je les emploie dans mes soins. Aucun n'est un terme médical, aucun ne désigne un diagnostic.",
     "note": "Ouvrez un mot pour en lire la définition."
   },
   "termes": [
@@ -40,6 +40,15 @@
       "definition": "La même part, une fois qu'elle n'a plus à se protéger, car elle est libérée et transformée. C'est là que se trouvent la curiosité, l'intuition, l'élan, la liberté de choisir. Elle n'est pas à construire : elle est là depuis le début, sous le reste. On ne l'atteint pas en sautant par-dessus le blessé — on l'atteint en passant par lui, par son accueil, sa libération profonde.",
       "voirAussi": [
         "enfant-interieur-blesse",
+        "puissance-creatrice"
+      ]
+    },
+    {
+      "id": "moi-superieur",
+      "terme": "Moi Supérieur",
+      "definition": "Un mot que j'ai employé pendant des années, et que vous retrouverez dans mes textes les plus anciens. Il a évolué pour moi : ce que j'appelais le Moi Supérieur, je le nomme aujourd'hui l'Enfant Intérieur Créateur — cette part de nous originelle et créatrice. Je le laisse ici pour que la lecture des anciens documents reste claire.",
+      "voirAussi": [
+        "enfant-interieur-createur",
         "puissance-creatrice"
       ]
     },
