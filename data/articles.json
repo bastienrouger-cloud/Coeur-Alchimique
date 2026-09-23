@@ -5,6 +5,7 @@
     "chapo": "Des textes courts, écrits au fil de la pratique. Certains reprennent des articles de mon ancien blog, d'autres sont nouveaux. Tout est en accès libre.",
     "note": null
   },
+  "noteLecture": "Cet article fait partie de Cœur Alchimique. Quand j'emploie un mot du vocabulaire médical, c'est pour nommer quelque chose que tout le monde connaît déjà, pas pour inventer un terme de plus ; ce que j'en dis, en revanche, m'appartient — c'est mon approche, née de ma pratique. Elle vient en complément d'un suivi médical ou psychologique, jamais à sa place.",
   "articles": [
     {
       "id": "ce-qui-ne-s-exprime-pas-s-imprime",
@@ -15,22 +16,63 @@
       "lien": "article-ce-qui-ne-s-exprime-pas-s-imprime.html"
     },
     {
-      "id": "pourquoi-comprendre-ne-suffit-pas",
-      "titre": "Pourquoi comprendre ne suffit pas",
-      "resume": "Vous savez d'où ça vient. Vous l'avez lu, vous en avez parlé, vous pourriez l'expliquer à quelqu'un d'autre. Et pourtant rien ne bouge.",
-      "date": null,
-      "lecture": null,
-      "lien": null,
-      "aRenseigner": "texte à écrire ou à reprendre du blog"
+      "id": "le-systeme-nerveux",
+      "titre": "Le Système Nerveux",
+      "resume": "Il fait circuler dans le corps bien plus que des signaux : les informations, les fréquences, les émotions. Ce qu'il devient quand elles sont basses, et une pratique guidée pour l'apaiser.",
+      "date": "2026-09-23",
+      "lecture": "6 min",
+      "lien": "article-le-systeme-nerveux.html"
     },
     {
-      "id": "l-enfant-interieur-n-est-pas-une-metaphore",
-      "titre": "L'Enfant Intérieur n'est pas une métaphore",
-      "resume": "On me dit souvent que l'expression fait image. Je crois au contraire qu'elle désigne quelque chose de très concret, et que c'est justement pour ça qu'on peut travailler avec.",
-      "date": null,
-      "lecture": null,
-      "lien": null,
-      "aRenseigner": "texte à écrire ou à reprendre du blog"
+      "id": "ces-programmes-qui-nous-bloquent",
+      "titre": "Ces programmes qui nous bloquent",
+      "resume": "Le temps, les religions, le mental, nos croyances, nos mémoires : ce que j'appelle des programmes, et ce qu'il faudrait pour en sortir.",
+      "date": "2026-09-23",
+      "lecture": "7 min",
+      "lien": "article-ces-programmes-qui-nous-bloquent.html"
+    },
+    {
+      "id": "la-souverainete-individuelle",
+      "titre": "La Souveraineté individuelle",
+      "resume": "Elle est intérieure, jamais donnée par l'extérieur. Ce qu'elle change quand on la retrouve : « Je décide », « Je choisis », « Je crée ».",
+      "date": "2026-09-23",
+      "lecture": "2 min",
+      "lien": "article-la-souverainete-individuelle.html"
+    },
+    {
+      "id": "la-force-de-vie-creatrice",
+      "titre": "La Force de Vie Créatrice",
+      "resume": "Passer de l'attente à la création active, et déposer sa propre signature sur ce qu'on fait naître.",
+      "date": "2026-09-23",
+      "lecture": "2 min",
+      "lien": "article-la-force-de-vie-creatrice.html"
+    },
+    {
+      "id": "ecouter-son-intuition",
+      "titre": "Écouter son intuition",
+      "resume": "Une connaissance immédiate, en dehors du mental. Comment la reconnaître, et comment lui faire de la place.",
+      "date": "2026-09-23",
+      "lecture": "2 min",
+      "lien": "article-ecouter-son-intuition.html",
+      "aRenseigner": "texte encore sous forme de notes — à rédiger"
+    },
+    {
+      "id": "les-synchronicites",
+      "titre": "Reconnaître les vraies synchronicités",
+      "resume": "Des cailloux blancs posés sur le chemin. Comment les distinguer d'une simple coïncidence, et ce qui les fait revenir.",
+      "date": "2026-09-23",
+      "lecture": "2 min",
+      "lien": "article-les-synchronicites.html",
+      "aRenseigner": "texte encore sous forme de notes — à rédiger"
+    },
+    {
+      "id": "les-trois-centres",
+      "titre": "Les trois centres",
+      "resume": "Le mental, l'émotionnel, le créateur. Ce que chacun fait, et ce qui se passe quand ils s'unissent.",
+      "date": "2026-09-23",
+      "lecture": "1 min",
+      "lien": "article-les-trois-centres.html",
+      "aRenseigner": "texte encore sous forme de notes — à rédiger"
     }
   ]
 }

@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>La Médiathèque — Cœur Alchimique</title>
-  <meta name="description" content="Contes, e-books, méditations et exercices de Sophie Loret, en grande partie en accès libre. Rangés en trois rayons : lire, écouter, pratiquer.">
+  <meta name="description" content="Contes, e-books, méditations et exercices de Sophie Loret, en grande partie en accès libre. Rangés en trois rayons : lire, pratiquer, écouter.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Cœur Alchimique">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:title" content="La Médiathèque — Cœur Alchimique">
-  <meta property="og:description" content="Contes, e-books, méditations et exercices de Sophie Loret, en grande partie en accès libre. Rangés en trois rayons : lire, écouter, pratiquer.">
+  <meta property="og:description" content="Contes, e-books, méditations et exercices de Sophie Loret, en grande partie en accès libre. Rangés en trois rayons : lire, pratiquer, écouter.">
   <meta property="og:url" content="https://bastienrouger-cloud.github.io/Coeur-Alchimique/pages/mediatheque.html">
   <meta property="og:image" content="https://bastienrouger-cloud.github.io/Coeur-Alchimique/assets/images/og-coeur-alchimique.jpg">
   <meta property="og:image:width" content="1200">
@@ -76,6 +76,19 @@
 
     <div data-rendu="mediatheque-rayons"></div>
 
+    <!-- Les articles. Même moule de carte, destination différente :
+         une page à soi, pas une fiche par-dessus. C'est précisément la
+         question qu'on s'est posée — un mot et un article peuvent-ils
+         vivre au même endroit ? Les deux sections sont côte à côte pour
+         qu'on puisse trancher en les regardant. -->
+    <section id="articles" class="fondu" style="--de:var(--g2); --vers:var(--g3)"
+             data-theme="sombre" data-sommaire="Articles">
+      <div class="contenu">
+        <div data-rendu="articles-intro"></div>
+        <div data-rendu="articles-liste"></div>
+      </div>
+    </section>
+
     <!-- Le vocabulaire. Les cartes ne portent que le mot : c'est une
          planche de contact, pas une page de dictionnaire. On ouvre
          celui qui accroche, et la définition arrive dans une fiche
@@ -83,24 +96,11 @@
 
          Chaque terme a son ancre (#mot-xxx) : un article pourra
          pointer directement sur une définition. -->
-    <section id="vocabulaire" class="fondu" style="--de:var(--g2); --vers:var(--g3)"
+    <section id="vocabulaire" class="fondu" style="--de:var(--g3); --vers:var(--g1)"
              data-theme="sombre" data-sommaire="Vocabulaire">
       <div class="contenu">
         <div data-rendu="vocabulaire-intro"></div>
         <div data-rendu="vocabulaire-termes"></div>
-      </div>
-    </section>
-
-    <!-- Les articles. Même moule de carte, destination différente :
-         une page à soi, pas une fiche par-dessus. C'est précisément la
-         question qu'on s'est posée — un mot et un article peuvent-ils
-         vivre au même endroit ? Les deux sections sont côte à côte pour
-         qu'on puisse trancher en les regardant. -->
-    <section id="articles" class="fondu" style="--de:var(--g3); --vers:var(--g1)"
-             data-theme="sombre" data-sommaire="Articles">
-      <div class="contenu">
-        <div data-rendu="articles-intro"></div>
-        <div data-rendu="articles-liste"></div>
       </div>
     </section>
 

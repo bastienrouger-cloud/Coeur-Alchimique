@@ -12,50 +12,58 @@
   "frise": [
     {
       "periode": "1989 – 1999",
+      "embleme": "alchimie",
       "titre": "L'Alchimie Spirituelle",
       "texte": "J'ai pratiqué cet art auprès d'un Maître Alchimiste, une dizaine d'années durant. De grandes transformations se sont faites en moi : transmuter peu à peu mon « plomb » en or, et prendre conscience du sens de notre mission de vie."
     },
     {
       "periode": "Janvier 2009",
+      "embleme": "accompagnement",
       "titre": "Coach & Team®",
       "texte": "Certification Transformance, à Holonomie (Nantes). J'entre dans l'accompagnement des personnes et des groupes."
     },
     {
       "periode": "2009 – 2012",
+      "embleme": "oeil",
       "titre": "Dessin évolutif et Art-thérapie Alchimique",
       "texte": "Le dessin évolutif a été une révélation, et j'y ai fait aussitôt le lien avec l'Alchimie Spirituelle : mettre en lumière ce qui est dans l'ombre pour mieux le libérer. Je me suis initiée aux médiums artistiques — dessin, peinture, modelage à l'argile, journal créatif. La créativité devenait un chemin."
     },
     {
       "periode": "2010",
+      "embleme": "trois-etats",
       "titre": "Analyse Transactionnelle",
       "texte": "Certification auprès de D. Chernet, Holonomie (Nantes). La structure de la personnalité, pour mieux se connaître et s'aimer."
     },
     {
       "periode": "2010 – 2012",
+      "embleme": "feuille",
       "titre": "Communication Non Violente et intelligence émotionnelle",
       "texte": "Association Langage à Saint-Herblain, puis J-Philippe Faure et D. Chernet. Reconnaître ses émotions, entendre leur message, et savoir y répondre."
     },
     {
       "periode": "Un tournant",
+      "embleme": "croissant",
       "titre": "Le passage par la maladie",
       "texte": "La maladie m'a montré à quel point ma créativité et mon Féminin étaient en souffrance. C'est là que l'Art-thérapie Alchimique a pris tout son sens : j'y ai puisé dans mes ressources intérieures, et mon Féminin et mon Masculin se sont rééquilibrés. J'ai su, à partir de là, que j'avais besoin de liberté, de légèreté, de joie et de créativité dans ma vie.",
       "aRenseigner": "À relire avec Sophie : son texte dit « ma guérison totale », que je n'ai pas repris — une guérison attribuée à une thérapie n'a pas sa place sur un site de praticienne."
     },
     {
       "periode": "Repère",
+      "embleme": "coeur-rayonnant",
       "titre": "L'Alchimie du Cœur — Marie-Lise Labonté",
       "texte": "Elle a décrit la façon dont le Cœur Spirituel peut transmuter les blessures, les mémoires et les émotions. C'est à partir de là que j'ai construit la méthode Cœur Alchimique."
     },
     {
       "periode": "2018 – 2023",
+      "embleme": "rosace",
       "titre": "Six années auprès de Sandra Walter",
       "texte": "J'y ai approfondi l'Alchimie Intérieure, la Souveraineté, la liberté intérieure par le Retour à Soi, et les États de Conscience Modifiée. La méthode s'y est enrichie de sa pratique en quatre temps : Révéler, Libérer, Transformer, Créer."
     },
     {
       "periode": "En cours",
+      "embleme": "etoiles",
       "titre": "Hypnose onirique — Yann Loù Renard",
-      "texte": "Une formation en hypnose onirique, suivie en e-learning, que je poursuis aujourd'hui.",
-      "aRenseigner": "Orthographe du nom à confirmer : Sophie signale l'avoir mal écrit."
+      "texte": "Une formation en hypnose onirique, suivie en e-learning, que je poursuis aujourd'hui."
     }
   ],
   "filConducteur": {

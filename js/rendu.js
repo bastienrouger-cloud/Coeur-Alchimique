@@ -260,12 +260,46 @@ function carteSoin(option) {
   ]);
 }
 
+/* ---------- Passages en attente d'arbitrage ----------
+
+   Meme mecanique que sur les pages d'article, mais ici le texte vient
+   d'un JSON : `el({texte})` pose un noeud de texte, on ne peut donc pas
+   y glisser un <mark>. L'extrait a surligner est declare a part, dans
+   le champ `marque`, et on recompose ici trois noeuds — avant, la
+   marque, apres.
+
+   Si l'extrait est introuvable, on n'avale pas l'erreur en silence : le
+   texte s'affiche entier et la console le dit. Une marque qui disparait
+   sans prevenir, c'est le genre de panne qu'on ne decouvre qu'une fois
+   le texte parti chez quelqu'un d'autre. */
+function texteMarque(texte, marque) {
+  if (!marque) return [document.createTextNode(texte)];
+  const i = texte.indexOf(marque);
+  if (i < 0) {
+    console.warn("[a-trancher] extrait introuvable :", marque);
+    return [document.createTextNode(texte)];
+  }
+  return [
+    document.createTextNode(texte.slice(0, i)),
+    el("mark", { class: "a-trancher", texte: marque }),
+    document.createTextNode(texte.slice(i + marque.length)),
+  ];
+}
+
+const motifATrancher = (motif) =>
+  el("p", { class: "a-trancher__motif" }, [
+    el("strong", { texte: "À trancher avec Moz" }),
+    document.createTextNode(" — " + motif),
+  ]);
+
 async function rendreSoins() {
   const cibles = {
     cartes: document.querySelector('[data-rendu="soins-cartes"]'),
     detail: document.querySelector('[data-rendu="soins-detail"]'),
     benefices: document.querySelector('[data-rendu="soins-benefices"]'),
     faq: document.querySelector('[data-rendu="soins-faq"]'),
+    note: document.querySelector('[data-rendu="soins-note"]'),
+    origine: document.querySelector('[data-rendu="soins-origine"]'),
   };
   if (!Object.values(cibles).some(Boolean)) return;
 
@@ -273,24 +307,45 @@ async function rendreSoins() {
 
   if (cibles.cartes) cibles.cartes.replaceChildren(...d.options.map(carteSoin));
 
+  /* La note d'auto-soin coiffe les deux cartes : elle dit qui fait le
+     soin, et les deux protocoles se lisent a travers elle. Une seule
+     fois, au-dessus — pas repetee dans chaque carte. */
+  if (cibles.note && d.noteAutoSoin) {
+    cibles.note.replaceChildren(
+      el("aside", { class: "note-lecture" }, [
+        el("span", { class: "note-lecture__titre", texte: "Qui fait le soin" }),
+        el("p", { texte: d.noteAutoSoin }),
+      ])
+    );
+  }
+
   if (cibles.detail) {
     cibles.detail.replaceChildren(
       ...d.options.map((option) =>
-        el("article", { class: "carte", id: option.id }, [
+        el("article", { class: "carte carte--protocole", id: option.id }, [
           el("span", { class: "etiquette", texte: `Option ${option.numero} — ${option.canal}` }),
           el("h3", { texte: option.nom }),
-          el("p", { class: "attenue", texte: option.description }),
+          el("p", { class: "attenue" }, texteMarque(option.description, option.marqueDescription)),
+          option.motifDescription ? motifATrancher(option.motifDescription) : null,
+          option.description2 ? el("p", { class: "attenue", texte: option.description2 }) : null,
+          option.motifIntro ? motifATrancher(option.motifIntro) : null,
           el("h4", { texte: "Comment ça se déroule" }),
           el(
             "ol",
-            { class: "liste-puces" },
+            { class: "protocole" },
             option.etapes.map((e) =>
-              el("li", {}, [el("strong", { texte: `${e.nom} — ` }), document.createTextNode(e.texte)])
+              el("li", {}, [
+                el("p", {}, texteMarque(e.texte, e.marque)),
+                e.motif ? motifATrancher(e.motif) : null,
+              ])
             )
           ),
-          el("div", { class: "carte__pied" }, [
-            el("p", { class: "prix", texte: prix(option.prix) }),
-            el("p", { class: "attenue", texte: `Durée : ${option.duree}` }),
+          option.fin ? el("p", { class: "protocole__fin attenue", texte: option.fin }) : null,
+          el("div", { class: "carte__pied carte__pied--tarif" }, [
+            el("div", { class: "carte__tarif" }, [
+              el("p", { class: "prix", texte: prix(option.prix) }),
+              el("p", { class: "attenue carte__duree", texte: `pour ${option.duree}` }),
+            ]),
             el("a", { class: "bouton bouton--or", href: url("pages/contact.html"), texte: "Prendre rendez-vous" }),
           ]),
         ])
@@ -310,6 +365,29 @@ async function rendreSoins() {
     cibles.faq.replaceChildren(
       ...d.faq.map((item) =>
         el("details", {}, [el("summary", { texte: item.q }), el("p", { class: "attenue", texte: item.r })])
+      )
+    );
+  }
+
+  /* ---- L'origine de la pratique ----
+     Des dates, pas des adjectifs : c'est ce qui rend une genealogie
+     verifiable. Elles recoupent la frise de la page Sophie. */
+  if (cibles.origine && d.origine) {
+    cibles.origine.replaceChildren(
+      el("h3", { texte: d.origine.titre }),
+      el("p", { class: "attenue", texte: d.origine.texte }),
+      el(
+        "ol",
+        { class: "jalons" },
+        d.origine.jalons.map((j) =>
+          el("li", { class: "jalons__item" }, [
+            el("span", { class: "jalons__annee", texte: j.annee }),
+            el("div", { class: "jalons__corps" }, [
+              el("p", {}, texteMarque(j.texte, j.marque)),
+              j.motif ? motifATrancher(j.motif) : null,
+            ]),
+          ])
+        )
       )
     );
   }
@@ -509,6 +587,90 @@ const emblemeFil = (nom) =>
     : null;
 
 
+/* Les medaillons de la frise.
+
+   Repris des ronds dessines de son ancienne page « Mon parcours » :
+   un cercle fin qui porte un symbole au trait. Le cercle est trace en
+   CSS (.frise__embleme), le SVG ne porte que le symbole — comme ca un
+   changement de taille ou de couleur se fait a un seul endroit.
+
+   Quatre d'entre eux sont les siens, redessines a la regle : le
+   triangle alchimique, l'oeil, la feuille, le coeur rayonnant. Les
+   cinq autres n'existaient pas et sont composes dans le meme esprit,
+   chacun disant quelque chose de l'etape plutot que de la decorer :
+   deux cercles pour l'accompagnement, trois cercles empiles pour les
+   trois etats du moi de l'Analyse Transactionnelle, un croissant pour
+   la traversee, une rosace a quatre petales pour Reveler-Liberer-
+   Transformer-Creer, une etoile et ses satellites pour ce qui est
+   encore en cours.
+
+   Meme grille que les autres emblemes : viewBox de 48, symbole
+   centre dans 28 unites. */
+const EMBLEMES_FRISE = {
+  /* Alchimie Spirituelle — le triangle et le cercle pointe, le sien. */
+  alchimie:
+    '<path d="M24 11 L36 33 L12 33 Z"/><circle cx="24" cy="27" r="6"/>' +
+    '<circle cx="24" cy="27" r="1.5" fill="currentColor" stroke="none"/>',
+  /* Coach & Team — deux cercles qui se rejoignent : accompagner, c'est
+     etre deux. */
+  accompagnement:
+    '<circle cx="19" cy="24" r="8.5"/><circle cx="29" cy="24" r="8.5"/>',
+  /* Dessin evolutif — l'oeil, le sien : mettre en lumiere ce qui est
+     dans l'ombre. */
+  oeil:
+    '<path d="M11 24 Q24 13.5 37 24 Q24 34.5 11 24 Z"/>' +
+    '<circle cx="24" cy="24" r="4.6"/>' +
+    '<circle cx="24" cy="24" r="1.5" fill="currentColor" stroke="none"/>',
+  /* Analyse Transactionnelle — les trois etats du moi, empiles comme
+     dans le schema d'origine. */
+  "trois-etats":
+    '<circle cx="24" cy="12.6" r="6"/><circle cx="24" cy="24" r="6"/>' +
+    '<circle cx="24" cy="35.4" r="6"/>',
+  /* Communication Non Violente — la feuille, la sienne. */
+  feuille:
+    '<path d="M13 35 C13 22.5 21 14 33 12 C34.5 24 26.5 33 13 35 Z"/>' +
+    '<path d="M13 35 L33 12"/><path d="M18.5 27.5 L24.5 29"/>' +
+    '<path d="M23 21 L28.5 22.5"/>',
+  /* Le tournant — un croissant : une nuit traversee. C'est aussi la
+     forme du sceau du site. */
+  croissant:
+    '<path d="M29 11 A14 14 0 1 0 29 37 A15 15 0 0 1 29 11 Z"/>',
+  /* L'Alchimie du Coeur — le coeur rayonnant, le sien. */
+  "coeur-rayonnant":
+    '<path d="M24 35 C16.5 29.2 12.5 25.6 12.5 21.7 C12.5 18.4 15.2 16.2 18.1 16.2' +
+    ' C20.3 16.2 22.6 17.5 24 19.5 C25.4 17.5 27.7 16.2 29.9 16.2' +
+    ' C32.8 16.2 35.5 18.4 35.5 21.7 C35.5 25.6 31.5 29.2 24 35 Z"/>' +
+    '<path d="M24 11.5 V8 M14.5 13.5 L12.6 10.6 M33.5 13.5 L35.4 10.6' +
+    ' M8.6 19 L5.4 17.8 M39.4 19 L42.6 17.8"/>',
+  /* Sandra Walter — quatre petales : Reveler, Liberer, Transformer,
+     Creer. */
+  rosace:
+    '<g><path d="M24 24 C19 19.5 19 13.5 24 9 C29 13.5 29 19.5 24 24 Z"/>' +
+    '<path d="M24 24 C19 19.5 19 13.5 24 9 C29 13.5 29 19.5 24 24 Z" transform="rotate(90 24 24)"/>' +
+    '<path d="M24 24 C19 19.5 19 13.5 24 9 C29 13.5 29 19.5 24 24 Z" transform="rotate(180 24 24)"/>' +
+    '<path d="M24 24 C19 19.5 19 13.5 24 9 C29 13.5 29 19.5 24 24 Z" transform="rotate(270 24 24)"/></g>',
+  /* En cours — l'etoile du sceau et deux satellites : quelque chose
+     qui se compose encore. */
+  etoiles:
+    '<path d="M24 11 C25.4 19 28 21.6 36 23 C28 24.4 25.4 27 24 35' +
+    ' C22.6 27 20 24.4 12 23 C20 21.6 22.6 19 24 11 Z"/>' +
+    '<circle cx="35.5" cy="34" r="1.6" fill="currentColor" stroke="none"/>' +
+    '<circle cx="13.5" cy="13" r="1.2" fill="currentColor" stroke="none"/>',
+};
+
+const emblemeFrise = (nom) =>
+  EMBLEMES_FRISE[nom]
+    ? el("span", {
+        class: "frise__embleme",
+        "aria-hidden": "true",
+        html:
+          '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor"' +
+          ' stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+          EMBLEMES_FRISE[nom] + "</svg>",
+      })
+    : null;
+
+
 async function rendreSophie() {
   const cibles = {
     presentation: document.querySelector('[data-rendu="sophie-presentation"]'),
@@ -549,6 +711,7 @@ async function rendreSophie() {
     cibles.frise.replaceChildren(
       ...d.frise.map((etape) =>
         el("li", { class: "frise__item" }, [
+          emblemeFrise(etape.embleme),
           el("span", { class: "frise__periode", texte: etape.periode }),
           el("h3", { texte: etape.titre }),
           el("p", { class: "attenue", texte: etape.texte }),
@@ -1146,9 +1309,24 @@ async function rendreVocabulaire() {
 async function rendreArticles() {
   const hoteIntro = document.querySelector('[data-rendu="articles-intro"]');
   const hoteListe = document.querySelector('[data-rendu="articles-liste"]');
-  if (!hoteListe) return;
+  /* La note de lecture est posée en tête de chaque page d'article. Elle
+     vit dans articles.json et non dans le HTML : une seule formulation
+     pour tous, qui se corrige sans rouvrir huit pages. */
+  const hoteNote = document.querySelector('[data-rendu="note-lecture"]');
+  if (!hoteListe && !hoteNote) return;
 
   const d = await donnees("articles");
+
+  if (hoteNote && d.noteLecture) {
+    hoteNote.replaceChildren(
+      el("aside", { class: "note-lecture" }, [
+        el("span", { class: "note-lecture__titre", texte: "Avant de lire" }),
+        el("p", { texte: d.noteLecture }),
+      ])
+    );
+  }
+
+  if (!hoteListe) return;
   if (hoteIntro) hoteIntro.replaceChildren(enteteDeSection(d.intro));
 
   const dateLisible = (iso) => {
@@ -1308,7 +1486,20 @@ async function rendreMiroir() {
          dans la zone vive ferait relire « Continuer » à chaque étape. */
       el("div", { class: "miroir__panneau", "aria-live": "polite" }, [titre, texte]),
     ]),
-    el("p", { class: "attenue miroir__note", texte: d.intro.note })
+    el("p", { class: "attenue miroir__note", texte: d.intro.note }),
+
+    /* D'ou vient l'image. Elle etait posee sans provenance : on la
+       montrait sans dire qu'elle emprunte a deux cadres existants.
+       Le dire la rend plus solide, pas moins — c'est la regle qu'on
+       s'est donnee : ne pas reinventer les termes, et citer ceux
+       qu'on emprunte. */
+    d.intro.origine
+      ? el("aside", { class: "note-lecture miroir__origine" }, [
+          el("span", { class: "note-lecture__titre", texte: d.intro.origine.titre }),
+          el("p", {}, texteMarque(d.intro.origine.texte, d.intro.origine.marque)),
+          d.intro.origine.motif ? motifATrancher(d.intro.origine.motif) : null,
+        ])
+      : null
   );
 
   /* Le pas de la grille : la figure la plus haute, plus une marge.

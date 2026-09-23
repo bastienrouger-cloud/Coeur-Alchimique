@@ -12,14 +12,14 @@
       "chapo": "Des récits, des textes et des ouvrages, pour aborder par l'imaginaire ce que les mots directs n'atteignent pas."
     },
     {
-      "id": "ecouter",
-      "titre": "Écouter",
-      "chapo": "Des méditations et des pratiques guidées, à suivre au casque, allongé·e, quand vous en avez besoin. Tout est en écoute libre."
-    },
-    {
       "id": "pratiquer",
       "titre": "Pratiquer",
       "chapo": "Des exercices et des parcours à faire soi-même, du geste de cinq minutes au cheminement de plusieurs semaines."
+    },
+    {
+      "id": "ecouter",
+      "titre": "Écouter",
+      "chapo": "Des méditations et des pratiques guidées, à suivre au casque, allongé·e, quand vous en avez besoin. Tout est en écoute libre."
     }
   ],
   "items": [

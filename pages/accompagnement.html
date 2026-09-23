@@ -118,11 +118,17 @@
           <span class="surtitre">Deux formules</span>
           <h2>Les soins se déroulent à distance</h2>
           <p class="chapo attenue" style="margin-inline:auto">
-            Même travail de fond, deux façons d'y entrer : vous menez le voyage, ou je le mène pour vous
-            et vous en recevez l'enregistrement.
+            Les deux formules suivent le même chemin. Ce qui change, c'est qui tient
+            la main courante.
           </p>
           <hr class="filet">
         </div>
+
+        <!-- La note d'auto-soin, au-dessus des deux cartes : c'est elle
+             qui dit qui fait le soin, et les deux protocoles se lisent
+             a travers elle. -->
+        <div data-rendu="soins-note"></div>
+
         <div class="grille grille--2" data-rendu="soins-detail"></div>
 
         <!-- Le second chemin, au rang en dessous.
@@ -167,6 +173,7 @@
       </div>
     </section>
 
+
     <!-- L'approche -->
     <section id="methode" data-sommaire="La méthode" class="fondu" style="--de:var(--g4); --vers:var(--g5)" data-theme="sombre">
       <div class="contenu">
@@ -201,6 +208,9 @@
             <p class="attenue">Ouvrir un nouveau chapitre. Créer quelque chose d'ajusté à vous, en accord avec ce qui est bon pour vous à cet instant.</p>
           </div>
         </div>
+
+        <!-- La genealogie de la pratique : des dates, pas des adjectifs. -->
+        <div class="carte mt-l" data-rendu="soins-origine" style="width:100%"></div>
 
         <div class="contenu--etroit mt-l" style="width:100%">
           <p class="citation" style="color:var(--or-clair)">

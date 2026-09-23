@@ -597,6 +597,43 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
 .carte h3 { margin: 0; }
 .carte__pied { margin-top: auto; padding-top: 0.5rem; }
 
+/* Le pied des cartes de soin.
+
+   Prix, duree et bouton s'empilaient sur trois lignes : beaucoup de
+   hauteur pour trois informations courtes, et une carte qui n'en
+   finissait pas apres un protocole deja long. Une seule rangee — le
+   tarif d'un cote, l'action de l'autre — et la duree collee au prix,
+   puisqu'elle le qualifie : « 100 € pour environ 1h30 » se lit d'un
+   trait, alors que deux lignes separees demandent de recoller.
+
+   La classe est un modificateur et pas une reecriture de
+   .carte__pied : ce pied-la sert dans huit rendus differents, dont des
+   cartes sans prix ni bouton. `margin-top: auto` est conserve, c'est
+   lui qui colle le pied en bas quand les deux cartes n'ont pas la
+   meme hauteur. */
+.carte__pied--tarif {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(201, 162, 39, 0.22);
+}
+.carte__tarif { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.45rem; }
+.carte__tarif .prix { margin: 0; }
+.carte__duree { margin: 0; font-size: 0.88rem; }
+.carte__pied--tarif .bouton { margin: 0; flex: none; }
+
+/* Sous 420 px les deux blocs ne tiennent plus cote a cote : le bouton
+   passe dessous et prend toute la largeur, ce qui en fait une cible
+   franche au pouce plutot qu'un bouton perdu a droite. */
+@media (max-width: 420px) {
+  .carte__pied--tarif { justify-content: flex-start; }
+  .carte__pied--tarif .bouton { width: 100%; justify-content: center; }
+}
+
 .carte__media {
   margin: -1.6rem -1.6rem 0.4rem;
   border-radius: var(--rayon) var(--rayon) 0 0;
@@ -1004,6 +1041,54 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
 .prose h2 + p { margin-top: 0.6rem; }
 .prose + .cadre { margin-top: clamp(2.5rem, 6vw, 4rem); }
 
+/* ---- La pratique guidée ----
+
+   Ce n'est plus un texte qu'on lit, c'est une voix qu'on suit les yeux
+   fermés. Elle change donc d'allure : un bloc à part, sur un fond à
+   peine plus clair, des paragraphes plus aérés et plus courts. Les
+   points de suspension sont de Sophie — ce sont les respirations, on
+   n'y touche pas.
+
+   Pas de justification ici : une consigne se lit ligne à ligne, et le
+   drapeau à droite donne à chaque ligne sa longueur propre. */
+.pratique-guidee {
+  margin: clamp(2.5rem, 6vw, 3.5rem) 0;
+  padding: clamp(1.6rem, 4vw, 2.4rem);
+  border-radius: var(--rayon);
+  border: 1px solid rgba(227, 200, 121, 0.22);
+  background: rgba(157, 192, 232, 0.05);
+}
+.pratique-guidee h2 {
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  margin: 0;
+  color: var(--or-pale);
+}
+.pratique-guidee__note {
+  font-size: 0.9rem;
+  color: var(--texte-sombre-fond-attenue);
+  margin: 0.4rem 0 1.8rem;
+}
+.pratique-guidee p {
+  margin: 0 0 1.1rem;
+  line-height: 1.85;
+  max-width: 38rem;
+}
+.pratique-guidee p:last-child { margin-bottom: 0; }
+.pratique-guidee strong { color: var(--or-pale); font-weight: 600; }
+.pratique-guidee__retour {
+  margin: 1.4rem 0 0;
+  padding-left: 1.4rem;
+  display: grid;
+  gap: 0.7rem;
+  line-height: 1.7;
+  max-width: 38rem;
+}
+.pratique-guidee__retour::marker { color: var(--or); }
+[data-theme="clair"] .pratique-guidee { background: rgba(20, 36, 61, 0.04); }
+[data-theme="clair"] .pratique-guidee h2,
+[data-theme="clair"] .pratique-guidee strong { color: #7d6119; }
+[data-theme="clair"] .pratique-guidee__note { color: var(--texte-clair-fond-attenue); }
+
 /* ---------- 10. Le cadre (complément médical) ---------- */
 .cadre {
   border: 1px solid rgba(20, 36, 61, 0.18);
@@ -1049,22 +1134,29 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
 .frise::before {
   content: "";
   position: absolute;
-  left: 7px; top: 8px; bottom: 8px;
+  left: 18px; top: 22px; bottom: 22px;
   width: 2px;
   background: linear-gradient(180deg, var(--bleu-vif), var(--or));
 }
-.frise__item { position: relative; padding-left: 2.4rem; padding-bottom: 2rem; }
+.frise__item { position: relative; padding-left: 3.6rem; padding-bottom: 2.4rem; min-height: 37px; }
 .frise__item:last-child { padding-bottom: 0; }
-.frise__item::before {
-  content: "";
+/* Le medaillon remplace le point. Le cercle est ici, le dessin vient
+   de EMBLEMES_FRISE : une seule declaration pour la taille, la couleur
+   et le fond, quel que soit le symbole. Le fond est opaque expres —
+   c'est lui qui interrompt le rail vertical derriere chaque etape. */
+.frise__embleme {
   position: absolute;
-  left: 0; top: 0.5rem;
-  width: 16px; height: 16px;
+  left: 0; top: 0.1rem;
+  width: 37px; height: 37px;
   border-radius: 50%;
   background: var(--g9);
-  border: 3px solid var(--or);
+  border: 1px solid var(--or);
+  color: var(--or);
+  display: grid;
+  place-items: center;
 }
-[data-theme="sombre"] .frise__item::before { background: var(--bleu-profond); }
+[data-theme="sombre"] .frise__embleme { background: var(--bleu-profond); color: var(--or-clair); }
+.frise__embleme svg { width: 25px; height: 25px; display: block; }
 .frise__periode {
   font-size: 0.76rem;
   font-weight: 700;
@@ -1090,6 +1182,77 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
   color: #7d6119;
 }
 [data-theme="sombre"] .a-renseigner { color: var(--or-clair); }
+
+/* La frise et la carte du fil conducteur se suivaient sans rien entre
+   les deux : le bas de la derniere etape touchait le haut de la carte.
+   La classe .biblio existait dans sophie.html mais n'avait aucune
+   regle — elle en a une maintenant. */
+.biblio { display: flex; flex-direction: column; gap: 3rem; }
+
+/* ---------- Protocoles et jalons ----------
+
+   Les deux protocoles de soin, et la genealogie de la pratique.
+   Numerotation en chiffres dores : `counter` plutot que le marqueur
+   natif de <ol>, parce qu'on veut pouvoir le colorer et le caler sans
+   dependre de ::marker, dont le support reste inegal. */
+.carte--protocole { align-self: start; }
+.protocole__canal {
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--or-clair);
+  margin-bottom: 0.9rem;
+}
+.protocole { list-style: none; counter-reset: etape; margin: 1.4rem 0 0; padding: 0; }
+.protocole > li {
+  counter-increment: etape;
+  position: relative;
+  padding-left: 2.2rem;
+  padding-bottom: 1.1rem;
+}
+.protocole > li:last-child { padding-bottom: 0; }
+.protocole > li::before {
+  content: counter(etape, decimal-leading-zero);
+  position: absolute;
+  left: 0; top: 0.15em;
+  font-family: var(--font-titre);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--or);
+  opacity: 0.85;
+}
+.protocole > li > p { margin: 0; font-size: 0.97rem; }
+.protocole__fin {
+  margin-top: 1.5rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(201, 162, 39, 0.28);
+  font-size: 0.92rem;
+  font-style: italic;
+}
+
+.jalons { list-style: none; margin: 1.3rem 0 0; padding: 0; }
+.jalons__item { display: flex; gap: 1.2rem; padding-bottom: 1.2rem; }
+.jalons__item:last-child { padding-bottom: 0; }
+.jalons__annee {
+  flex: none;
+  width: 6.5rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--or-clair);
+  padding-top: 0.18em;
+}
+.jalons__corps { flex: 1 1 auto; min-width: 0; }
+.jalons__corps p { margin: 0; font-size: 0.97rem; }
+.miroir__origine { margin-top: 2rem; }
+
+/* Sous 640 px la colonne d'annees mange la largeur du texte :
+   on repasse l'item en pile. */
+@media (max-width: 640px) {
+  .jalons__item { display: block; }
+  .jalons__annee { width: auto; display: block; margin-bottom: 0.25rem; padding-top: 0; }
+}
 
 /* ---------- 13. Chaîne (émotions → créativité) ---------- */
 .chaine { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; justify-content: center; margin-top: 1.5rem; }
@@ -1460,6 +1623,78 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
       rgb(from var(--g0) r g b / 0.12) 66%,
       rgb(from var(--g0) r g b / 0.2) 100%);
 }
+
+/* ---- La note de lecture des articles ----
+
+   Un encadré discret en tête d'article : il dit d'où parle le texte
+   avant qu'on le lise, pas après. Filet doré à gauche plutôt qu'un
+   cadre complet — c'est une note, pas un avertissement. */
+.note-lecture {
+  border-left: 2px solid var(--or);
+  padding: 0.1rem 0 0.1rem 1.1rem;
+  margin: 0 0 2.2rem;
+  max-width: 44rem;
+}
+.note-lecture__titre {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--or-clair);
+  margin-bottom: 0.35rem;
+}
+.note-lecture p {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.65;
+  color: var(--texte-sombre-fond-attenue);
+}
+[data-theme="clair"] .note-lecture__titre { color: #7d6119; }
+[data-theme="clair"] .note-lecture p { color: var(--texte-clair-fond-attenue); }
+
+/* ---- Les passages à trancher ----
+
+   Marquage de travail, pas de design : il sert à montrer un texte à
+   Sophie et à décider ensemble. Tout porte la classe `a-trancher`, donc
+   le jour où c'est réglé, un seul mot à chercher pour tout retirer —
+   le marquage et son motif.
+
+   Ambre et non rouge : ce ne sont pas des erreurs, ce sont des
+   questions. */
+mark.a-trancher {
+  background: rgba(227, 160, 60, 0.22);
+  color: inherit;
+  box-shadow: 0 0 0 2px rgba(227, 160, 60, 0.22);
+  border-radius: 2px;
+}
+.a-trancher__motif {
+  margin: 0.7rem 0 1.3rem;
+  padding: 0.7rem 0.95rem;
+  border-left: 3px solid rgba(227, 160, 60, 0.75);
+  background: rgba(227, 160, 60, 0.08);
+  border-radius: 0 4px 4px 0;
+  font-size: 0.87rem;
+  line-height: 1.6;
+  color: var(--texte-sombre-fond-attenue);
+}
+.a-trancher__motif strong {
+  color: #e8a83c;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.74rem;
+}
+/* Le bandeau « en construction » du pied. */
+.pied__chantier {
+  margin: 0 0 1.1rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px dashed rgba(227, 160, 60, 0.45);
+  border-radius: 4px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--texte-sombre-fond-attenue);
+}
+.pied__chantier strong { color: #e8a83c; }
 
 /* ---- Le sceau ---- */
 .sceau-bloc {
