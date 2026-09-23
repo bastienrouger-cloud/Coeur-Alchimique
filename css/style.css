@@ -2334,6 +2334,27 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
    la place. La couverture à gauche, le texte à droite — ce qui raccourcit
    la colonne de texte d'autant, et supprime le défilement dans la
    plupart des cas au lieu de l'habiller. */
+/* La mention de pied quand elle telecharge vraiment.
+
+   `position: relative` la sort du plan du ::after qui rend toute la
+   carte cliquable : sans ca, le clic serait capte par le titre et
+   ouvrirait l'apercu au lieu de telecharger. C'est la seule facon de
+   faire cohabiter une carte entierement cliquable et une action a
+   part dedans. */
+.carte__suite--action {
+  position: relative;
+  z-index: 2;
+  align-self: flex-start;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(227, 200, 121, 0.35);
+  transition: color var(--transition), border-color var(--transition);
+}
+.carte__suite--action:hover,
+.carte__suite--action:focus-visible {
+  color: var(--or-pale);
+  border-bottom-color: var(--or-clair);
+}
+
 .fiche--large { width: min(52rem, calc(100vw - 3rem)); }
 
 .fiche__colonnes { display: grid; gap: 1.6rem; }

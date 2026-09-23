@@ -980,13 +980,25 @@ async function rendreMediatheque() {
     const cible = i.fichier ? url(i.fichier) : i.lien ? (externe ? i.lien : url(`pages/${i.lien}`)) : null;
     const cliquable = cible && !audio;
 
+    /* Un e-book s'ouvre, il ne se telecharge pas d'un clic.
+
+       On a essaye de l'afficher dans la fiche : une visionneuse PDF
+       apporte sa propre barre d'outils, ses vignettes et son zoom, et
+       la loger dans une modale qui a deja une croix et des boutons fait
+       deux interfaces qui se disputent l'ecran — dont une qu'on ne
+       controle pas et qu'on ne peut pas mettre au format du site. Un
+       PDF veut la page entiere : on l'ouvre dans un onglet, la
+       mediatheque reste derriere, et le telechargement redevient un
+       geste a part, sur la mention de pied. */
+    const lisible = !!i.fichier && !audio && /\.pdf$/i.test(i.fichier);
+
     const titre = cliquable
       ? el("h3", {}, [
           el("a", {
             href: cible,
-            download: i.fichier ? "" : null,
-            rel: externe ? "noopener" : null,
-            target: externe ? "_blank" : null,
+            download: i.fichier && !lisible ? "" : null,
+            rel: externe || lisible ? "noopener" : null,
+            target: externe || lisible ? "_blank" : null,
             texte: i.titre,
           }),
         ])
@@ -996,8 +1008,15 @@ async function rendreMediatheque() {
       ? null
       : audio
         ? null
-        : el("span", {
-            class: "carte__suite",
+        : el(i.fichier ? "a" : "span", {
+            /* Quand il y a un fichier, cette mention n'est plus un
+               simple libelle : c'est LE geste de telechargement, separe
+               du clic sur la carte qui, lui, ouvre l'apercu. Il lui faut
+               donc son propre plan — le ::after du titre recouvre la
+               carte entiere et l'avalerait. */
+            class: `carte__suite${i.fichier ? " carte__suite--action" : ""}`,
+            href: i.fichier ? cible : null,
+            download: i.fichier ? "" : null,
             /* Le libellé suit le support annoncé, pas l'extension du
                fichier : les documents libres sont présentés comme des
                e-books gratuits, pas comme des PDF. Si un jour un autre
@@ -1186,6 +1205,7 @@ function etagereDecorative(graine = 0, nombre = 90) {
    empiler une : sinon, dix renvois « voir aussi » demandent dix retours
    en arrière pour sortir de la page.
 */
+
 function creerFiche() {
   const dlg = document.getElementById("fiche");
   if (!dlg) return null;
