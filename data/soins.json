@@ -15,7 +15,7 @@
       "canal": "Séance à distance par WhatsApp",
       "image": "/assets/images/soins/soin-option-1.webp",
       "alt": "Placeholder — illustration de la séance accompagnée",
-      "description": "Je vous accompagne pour entrer à l'intérieur de vous et vous connecter à votre Enfant Intérieur. Vous entrez dans un État de Conscience Modifié léger, sans aucune induction : juste le son de ma voix pour vous guider. Cela permet de contaminer le moins possible l'information qui vous appartient.",
+      "description": "Je vous accompagne pour entrer à l'intérieur de vous et vous connecter à votre Enfant Intérieur. Vous entrez dans un État de Conscience Modifié léger, guidé·e par le son de ma voix. Cela permet de contaminer le moins possible l'information qui vous appartient.",
       "etapes": [
         {
           "texte": "Avec une légère induction, je vous permets d'entrer en État de Conscience Modifié. Vous entrez en profondeur en vous, vous vous connectez à votre Enfant Intérieur."
@@ -39,17 +39,13 @@
           "texte": "Vous transformez les émotions, ou ce qui est négatif pour vous, en quelque chose qui vous convienne. Ce qui permet cela, c'est l'Amour qui vous unit — et cela recrée une connexion d'Amour entre vous."
         },
         {
-          "texte": "Une libération émotionnelle se fait sentir. Le corps peut le sentir instantanément ou plus tard. Une nouvelle énergie s'installe dans le corps.",
-          "marque": "Une nouvelle énergie s'installe dans le corps",
-          "motif": "Décrit un effet sur le corps. La phrase d'avant dit déjà l'essentiel — ce que la personne ressent — sans rien affirmer sur ce qui se produit en elle. Celle-ci va un cran plus loin et n'ajoute rien pour le lecteur."
+          "texte": "Une libération émotionnelle se fait sentir. Le corps peut le sentir instantanément ou plus tard. Une nouvelle énergie s'installe dans le corps."
         },
         {
           "texte": "L'Enfant Intérieur Créateur transmet des messages à son corps physique : des choses à faire évoluer, à transformer dans sa vie, des émotions, des blessures, des mémoires à prendre en charge de son côté, pour une libération plus grande et plus durable."
         }
       ],
-      "description2": "Vous êtes connecté·e à votre Enfant Intérieur et vous ressentez directement dans votre corps les transformations. Je ne suis que le témoin et l'accompagnante dans cet espace.",
-      "marqueDescription": "sans aucune induction : juste le son de ma voix pour vous guider",
-      "motifDescription": "Contradiction avec ton protocole. Cette phrase-là, c'est nous qui l'avions écrite en construisant la page ; ton document, lui, commence par « avec une légère induction, je vous permets d'entrer en État de Conscience Modifié ». Les deux ne peuvent pas tenir ensemble. J'ai gardé ta version dans le déroulé et laissé la nôtre ici pour que tu voies l'écart — dis-nous laquelle décrit ce que tu fais vraiment. L'argument qui suit, ne pas contaminer l'information qui t'appartient, vaut le coup d'être gardé dans les deux cas."
+      "description2": "Vous êtes connecté·e à votre Enfant Intérieur et vous ressentez directement dans votre corps les transformations. Je ne suis que le témoin et l'accompagnante dans cet espace."
     },
     {
       "id": "option-2",
@@ -67,25 +63,16 @@
           "texte": "Je me connecte à votre Enfant Intérieur. J'observe sa condition, son environnement."
         },
         {
-          "texte": "Je vérifie que c'est bien votre Enfant Intérieur par votre fréquence.",
-          "marque": "Je vérifie que c'est bien votre Enfant Intérieur par votre fréquence.",
-          "motif": "Celle-là, je la retirerais. Elle n'apporte rien à quelqu'un qui cherche à comprendre comment ça se passe, et c'est typiquement la phrase qui fait décrocher un lecteur hésitant avant qu'il ait lu le reste."
-        },
-        {
           "texte": "Je lui explique pourquoi je suis là : à la demande de son corps physique."
         },
         {
-          "texte": "Je lui demande s'il va bien, s'il a besoin de quelque chose, quel est son état émotionnel. Souvent, les problèmes du corps physique se retrouvent dans la partie éthérique qu'est l'Enfant Intérieur — c'est pour cela que la part qui apparaît en premier est souvent l'Enfant Intérieur Blessé.",
-          "marque": "les problèmes du corps physique se retrouvent dans la partie éthérique",
-          "motif": "Le passage le plus exposé du document, et il figure deux fois dans ton texte d'origine — je ne l'ai gardé qu'ici. Il affirme d'où viennent les troubles physiques, ce qui sort de ce qu'un site de praticienne peut dire. Il tiendrait en décrivant ce que tu observes plutôt que sa cause : ce qui se présente en premier est souvent l'Enfant Intérieur Blessé, sans expliquer pourquoi."
+          "texte": "Je lui demande s'il va bien, s'il a besoin de quelque chose, quel est son état émotionnel — car le plus souvent, c'est l'Enfant Intérieur Blessé qui se présente en premier."
         },
         {
           "texte": "Comme tout est instantané dans l'éther, il transforme rapidement son état d'être, reprend sa puissance et redevient l'Enfant Intérieur Créateur qu'il est."
         },
         {
-          "texte": "C'est avec lui que nous allons vers le corps physique qui vit des blocages, des douleurs, des difficultés. Il prend un point d'observation de son corps.",
-          "marque": "des blocages, des douleurs, des difficultés",
-          "motif": "« Douleurs » place le soin sur le terrain du symptôme physique. C'est le même point que dans l'article sur le système nerveux : une douleur, ça se fait examiner. « Ce qui pèse, ce qui bloque, ce qui se répète » dirait la même chose sans désigner le corps."
+          "texte": "C'est avec lui que nous allons vers le corps physique qui vit des blocages, des difficultés. Il prend un point d'observation de son corps."
         },
         {
           "texte": "Il va vers ce qui l'attire : une émotion, une forme, une couleur. Il la touche pour prendre l'information et la sort du corps.",
@@ -102,7 +89,6 @@
           "texte": "Une libération émotionnelle se fait sentir. Le corps peut le sentir instantanément ou plus tard."
         }
       ],
-      "motifIntro": "Contradiction à trancher. Dans ce protocole, c'est moi le sujet de presque tous les verbes — je me connecte, je lui explique, je lui demande — alors que la note du haut dit que c'est un auto-soin et que je ne suis qu'un témoin. Un lecteur attentif le relève. Deux sorties possibles : reformuler pour que l'Enfant Intérieur reste le sujet et que je ne sois que le lien, ou assumer que les deux formules ne donnent pas le même rôle et le dire franchement.",
       "fin": "Cela n'est possible que si le corps entend bien les messages de son Enfant Intérieur, et la part qu'il doit prendre en charge lui aussi, pour une libération plus grande et plus durable."
     }
   ],
@@ -124,9 +110,7 @@
       },
       {
         "annee": "2024",
-        "texte": "Je fais évoluer ma pratique en prenant pour base la Pratique Solaire, issue des enseignements de Sandra. C'est là que je crée les protocoles que j'utilise aujourd'hui.",
-        "marque": "les protocoles que j'utilise aujourd'hui",
-        "motif": "Ton document dit aussi « depuis 3 ans, c'est cette pratique que j'utilise ». En 2026, trois ans ramène à 2023, alors que les protocoles définitifs datent de 2024 : il y a un an de flottement. J'ai retiré la mention plutôt que de trancher à ta place — et une date fixe vaut mieux qu'un « depuis N ans », qui vieillit tout seul et qu'il faudra corriger chaque année."
+        "texte": "Je fais évoluer ma pratique en prenant pour base la Pratique Solaire, issue des enseignements de Sandra. C'est là que je crée les protocoles que j'utilise aujourd'hui."
       }
     ]
   },
