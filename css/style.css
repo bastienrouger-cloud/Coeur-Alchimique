@@ -1195,7 +1195,7 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
    Numerotation en chiffres dores : `counter` plutot que le marqueur
    natif de <ol>, parce qu'on veut pouvoir le colorer et le caler sans
    dependre de ::marker, dont le support reste inegal. */
-.carte--protocole { align-self: start; }
+.carte--protocole { align-self: stretch; }
 .protocole__canal {
   font-size: 0.74rem;
   letter-spacing: 0.14em;

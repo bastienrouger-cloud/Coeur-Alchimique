@@ -8,6 +8,30 @@
   "noteLecture": "Cet article fait partie de Cœur Alchimique. Quand j'emploie un mot du vocabulaire médical, c'est pour nommer quelque chose que tout le monde connaît déjà, pas pour inventer un terme de plus ; ce que j'en dis, en revanche, m'appartient — c'est mon approche, née de ma pratique. Elle vient en complément d'un suivi médical ou psychologique, jamais à sa place.",
   "articles": [
     {
+      "id": "remonter-a-l-origine",
+      "titre": "Remonter à l'origine : une exploration intérieure qui change tout !",
+      "resume": "Pourquoi aller à l'origine des blessures émotionnelles plutôt que rester à la surface.",
+      "date": "2026-09-29",
+      "lecture": "5 min",
+      "lien": "article-remonter-a-l-origine.html"
+    },
+    {
+      "id": "l-observation-cle-de-transformation",
+      "titre": "L'observation : une clé de transformation profonde !",
+      "resume": "Devenir observateur et témoin de soi, sans jugement : ce qui se transforme quand on regarde.",
+      "date": "2026-09-29",
+      "lecture": "2 min",
+      "lien": "article-l-observation-cle-de-transformation.html"
+    },
+    {
+      "id": "devenir-libre-et-createur",
+      "titre": "Devenir Libre et Créateur de sa vie !",
+      "resume": "Qu'est-ce qui nous empêche d'être Libre et Créateur de notre Vie ?\\",
+      "date": "2026-09-29",
+      "lecture": "4 min",
+      "lien": "article-devenir-libre-et-createur.html"
+    },
+    {
       "id": "ce-qui-ne-s-exprime-pas-s-imprime",
       "titre": "Ce qui ne s'exprime pas s'imprime",
       "resume": "Une émotion qu'on ne laisse pas passer ne disparaît pas pour autant. Elle se range, elle attend, et elle revient au premier terrain qui lui ressemble.",

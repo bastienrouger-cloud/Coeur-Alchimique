@@ -461,7 +461,10 @@ async function rendreElearnings() {
           el("div", { class: "carte__pied" }, [
             el("p", { class: "prix", texte: prix(p.prix) }),
             el("p", { class: "attenue", texte: p.duree }),
-            el("a", { class: "bouton bouton--or", href: url("pages/contact.html"), texte: "Poser une question" }),
+            p.lien
+              ? el("a", { class: "bouton bouton--or", href: p.lien, target: "_blank", rel: "noopener", texte: "Acheter sur Payhip" })
+              : null,
+            el("a", { class: p.lien ? "bouton bouton--contour" : "bouton bouton--or", href: url("pages/contact.html"), texte: "Poser une question" }),
           ]),
         ])
       )
@@ -872,7 +875,11 @@ async function rendreMediatheque() {
     description: p.description,
     prix: p.prix,
     faits: p.contenu || [],
-    action: { href: url(`pages/e-learnings.html#${p.id}`), texte: "Voir le parcours" },
+    /* Le parcours se vend sur Payhip : la fiche envoie là-bas. Sans lien
+       (parcours pas encore chargé), elle renvoie vers le contact. */
+    action: p.lien
+      ? { href: p.lien, texte: "Acheter sur Payhip", externe: true }
+      : { href: url("pages/contact.html"), texte: "Poser une question" },
   });
 
   const oeuvres = [
@@ -1124,6 +1131,9 @@ async function rendreMediatheque() {
   const cible = location.hash.slice(1);
   const o = oeuvres.find((x) => x.id === cible);
   if (o) ouvrirOeuvre(o, document.getElementById(cible));
+  // Arrivée sur un rayon (#rayon-pratiquer) : les rayons n'existent qu'après
+  // le rendu, le navigateur n'a donc pas pu défiler tout seul jusqu'à eux.
+  else if (cible.startsWith("rayon-")) document.getElementById(cible)?.scrollIntoView();
 }
 
 /* =========================================================
