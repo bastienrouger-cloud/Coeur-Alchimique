@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>L'accompagnement — Cœur Alchimique</title>
-  <meta name="description" content="Le Soin de Libération Émotionnelle : deux formules à distance, 1h30, 100 € ou 85 €. Déroulé, bénéfices, questions fréquentes et cadre de la pratique.">
+  <meta name="description" content="Le Soin de Libération Émotionnelle : deux formules à distance, 1h30, 100 € ou 85 €. Déroulé, questions fréquentes et cadre de la pratique.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Cœur Alchimique">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:title" content="L'accompagnement — Cœur Alchimique">
-  <meta property="og:description" content="Le Soin de Libération Émotionnelle : deux formules à distance, 1h30, 100 € ou 85 €. Déroulé, bénéfices, questions fréquentes et cadre de la pratique.">
+  <meta property="og:description" content="Le Soin de Libération Émotionnelle : deux formules à distance, 1h30, 100 € ou 85 €. Déroulé, questions fréquentes et cadre de la pratique.">
   <meta property="og:url" content="https://bastienrouger-cloud.github.io/Coeur-Alchimique/pages/accompagnement.html">
   <meta property="og:image" content="https://bastienrouger-cloud.github.io/Coeur-Alchimique/assets/images/og-coeur-alchimique.jpg">
   <meta property="og:image:width" content="1200">
@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="../css/style.css">
   <script src="../js/socle.js" defer></script>
   <script src="../js/rendu.js" defer></script>
+  <script src="../js/livre-dor.js" defer></script>
 </head>
 <body>
   <a class="lien-evitement" href="#principal">Aller au contenu</a>
@@ -228,15 +229,71 @@
       </div>
     </section>
 
-    <!-- Bénéfices -->
-    <section id="temoignages" data-sommaire="Témoignages" class="fondu" style="--de:var(--g4); --vers:var(--g3)" data-theme="sombre">
+    <!-- Livre d'or : les messages publiés (visibles à partir de 3) + le formulaire -->
+    <section id="temoignages" data-sommaire="Livre d'or" class="fondu" style="--de:var(--g4); --vers:var(--g3)" data-theme="sombre">
       <div class="contenu">
-        <div class="entete-section centre">
-          <span class="surtitre">Ce que ça change</span>
-          <h2>Ce que les personnes accompagnées rapportent</h2>
-          <hr class="filet">
+        <div data-livre-dor-mur hidden>
+          <div class="entete-section centre">
+            <span class="surtitre">Ce que ça change</span>
+            <h2>Ce qu'en disent les personnes accompagnées</h2>
+            <hr class="filet">
+          </div>
+          <div data-rendu="livre-dor"></div>
         </div>
-        <div class="grille" data-rendu="soins-benefices"></div>
+
+        <div class="contenu--etroit mt-l">
+          <details class="depot-message">
+            <summary>Vous avez fait ce chemin&nbsp;? Laissez un mot</summary>
+
+            <form class="formulaire mt-m" id="form-livre-dor" action="https://formspree.io/f/xwlpyjej" method="POST">
+              <div class="champ">
+                <label for="ld-prenom">Votre prénom ou pseudo <span class="obligatoire" aria-hidden="true">*</span></label>
+                <input type="text" id="ld-prenom" name="prenom" autocomplete="given-name" maxlength="60" required>
+              </div>
+
+              <div class="champ">
+                <label for="ld-message">Votre message <span class="obligatoire" aria-hidden="true">*</span></label>
+                <textarea id="ld-message" name="message" maxlength="2000" required></textarea>
+              </div>
+
+              <div class="champ">
+                <label for="ld-email">Votre adresse mail (facultatif)</label>
+                <input type="email" id="ld-email" name="email" autocomplete="email" aria-describedby="ld-email-aide">
+                <span class="champ__aide attenue" id="ld-email-aide">Ne sera pas publiée.</span>
+              </div>
+
+              <div class="champ champ--case">
+                <input type="checkbox" id="ld-consentement" name="consentement" value="oui" required>
+                <label for="ld-consentement">
+                  J'accepte que mon prénom et mon message soient publiés sur le site après relecture
+                  <span class="obligatoire" aria-hidden="true">*</span>
+                </label>
+              </div>
+
+              <!-- Piège à robots : le champ natif de Formspree. Caché aux humains, jamais rempli par eux. -->
+              <div class="pot-de-miel" aria-hidden="true">
+                <label for="ld-gotcha">Ne pas remplir</label>
+                <input type="text" id="ld-gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
+              </div>
+              <input type="hidden" name="_subject" value="Livre d'or — nouveau message">
+
+              <div>
+                <button class="bouton bouton--or" type="submit">Envoyer mon message</button>
+              </div>
+
+              <div id="livre-dor-statut" class="statut-formulaire" role="status" aria-live="polite"></div>
+            </form>
+
+            <p class="attenue mt-m" style="font-size:.9rem">
+              Les messages sont relus avant publication. Ceux qui présentent l'accompagnement comme un
+              traitement ou un remplacement d'un suivi médical ne sont pas publiés.
+            </p>
+            <p class="attenue" style="font-size:.9rem">
+              Vos données sont traitées comme indiqué dans les
+              <a href="mentions-legales.html#livre-d-or" style="color:var(--or-clair)">mentions légales</a>.
+            </p>
+          </details>
+        </div>
       </div>
     </section>
 

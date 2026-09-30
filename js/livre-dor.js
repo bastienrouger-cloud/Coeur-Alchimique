@@ -1,13 +1,21 @@
 /* =========================================================
-   Livre d'or — affichage des messages et envoi du formulaire.
+   Livre d'or — messages publiés + formulaire d'envoi.
 
-   Les messages publiés vivent dans data/livre-dor.json
-   ({ prenom, date, message }, date au format AAAA-MM-JJ).
-   Le formulaire envoie vers Formspree en fetch : le visiteur
-   reste sur la page. Rien n'est publié automatiquement.
+   Chargé sur deux pages :
+   - Accompagnement : le mur des messages et le formulaire ;
+   - Accueil : une sélection courte.
 
-   Tout ce qui vient du JSON ou du visiteur passe par
-   textContent — jamais par insertion de HTML.
+   Les messages publiés vivent dans data/livre-dor.json :
+   { prenom, date (AAAA-MM-JJ), message, accueil?, extrait? }.
+   `accueil: true` = le message apparaît sur la page d'accueil ;
+   `extrait` = version courte pour l'accueil (sinon le message entier).
+
+   Tant qu'il y a moins de SEUIL_AFFICHAGE messages, le mur et la
+   sélection restent masqués : un livre d'or de un ou deux mots
+   dessert plus qu'il ne sert. Le formulaire, lui, est toujours là.
+
+   Tout ce qui vient du JSON ou du visiteur passe par textContent —
+   jamais par insertion de HTML.
    ========================================================= */
 
 /* Enveloppé dans une fonction : rendu.js, chargé sur la même page,
@@ -16,7 +24,11 @@
 (() => {
 const { el, donnees } = CA;
 
-/* ---------- Affichage des messages ---------- */
+const SEUIL_AFFICHAGE = 3;
+const MAX_ACCUEIL = 3;
+const LONGUEUR_REPLIEE = 320; // au-delà, le message est replié avec « Lire la suite »
+
+/* ---------- Données ---------- */
 
 function formaterDate(iso) {
   // Midi, pour qu'un décalage de fuseau ne change jamais le jour affiché.
@@ -25,43 +37,95 @@ function formaterDate(iso) {
   return new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric" }).format(d);
 }
 
-async function rendreLivreDor() {
-  const hote = document.querySelector('[data-rendu="livre-dor"]');
-  if (!hote) return;
-
-  let messages = [];
+async function chargerMessages() {
   try {
     const d = await donnees("livre-dor");
-    messages = Array.isArray(d.messages) ? d.messages : [];
+    const messages = Array.isArray(d.messages) ? d.messages : [];
+    const valides = messages.filter(
+      (m) => m && typeof m.prenom === "string" && m.prenom.trim() && typeof m.message === "string" && m.message.trim()
+    );
+    // Du plus récent au plus ancien. Le tri est stable : à date égale,
+    // l'ordre du fichier est conservé.
+    return valides.sort((a, b) => String(b.date).localeCompare(String(a.date)));
   } catch (e) {
     console.error("Livre d'or : messages non chargés.", e);
-    return; // on laisse le texte « aucun message » du HTML
+    return [];
+  }
+}
+
+/* ---------- Le mur (page Accompagnement) ---------- */
+
+let compteur = 0;
+
+function carteMessage(m) {
+  const texte = m.message.trim();
+  const dateLisible = formaterDate(m.date);
+  const long = texte.length > LONGUEUR_REPLIEE;
+  const id = `temoignage-${++compteur}`;
+
+  const paragraphe = el("p", { id, texte });
+  const carte = el("article", { class: `temoignage${long ? " temoignage--replie" : ""}` }, [
+    el("blockquote", { class: "temoignage__texte" }, [paragraphe]),
+  ]);
+
+  if (long) {
+    const bouton = el("button", {
+      type: "button",
+      class: "temoignage__suite",
+      "aria-expanded": "false",
+      "aria-controls": id,
+      texte: "Lire la suite",
+    });
+    bouton.addEventListener("click", () => {
+      const ouvert = carte.classList.toggle("temoignage--replie") === false;
+      bouton.setAttribute("aria-expanded", String(ouvert));
+      bouton.textContent = ouvert ? "Réduire" : "Lire la suite";
+    });
+    carte.append(bouton);
   }
 
-  const valides = messages.filter(
-    (m) => m && typeof m.prenom === "string" && m.prenom.trim() && typeof m.message === "string" && m.message.trim()
+  carte.append(
+    el("p", { class: "temoignage__signature" }, [
+      el("cite", { texte: m.prenom.trim() }),
+      dateLisible ? el("span", { texte: " · ", "aria-hidden": "true" }) : null,
+      dateLisible ? el("time", { datetime: m.date, texte: dateLisible }) : null,
+    ])
   );
-  if (!valides.length) return;
+  return carte;
+}
 
-  // Du plus récent au plus ancien. Le tri est stable : à date égale,
-  // l'ordre du fichier est conservé (le plus haut dans le JSON reste en haut).
-  valides.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+function rendreMur(messages) {
+  const hote = document.querySelector('[data-rendu="livre-dor"]');
+  const bloc = document.querySelector("[data-livre-dor-mur]");
+  if (!hote || !bloc || messages.length < SEUIL_AFFICHAGE) return;
 
-  const liste = el("div", { class: "temoignages" });
-  for (const m of valides) {
-    const dateLisible = formaterDate(m.date);
-    liste.append(
-      el("article", { class: "temoignage" }, [
-        el("blockquote", { class: "temoignage__texte" }, [el("p", { texte: m.message.trim() })]),
-        el("p", { class: "temoignage__signature" }, [
-          el("cite", { texte: m.prenom.trim() }),
-          dateLisible ? el("span", { class: "temoignage__sep", texte: " · ", "aria-hidden": "true" }) : null,
-          dateLisible ? el("time", { datetime: m.date, texte: dateLisible }) : null,
-        ]),
-      ])
-    );
-  }
-  hote.replaceChildren(liste);
+  hote.replaceChildren(el("div", { class: "temoignages" }, messages.map(carteMessage)));
+  bloc.hidden = false;
+}
+
+/* ---------- La sélection (page d'accueil) ---------- */
+
+function rendreAccueil(messages) {
+  const hote = document.querySelector('[data-rendu="livre-dor-accueil"]');
+  const bloc = document.querySelector("[data-livre-dor-accueil]");
+  if (!hote || !bloc || messages.length < SEUIL_AFFICHAGE) return;
+
+  const choisis = messages.filter((m) => m.accueil === true).slice(0, MAX_ACCUEIL);
+  if (!choisis.length) return;
+
+  hote.replaceChildren(
+    el(
+      "div",
+      { class: "avis-accueil" },
+      choisis.map((m) =>
+        el("figure", { class: "avis-accueil__item" }, [
+          el("blockquote", {}, [el("p", { texte: (m.extrait || m.message).trim() })]),
+          el("figcaption", { texte: m.prenom.trim() }),
+        ])
+      )
+    )
+  );
+  bloc.hidden = false;
 }
 
 /* ---------- Envoi du formulaire ---------- */
@@ -126,6 +190,11 @@ function brancherFormulaire() {
   });
 }
 
-rendreLivreDor();
+/* ---------- Démarrage ---------- */
+
 brancherFormulaire();
+chargerMessages().then((messages) => {
+  rendreMur(messages);
+  rendreAccueil(messages);
+});
 })();

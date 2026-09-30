@@ -1345,7 +1345,10 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
 .statut-formulaire--succes { border-color: rgba(227, 200, 121, 0.6); background: rgba(227, 200, 121, 0.1); color: var(--or-pale); }
 .statut-formulaire--erreur { border-color: rgba(230, 140, 120, 0.7); background: rgba(230, 140, 120, 0.1); }
 
-.temoignages { display: grid; gap: 1.5rem; }
+/* Un masquage `hidden` ne doit jamais être écrasé par un display de section. */
+[data-livre-dor-mur][hidden], [data-livre-dor-accueil][hidden] { display: none !important; }
+
+.temoignages { display: grid; gap: 1.5rem; max-width: var(--largeur-lecture); margin-inline: auto; }
 .temoignage {
   background: rgba(157, 192, 232, 0.06);
   border: 1px solid rgba(157, 192, 232, 0.16);
@@ -1362,8 +1365,55 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
   line-height: 1.5;
   white-space: pre-line; /* respecte les retours à la ligne du message */
 }
+/* Message long : replié sur 5 lignes tant qu'on n'a pas cliqué « Lire la suite ». */
+.temoignage--replie .temoignage__texte p {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.temoignage__suite {
+  margin-top: 0.6rem;
+  padding: 0.2rem 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--or-clair);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.temoignage__suite:focus-visible { outline: 2px solid var(--or); outline-offset: 3px; }
 .temoignage__signature { margin: 1rem 0 0; font-size: 0.9rem; color: var(--or-clair); }
 .temoignage__signature cite { font-style: normal; font-weight: 600; }
+
+/* Accueil : des citations, pas des cartes — la page en compte déjà beaucoup. */
+.avis-accueil { display: grid; gap: clamp(1.75rem, 4vw, 2.5rem); grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+.avis-accueil__item { margin: 0; text-align: center; }
+.avis-accueil__item blockquote { margin: 0; }
+.avis-accueil__item p {
+  margin: 0;
+  font-family: var(--font-titre);
+  font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+  font-style: italic;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+.avis-accueil__item figcaption { margin-top: 1rem; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em; color: var(--or-clair); }
+
+/* Le formulaire du livre d'or, replié par défaut. */
+.depot-message > summary {
+  cursor: pointer;
+  font-family: var(--font-titre);
+  font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+  color: var(--or-clair);
+  list-style: none;
+}
+.depot-message > summary::-webkit-details-marker { display: none; }
+.depot-message > summary::after { content: " +"; }
+.depot-message[open] > summary::after { content: " –"; }
+.depot-message > summary:focus-visible { outline: 2px solid var(--or); outline-offset: 4px; }
 
 /* ---------- 16. Pied de page ----------
 

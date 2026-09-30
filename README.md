@@ -85,7 +85,7 @@ Un prix, un titre ou une description modifié dans un JSON se répercute partout
 | `sophie.json` | Présentation, frise, citation | Accueil (aperçu) et page Sophie |
 | `mediatheque.json` | Les trois rayons, les documents, les flux | Page Médiathèque |
 | `miroir.json` | Les trois temps du miroir d'eau | Accueil — composant interactif |
-| `livre-dor.json` | Les messages publiés du livre d'or | Page Livre d'or |
+| `livre-dor.json` | Les messages publiés du livre d'or | Page Accompagnement (mur + formulaire) et Accueil (sélection) |
 
 **Exemple :** changer le prix de l'option 1 dans `soins.json` met à jour la carte de l'accueil
 et la fiche détaillée de la page Accompagnement, sans toucher au HTML.
@@ -96,6 +96,11 @@ Les messages arrivent par mail (Formspree) ; rien n'est publié automatiquement.
 ajouter un objet dans `livre-dor.json` → `messages` : `{ "prenom": "…", "date": "AAAA-MM-JJ", "message": "…" }`.
 L'ordre du fichier n'a pas d'importance, la page trie du plus récent au plus ancien. Ne jamais
 y mettre d'adresse e-mail : le dépôt est public.
+
+Deux champs facultatifs : `"accueil": true` fait apparaître le message sur la page d'accueil
+(trois au maximum), et `"extrait"` donne une version courte pour l'accueil. Tant qu'il y a
+moins de 3 messages, le mur et la sélection de l'accueil restent masqués (seuil `SEUIL_AFFICHAGE`
+dans `js/livre-dor.js`).
 
 ### Ajouter un e-learning
 
@@ -578,7 +583,7 @@ Tout est servi depuis le domaine. C'est aussi ce qui permet de se passer de band
 - [ ] Rédiger les CGV (vente de contenus numériques)
 - [ ] Remplacer les 19 placeholders par les vraies images
 - [ ] Renseigner les URL des réseaux sociaux dans `site.json`
-- [x] Trancher la solution de livre d'or (Formspree + publication manuelle) — reste à poser l'ID Formspree dans `pages/livre-d-or.html`
+- [x] Trancher la solution de livre d'or (Formspree + publication manuelle) — ID Formspree posé, envoi testé
 - [ ] Vérifier le site avec PageSpeed Insights
 
 ---

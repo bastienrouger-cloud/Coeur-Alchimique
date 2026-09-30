@@ -296,7 +296,6 @@ async function rendreSoins() {
   const cibles = {
     cartes: document.querySelector('[data-rendu="soins-cartes"]'),
     detail: document.querySelector('[data-rendu="soins-detail"]'),
-    benefices: document.querySelector('[data-rendu="soins-benefices"]'),
     faq: document.querySelector('[data-rendu="soins-faq"]'),
     note: document.querySelector('[data-rendu="soins-note"]'),
     origine: document.querySelector('[data-rendu="soins-origine"]'),
@@ -349,14 +348,6 @@ async function rendreSoins() {
             el("a", { class: "bouton bouton--or", href: url("pages/contact.html"), texte: "Prendre rendez-vous" }),
           ]),
         ])
-      )
-    );
-  }
-
-  if (cibles.benefices) {
-    cibles.benefices.replaceChildren(
-      ...d.benefices.map((b) =>
-        el("div", { class: "carte" }, [el("h4", { texte: b.titre }), el("p", { class: "attenue", texte: b.texte })])
       )
     );
   }

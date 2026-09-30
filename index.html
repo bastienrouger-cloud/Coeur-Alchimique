@@ -26,8 +26,9 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/socle.js" defer></script>
   <script src="js/rendu.js" defer></script>
+  <script src="js/livre-dor.js" defer></script>
 </head>
-<body>
+<body data-entete="fixe">
   <a class="lien-evitement" href="#principal">Aller au contenu</a>
   <div data-partial="entete"></div>
   <noscript>
@@ -329,6 +330,25 @@
       </div>
     </section>
 
+    <!-- 6 bis. La Médiathèque ----------------------------------------- -->
+    <section class="fondu" style="--de:var(--g3); --vers:var(--g3)" data-theme="sombre">
+      <div class="contenu--etroit">
+        <div class="entete-section centre">
+          <span class="surtitre">Tout ce qui se lit, s'écoute et se pratique</span>
+          <h2>La Médiathèque</h2>
+          <hr class="filet">
+        </div>
+        <p class="attenue centre">
+          Vingt ans de pratique déposés en un seul endroit : les documents en accès libre, les livres
+          et les parcours, rangés ensemble par ce qu'on vient y faire. Les documents libres
+          s'ouvrent et se téléchargent directement, sans compte et sans adresse e-mail à laisser.
+        </p>
+        <div class="groupe-boutons" style="justify-content:center">
+          <a class="bouton bouton--contour" href="pages/mediatheque.html">Entrer dans la Médiathèque</a>
+        </div>
+      </div>
+    </section>
+
     <!-- 7. Sophie ---------------------------------------------------- -->
     <section class="fondu halo-or" style="--de:var(--g3); --vers:var(--g2)" data-theme="sombre">
       <div class="contenu">
@@ -350,6 +370,21 @@
           </div>
           <div data-rendu="sophie-apercu"></div>
         </div>
+      </div>
+    </section>
+
+    <!-- 7 bis. Ce qu'en disent les personnes accompagnées (masqué tant qu'il y a moins de 3 messages) -->
+    <section class="fondu" data-livre-dor-accueil hidden style="--de:var(--g2); --vers:var(--g2)" data-theme="sombre" aria-labelledby="titre-avis">
+      <div class="contenu">
+        <div class="entete-section centre">
+          <span class="surtitre">Ce que ça change</span>
+          <h2 id="titre-avis">Ce qu'en disent les personnes accompagnées</h2>
+          <hr class="filet">
+        </div>
+        <div data-rendu="livre-dor-accueil"></div>
+        <p class="centre mt-m">
+          <a class="bouton bouton--contour" href="pages/accompagnement.html#temoignages">Lire tous les messages</a>
+        </p>
       </div>
     </section>
 

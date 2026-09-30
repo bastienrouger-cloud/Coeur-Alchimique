@@ -251,6 +251,10 @@ function activerEnteteEscamotable() {
   const entete = document.querySelector(".entete");
   if (!entete) return;
 
+  // Une page peut demander une barre qui ne s'efface jamais :
+  // <body data-entete="fixe"> (l'accueil).
+  if (document.body.dataset.entete === "fixe") return;
+
   let dernier = window.scrollY;
   let enAttente = false;
 

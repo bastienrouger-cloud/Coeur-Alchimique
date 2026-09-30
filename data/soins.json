@@ -112,32 +112,6 @@
       }
     ]
   },
-  "benefices": [
-    {
-      "titre": "Libérer les émotions bloquées",
-      "texte": "Accueillir ce qui a été retenu."
-    },
-    {
-      "titre": "Retrouver votre équilibre intérieur",
-      "texte": "Vous reconnecter à vous-même et à vos besoins profonds."
-    },
-    {
-      "titre": "Renforcer la confiance en soi",
-      "texte": "Vous rapprocher de votre vérité et de votre puissance intérieure."
-    },
-    {
-      "titre": "Faciliter le lâcher-prise",
-      "texte": "Accepter, laisser partir et avancer avec fluidité."
-    },
-    {
-      "titre": "Augmenter votre énergie",
-      "texte": "Alléger la charge émotionnelle et retrouver de la vitalité."
-    },
-    {
-      "titre": "Reprendre votre pouvoir créateur",
-      "texte": "Redevenir acteur·rice de votre vie."
-    }
-  ],
   "faq": [
     {
       "q": "Combien de séances faut-il ?",
