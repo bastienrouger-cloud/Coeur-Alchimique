@@ -1329,6 +1329,41 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
 .champ--case input { width: 1.15rem; height: 1.15rem; margin-top: 0.3rem; padding: 0; }
 .champ--case label { font-weight: 400; font-size: 0.9rem; }
 .obligatoire { color: var(--or); }
+.champ__aide { font-size: 0.85rem; }
+
+/* Livre d'or : le piège à robots sort de l'écran et de l'arbre d'accessibilité. */
+.pot-de-miel { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.formulaire button[type="submit"]:disabled { opacity: 0.6; cursor: wait; transform: none; }
+.statut-formulaire:empty { display: none; }
+.statut-formulaire {
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--rayon-s);
+  border: 1px solid rgba(157, 192, 232, 0.28);
+  font-size: 0.95rem;
+}
+.statut-formulaire--succes { border-color: rgba(227, 200, 121, 0.6); background: rgba(227, 200, 121, 0.1); color: var(--or-pale); }
+.statut-formulaire--erreur { border-color: rgba(230, 140, 120, 0.7); background: rgba(230, 140, 120, 0.1); }
+
+.temoignages { display: grid; gap: 1.5rem; }
+.temoignage {
+  background: rgba(157, 192, 232, 0.06);
+  border: 1px solid rgba(157, 192, 232, 0.16);
+  border-left: 3px solid var(--or);
+  border-radius: var(--rayon);
+  padding: 1.5rem 1.6rem;
+}
+.temoignage__texte { margin: 0; }
+.temoignage__texte p {
+  margin: 0;
+  font-family: var(--font-titre);
+  font-size: clamp(1.15rem, 2.2vw, 1.35rem);
+  font-style: italic;
+  line-height: 1.5;
+  white-space: pre-line; /* respecte les retours à la ligne du message */
+}
+.temoignage__signature { margin: 1rem 0 0; font-size: 0.9rem; color: var(--or-clair); }
+.temoignage__signature cite { font-style: normal; font-weight: 600; }
 
 /* ---------- 16. Pied de page ----------
 
