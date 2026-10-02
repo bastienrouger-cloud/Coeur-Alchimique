@@ -32,7 +32,7 @@ Puis ouvrir http://localhost:8000. `Ctrl+C` pour arrêter.
 
 - `http://localhost:8000/` (serveur local)
 - `https://<compte>.github.io/<depot>/` (GitHub Pages, dépôt de projet)
-- `https://coeuralchimique.fr/` (domaine perso, plus tard)
+- `https://coeur-alchimique.fr/` (domaine perso, en ligne depuis le 02/10/2026)
 
 Comment : `js/socle.js` déduit la racine du site depuis sa propre URL
 (`new URL("../", script.src)`), et toutes les URL construites en JS passent par `CA.url()`.
@@ -47,7 +47,7 @@ qui les résout, ils sont donc sans danger.
 Le fichier `.nojekyll` à la racine évite que GitHub applique son moteur Jekyll au site.
 
 ### Passer au domaine perso plus tard
-Ajouter un fichier `CNAME` à la racine contenant `coeuralchimique.fr`, puis pointer le DNS.
+Fait : fichier `CNAME` à la racine (`coeur-alchimique.fr`) et DNS chez OVH (4 A + CNAME www vers GitHub).
 Aucun autre changement : les chemins relatifs continuent de fonctionner.
 
 ---

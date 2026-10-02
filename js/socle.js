@@ -9,7 +9,7 @@ const CA = (() => {
   /* La racine du site est déduite de l'emplacement de ce script,
      qui se trouve toujours dans <racine>/js/socle.js.
      Le site fonctionne donc aussi bien à la racine d'un domaine
-     (coeuralchimique.fr) que dans un sous-dossier
+     (coeur-alchimique.fr) que dans un sous-dossier
      (github.io/nom-du-depot/), sans rien changer. */
   const RACINE = (() => {
     const script =
