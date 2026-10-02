@@ -254,7 +254,7 @@ function carteSoin(option) {
     el("div", { class: "carte__pied" }, [
       el("p", { class: "prix", texte: prix(option.prix) }),
       el("p", {}, [
-        el("a", { class: "bouton bouton--contour", href: url("pages/contact.html"), texte: "Prendre rendez-vous" }),
+        el("a", { class: "bouton bouton--contour", href: url("pages/contact.html?motif=soin"), texte: "Prendre rendez-vous" }),
       ]),
     ]),
   ]);
@@ -353,7 +353,7 @@ async function rendreSoins() {
               el("p", { class: "prix", texte: prix(option.prix) }),
               el("p", { class: "attenue carte__duree", texte: `pour ${option.duree}` }),
             ]),
-            el("a", { class: "bouton bouton--or", href: url("pages/contact.html"), texte: "Prendre rendez-vous" }),
+            el("a", { class: "bouton bouton--or", href: url("pages/contact.html?motif=soin"), texte: "Prendre rendez-vous" }),
           ]),
         ])
       )
@@ -463,7 +463,7 @@ async function rendreElearnings() {
             p.lien
               ? el("a", { class: "bouton bouton--or", href: p.lien, target: "_blank", rel: "noopener", texte: "Acheter sur Payhip" })
               : null,
-            el("a", { class: p.lien ? "bouton bouton--contour" : "bouton bouton--or", href: url("pages/contact.html"), texte: "Poser une question" }),
+            el("a", { class: p.lien ? "bouton bouton--contour" : "bouton bouton--or", href: url(`pages/contact.html?motif=parcours&ouvrage=${encodeURIComponent(p.id)}`), texte: "Poser une question" }),
           ]),
         ])
       )
@@ -879,7 +879,7 @@ async function rendreMediatheque() {
        (parcours pas encore chargé), elle renvoie vers le contact. */
     action: p.lien
       ? { href: p.lien, texte: "Acheter sur Payhip", externe: true }
-      : { href: url("pages/contact.html"), texte: "Poser une question" },
+      : { href: url(`pages/contact.html?motif=parcours&ouvrage=${encodeURIComponent(p.id)}`), texte: "Poser une question" },
   });
 
   const oeuvres = [

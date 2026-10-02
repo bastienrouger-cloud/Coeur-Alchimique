@@ -102,6 +102,21 @@ Deux champs facultatifs : `"accueil": true` fait apparaître le message sur la p
 moins de 3 messages, le mur et la sélection de l'accueil restent masqués (seuil `SEUIL_AFFICHAGE`
 dans `js/livre-dor.js`).
 
+### Le formulaire de contact
+
+`pages/contact.html` + `js/contact.js`. Même formulaire Formspree que le livre d'or : c'est
+l'objet du mail (`_subject` : « Contact — Soin », « Contact — Parcours ou livre »,
+« Contact — Autre demande ») qui fait le tri. Le champ d'adresse s'appelle `email` : Formspree
+s'en sert comme adresse de réponse, il suffit de cliquer sur « Répondre ».
+
+Trois motifs ; seul le bloc du motif choisi s'affiche, les autres sont désactivés (rien n'est
+envoyé). Les formules viennent de `soins.json`, la liste des parcours et livres de
+`elearnings.json` et `livres.json`. L'adresse peut pré-choisir le motif :
+`contact.html?motif=soin`, `?motif=parcours&ouvrage=<id>`, `?motif=autre` — les boutons
+« Prendre rendez-vous » et « Poser une question » s'en servent.
+
+Le quota gratuit de Formspree (50 envois par mois) est partagé avec le livre d'or.
+
 ### Ajouter un e-learning
 
 Ajouter un objet dans `elearnings.json` → `programmes`, avec un `id` en minuscules sans accent.
@@ -622,7 +637,7 @@ Ensuite, déclarer le sitemap dans Google Search Console pour accélérer l'inde
 
 À régler avant de retirer le `noindex` :
 
-- [ ] Brancher le formulaire de contact (page à reprendre entièrement)
+- [x] Formulaire de contact refait et branché sur Formspree (02/10) — à tester en ligne après push
 - [ ] Compléter les mentions légales — statut, SIRET, téléphone (adresse et hébergeur faits le 02/10)
 - [ ] Rédiger les CGV (soins à distance, parcours et livres vendus sur Payhip)
 - [x] Notes de chantier masquées pour le public (mode `?chantier`, 02/10)

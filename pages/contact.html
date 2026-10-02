@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="../css/style.css">
   <script src="../js/socle.js" defer></script>
   <script src="../js/rendu.js" defer></script>
+  <script src="../js/contact.js" defer></script>
 </head>
 <body>
   <a class="lien-evitement" href="#principal">Aller au contenu</a>
@@ -49,8 +50,10 @@
 
     <section class="hero fondu halo-haut-gauche" style="--de:var(--g0); --vers:var(--g1)" data-theme="sombre">
       <div class="contenu">
-        <div class="hero__grille">
-          <div>
+        <div class="hero__grille contact">
+
+          <div class="contact__intro">
+            <div class="contact__entete">
             <span class="surtitre">Contact</span>
             <h1>Parlons de votre chemin</h1>
             <p class="chapo attenue">
@@ -62,52 +65,124 @@
               <strong data-site="delaiReponse">Je vous réponds dans les meilleurs délais.</strong><br>
               Ou directement par mail : <a data-site="mailtoEmail" href="mailto:contact@coeur-alchimique.fr" style="color:var(--or-clair)"><span data-site="email">contact@coeur-alchimique.fr</span></a>
             </p>
+            </div>
 
-            <div class="chantier mt-l">
-              <strong>Note de chantier —</strong> le formulaire ci-contre n'envoie encore rien.
-              Il faut le brancher sur un service d'envoi (Formspree, Netlify Forms, Basin…)
-              avant la mise en ligne.
+            <!-- Et ensuite ? Sur mobile, cet encart passe sous le formulaire (CSS). -->
+            <div class="carte contact__suite mt-l">
+              <h2 class="contact__suite-titre">Et ensuite ?</h2>
+              <ol class="etapes">
+                <li class="etape">
+                  <span class="etape__num" aria-hidden="true">1</span>
+                  <div><h3>Vous m'écrivez</h3><p class="attenue">Quelques mots sur ce qui vous amène suffisent.</p></div>
+                </li>
+                <li class="etape">
+                  <span class="etape__num" aria-hidden="true">2</span>
+                  <div><h3>Je vous réponds</h3><p class="attenue">Nous convenons ensemble d'un créneau et de la formule.</p></div>
+                </li>
+                <li class="etape">
+                  <span class="etape__num" aria-hidden="true">3</span>
+                  <div><h3>La séance a lieu à distance</h3><p class="attenue">Par WhatsApp, depuis chez vous.</p></div>
+                </li>
+              </ol>
+              <p class="contact__liens attenue">
+                <a href="accompagnement.html#formules">Les deux formules</a> ·
+                <a href="accompagnement.html#faq">Paiement, annulation et autres questions</a>
+              </p>
             </div>
           </div>
 
           <div>
-            <form class="formulaire" data-formulaire="contact" novalidate>
+            <!-- Même formulaire Formspree que le livre d'or : l'objet du mail
+                 (_subject, posé par js/contact.js) dit d'où vient le message.
+                 Sans JavaScript, le formulaire envoie quand même (page de Formspree). -->
+            <form class="formulaire" id="form-contact" action="https://formspree.io/f/xwlpyjej" method="POST">
+
+              <fieldset class="choix-motif">
+                <legend>Vous écrivez pour… <span class="obligatoire" aria-hidden="true">*</span></legend>
+                <div class="choix-motif__grille">
+                <label class="choix-motif__option">
+                  <input type="radio" name="motif" value="Un soin" data-motif="soin" required>
+                  <span>Un soin</span>
+                </label>
+                <label class="choix-motif__option">
+                  <input type="radio" name="motif" value="Un parcours ou un livre" data-motif="parcours">
+                  <span>Un parcours ou un livre</span>
+                </label>
+                <label class="choix-motif__option">
+                  <input type="radio" name="motif" value="Autre chose" data-motif="autre">
+                  <span>Autre chose</span>
+                </label>
+                </div>
+              </fieldset>
+
+              <!-- Champs propres à un soin. Sans JavaScript, tous les blocs
+                   restent visibles ; avec, seul celui du motif choisi s'affiche. -->
+              <fieldset class="contact__bloc" data-pour="soin">
+                <legend class="sr-only">Votre demande de soin</legend>
+                <div class="champ">
+                  <span class="champ__titre" id="formule-titre">Quelle formule ?</span>
+                  <div class="choix-formule" role="radiogroup" aria-labelledby="formule-titre" data-rendu="contact-formules">
+                    <label class="champ--case"><input type="radio" name="formule" value="Je ne sais pas encore"><span>Je ne sais pas encore</span></label>
+                  </div>
+                </div>
+                <div class="champ">
+                  <label for="disponibilites">Vos disponibilités</label>
+                  <input type="text" id="disponibilites" name="disponibilites" maxlength="200" placeholder="Par exemple : plutôt le soir, ou le mardi">
+                </div>
+                <div class="champ">
+                  <label for="whatsapp">Votre numéro WhatsApp <span class="attenue">(facultatif)</span></label>
+                  <input type="tel" id="whatsapp" name="whatsapp" autocomplete="tel" maxlength="30" aria-describedby="whatsapp-aide">
+                  <span class="champ__aide attenue" id="whatsapp-aide">La séance se fait par WhatsApp. Vous pouvez aussi le donner plus tard.</span>
+                </div>
+              </fieldset>
+
+              <fieldset class="contact__bloc" data-pour="parcours">
+                <legend class="sr-only">Votre question sur un parcours ou un livre</legend>
+                <div class="champ">
+                  <label for="ouvrage">Lequel ?</label>
+                  <select id="ouvrage" name="ouvrage" data-rendu="contact-ouvrages">
+                    <option value="">Précisez dans votre message</option>
+                  </select>
+                </div>
+              </fieldset>
+
               <div class="champ">
                 <label for="prenom">Votre prénom <span class="obligatoire" aria-hidden="true">*</span></label>
-                <input type="text" id="prenom" name="prenom" autocomplete="given-name" required>
+                <input type="text" id="prenom" name="prenom" autocomplete="given-name" maxlength="60" required>
               </div>
 
               <div class="champ">
-                <label for="courriel">Votre adresse mail <span class="obligatoire" aria-hidden="true">*</span></label>
-                <input type="email" id="courriel" name="courriel" autocomplete="email" required>
-              </div>
-
-              <div class="champ">
-                <label for="sujet">Votre demande</label>
-                <select id="sujet" name="sujet">
-                  <option>Prendre rendez-vous pour un soin</option>
-                  <option>Une question sur les e-learnings</option>
-                  <option>Une question sur les livres</option>
-                  <option>Autre sujet</option>
-                </select>
+                <!-- name="email" : Formspree s'en sert comme adresse de réponse,
+                     Sophie n'a qu'à cliquer sur « Répondre ». -->
+                <label for="email">Votre adresse mail <span class="obligatoire" aria-hidden="true">*</span></label>
+                <input type="email" id="email" name="email" autocomplete="email" required>
               </div>
 
               <div class="champ">
                 <label for="message">Votre message <span class="obligatoire" aria-hidden="true">*</span></label>
-                <textarea id="message" name="message" required></textarea>
+                <textarea id="message" name="message" maxlength="4000" required></textarea>
               </div>
 
               <div class="champ champ--case">
-                <input type="checkbox" id="consentement" name="consentement" required>
+                <input type="checkbox" id="consentement" name="consentement" value="oui" required>
                 <label for="consentement">
                   J'accepte que mes informations soient utilisées pour répondre à ma demande.
-                  Elles ne seront ni cédées ni utilisées à d'autres fins.
+                  Elles ne seront ni cédées ni utilisées à d'autres fins
+                  (<a href="mentions-legales.html#donnees">en savoir plus</a>).
                 </label>
               </div>
+
+              <!-- Piège à robots : le champ natif de Formspree. Caché aux humains, jamais rempli par eux. -->
+              <div class="pot-de-miel" aria-hidden="true">
+                <label for="ct-gotcha">Ne pas remplir</label>
+                <input type="text" id="ct-gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
+              </div>
+              <input type="hidden" name="_subject" value="Contact — nouveau message">
 
               <div>
                 <button class="bouton bouton--or" type="submit">Envoyer</button>
               </div>
+              <div id="contact-statut" class="statut-formulaire" role="status" aria-live="polite"></div>
             </form>
           </div>
         </div>

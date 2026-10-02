@@ -3022,3 +3022,64 @@ html:not(.mode-chantier) mark.a-trancher {
 .badge-chantier strong { color: #e8a83c; }
 .badge-chantier:hover,
 .badge-chantier:focus-visible { border-style: solid; }
+
+/* ---------- Page Contact ---------- */
+.hero__grille.contact { align-items: start; }
+
+.contact__suite { gap: 1rem; }
+.contact__suite:hover { transform: none; }
+.contact__suite-titre { font-size: 1.45rem; margin: 0; }
+.contact__suite .etapes { list-style: none; padding: 0; margin: 0; gap: 1rem; }
+.contact__suite .etape h3 { font-size: 1.1rem; }
+.contact__liens { margin: 0; font-size: 0.9rem; }
+.contact__liens a { color: var(--or-clair); }
+
+/* « Vous écrivez pour… » : trois cases larges plutôt qu'une liste déroulante.
+   Le bouton radio reste dans la case (opacité nulle), donc accessible au
+   clavier et au lecteur d'écran ; la case entière est la zone de clic. */
+.choix-motif { border: 0; padding: 0; margin: 0; min-width: 0; }
+.choix-motif legend { padding: 0; margin-bottom: 0.55rem; font-size: 0.9rem; font-weight: 600; }
+.choix-motif__grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+.choix-motif__option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 3.6rem;
+  padding: 0.7rem 0.6rem;
+  border: 1px solid rgba(157, 192, 232, 0.28);
+  border-radius: var(--rayon-s);
+  background: rgba(157, 192, 232, 0.06);
+  font-size: 0.92rem;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition), color var(--transition);
+}
+.choix-motif__option input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.choix-motif__option:hover { border-color: rgba(227, 200, 121, 0.45); }
+.choix-motif__option:has(input:checked) {
+  border-color: var(--or);
+  background: rgba(227, 200, 121, 0.12);
+  color: var(--or-pale);
+}
+.choix-motif__option:has(input:focus-visible) { outline: 2px solid var(--or); outline-offset: 3px; }
+@media (max-width: 480px) {
+  .choix-motif__grille { grid-template-columns: 1fr; }
+  .choix-motif__option { min-height: 0; justify-content: flex-start; text-align: left; }
+}
+
+.contact__bloc { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: 1.1rem; }
+.contact__bloc[hidden] { display: none; }
+.champ__titre { font-size: 0.9rem; font-weight: 600; }
+.choix-formule { display: grid; gap: 0.55rem; }
+.choix-formule label { font-weight: 400; font-size: 0.95rem; }
+#form-contact input[type="radio"],
+#form-contact input[type="checkbox"] { accent-color: var(--or); }
+
+/* Sur mobile, on écrit d'abord : le formulaire remonte avant « Et ensuite ? ».
+   display: contents fait des deux blocs de l'intro des éléments de la grille. */
+@media (max-width: 900px) {
+  .contact__intro { display: contents; }
+  .contact__suite { order: 1; margin-top: 0; }
+}
