@@ -522,10 +522,11 @@ injectée en JS. Google exécute le JS, donc en pratique il suit ; les autres no
 texte nu. L'image (`assets/images/og-coeur-alchimique.jpg`, 1200×630) est générée par
 script depuis la photo du hero et le sceau, dans la police du site — donc reproductible.
 
-> **À changer le jour du domaine perso.** Les URL `og:url`, `canonical` et celles du
-> sitemap pointent en dur sur `bastienrouger-cloud.github.io/Coeur-Alchimique/`. Elles
-> doivent devenir `coeuralchimique.fr` au basculement, sinon Google continue d'indexer
-> l'ancienne adresse. C'est le seul endroit du site qui n'est pas indépendant de sa racine.
+> **Domaine : `coeur-alchimique.fr` (avec un tiret).** Les URL `og:url`, `canonical`, `og:image`
+> et celles du sitemap et de `robots.txt` pointent en dur sur `https://coeur-alchimique.fr/`
+> (basculé le 02/10/2026). C'est le seul endroit du site qui n'est pas indépendant de sa racine.
+> Le fichier `CNAME` (à la racine du dépôt, contenant `coeur-alchimique.fr`) se crée au moment
+> où les DNS pointent sur GitHub Pages — pas avant, sinon l'ancienne adresse redirige dans le vide.
 
 **Un `<noscript>`** en tête de chaque page : sans JavaScript il n'y a ni en-tête ni menu,
 donc au minimum une barre qui liste les pages en liens directs.
