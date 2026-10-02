@@ -3,7 +3,7 @@
     "surtitre": "Les mots que j'emploie",
     "titre": "Vocabulaire",
     "chapo": "J'utilise des mots qui m'appartiennent, hérités de vingt ans de pratique. Certains sont de moi, d'autres existaient bien avant — je ne les réinvente pas, je dis ce que je mets derrière quand je les emploie dans mes soins. Aucun n'est un terme médical, aucun ne désigne un diagnostic.",
-    "note": "Ouvrez un mot pour en lire la définition."
+    "note": "Ouvrez un mot pour lire sa définition en entier."
   },
   "termes": [
     {
@@ -13,7 +13,8 @@
       "voirAussi": [
         "enfant-interieur-blesse",
         "coeur-alchimique"
-      ]
+      ],
+      "famille": "pratique"
     },
     {
       "id": "enfant-interieur",
@@ -22,7 +23,8 @@
       "voirAussi": [
         "enfant-interieur-blesse",
         "enfant-interieur-createur"
-      ]
+      ],
+      "famille": "parts"
     },
     {
       "id": "enfant-interieur-blesse",
@@ -32,7 +34,8 @@
         "enfant-interieur",
         "enfant-interieur-createur",
         "masque-social"
-      ]
+      ],
+      "famille": "parts"
     },
     {
       "id": "enfant-interieur-createur",
@@ -41,7 +44,8 @@
       "voirAussi": [
         "enfant-interieur-blesse",
         "puissance-creatrice"
-      ]
+      ],
+      "famille": "parts"
     },
     {
       "id": "moi-superieur",
@@ -50,7 +54,8 @@
       "voirAussi": [
         "enfant-interieur-createur",
         "puissance-creatrice"
-      ]
+      ],
+      "famille": "parts"
     },
     {
       "id": "masque-social",
@@ -58,7 +63,8 @@
       "definition": "Le mental et l'ego réunis : la part qui tient la place et protège l'Enfant Intérieur Blessé. Elle donne de la contenance, elle sait quoi répondre. Il n'est pas votre ennemi et il ne disparaît jamais — il a souvent tenu la maison pendant des années. Ce qui change, c'est que non seulement il n'est plus seul à porter, mais qu'il reprend sa véritable place aux côtés de l'Enfant Intérieur Créateur.",
       "voirAussi": [
         "enfant-interieur-blesse"
-      ]
+      ],
+      "famille": "parts"
     },
     {
       "id": "coeur-alchimique",
@@ -67,7 +73,8 @@
       "voirAussi": [
         "transmutation",
         "soin-de-liberation-emotionnelle"
-      ]
+      ],
+      "famille": "alchimie"
     },
     {
       "id": "transmutation",
@@ -76,7 +83,8 @@
       "voirAussi": [
         "coeur-alchimique",
         "cristallisation"
-      ]
+      ],
+      "famille": "alchimie"
     },
     {
       "id": "cristallisation",
@@ -85,7 +93,8 @@
       "voirAussi": [
         "memoire-emotionnelle",
         "transmutation"
-      ]
+      ],
+      "famille": "memoires"
     },
     {
       "id": "memoire-emotionnelle",
@@ -94,7 +103,8 @@
       "voirAussi": [
         "cristallisation",
         "enfant-interieur"
-      ]
+      ],
+      "famille": "memoires"
     },
     {
       "id": "blessure-d-incarnation",
@@ -103,7 +113,8 @@
       "voirAussi": [
         "enfant-interieur-blesse",
         "memoire-emotionnelle"
-      ]
+      ],
+      "famille": "memoires"
     },
     {
       "id": "therapie-holistique",
@@ -111,7 +122,8 @@
       "definition": "« Holistique » veut dire qui considère l'ensemble. Je ne prends pas une émotion isolément, mais la personne entière : ce qu'elle ressent, ce qu'elle croit, son histoire, son élan. J'ai réuni plusieurs outils dans une méthode que j'appelle Cœur Alchimique : l'Art-thérapie Alchimique, l'Analyse Transactionnelle, la Communication Non Violente, l'intelligence émotionnelle. Ce n'est ni une spécialité médicale ni une psychothérapie — c'est un accompagnement, qui se mène à côté de vos suivis et non à leur place.",
       "voirAussi": [
         "soin-de-liberation-emotionnelle"
-      ]
+      ],
+      "famille": "pratique"
     },
     {
       "id": "puissance-creatrice",
@@ -119,7 +131,8 @@
       "definition": "Votre capacité à faire, à choisir, à inventer votre vie plutôt qu'à la subir. Je parle aussi de Force de Vie. C'est ce qui se remet à circuler quand l'Enfant Intérieur Créateur reprend sa place.",
       "voirAussi": [
         "enfant-interieur-createur"
-      ]
+      ],
+      "famille": "alchimie"
     },
     {
       "id": "mal-a-dit",
@@ -127,7 +140,26 @@
       "definition": "Un jeu de mots que j'aime : ce qui n'a pas pu se dire continue de travailler en nous et finit par se faire entendre autrement. C'est une image, pas une théorie médicale — je n'établis aucun diagnostic et je n'attribue aucune cause à quoi que ce soit.",
       "voirAussi": [
         "cristallisation"
-      ]
+      ],
+      "famille": "memoires"
+    }
+  ],
+  "familles": [
+    {
+      "id": "parts",
+      "titre": "Les parts de soi"
+    },
+    {
+      "id": "memoires",
+      "titre": "Ce qui se garde"
+    },
+    {
+      "id": "alchimie",
+      "titre": "Ce qui se transforme"
+    },
+    {
+      "id": "pratique",
+      "titre": "La pratique"
     }
   ]
 }

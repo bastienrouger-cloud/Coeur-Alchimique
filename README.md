@@ -102,6 +102,28 @@ Deux champs facultatifs : `"accueil": true` fait apparaître le message sur la p
 moins de 3 messages, le mur et la sélection de l'accueil restent masqués (seuil `SEUIL_AFFICHAGE`
 dans `js/livre-dor.js`).
 
+### Le vocabulaire
+
+`vocabulaire.json` : `familles` (les groupes du lexique de la Médiathèque, dans l'ordre) et
+`termes` (chacun avec sa `famille`). Le lexique affiche la première phrase de chaque
+définition ; la fiche montre le texte entier.
+
+**Les mots se branchent seuls dans les pages.** Dans toute zone marquée `data-vocabulaire`
+(le `<article>` de chaque article, le `<main>` de l'accueil et d'Accompagnement), la première
+apparition de chaque terme devient un mot souligné en pointillé qui ouvre sa définition
+(`lierVocabulaire()` en fin de `rendu.js`). Pluriel en « s/x » toléré, insensible à la casse ;
+jamais dans un titre, un lien, un bouton, le hero ou un en-tête de section. Pour exclure une
+zone à la main : `data-sans-vocabulaire`. Un mot ajouté au JSON se branche partout.
+
+### Un audio rattaché à un article
+
+Dans `articles.json`, le champ `"audio": "<id d'un item de mediatheque.json>"`. L'article
+affiche le lecteur là où se trouve `<div data-rendu="article-audio"></div>` (titre modifiable
+avec `data-intitule`), et la carte de l'audio dans la Médiathèque reçoit un lien « Lire
+l'article ». Le lien n'est écrit qu'une fois.
+
+L'encart « Avant de lire » des articles a été retiré le 02/10 (le cadre est dans le pied de page).
+
 ### Le formulaire de contact
 
 `pages/contact.html` + `js/contact.js`. Même formulaire Formspree que le livre d'or : c'est

@@ -254,7 +254,7 @@ function carteSoin(option) {
     el("div", { class: "carte__pied" }, [
       el("p", { class: "prix", texte: prix(option.prix) }),
       el("p", {}, [
-        el("a", { class: "bouton bouton--contour", href: url("pages/contact.html?motif=soin"), texte: "Prendre rendez-vous" }),
+        el("a", { class: "bouton bouton--contour", href: url("pages/contact.html?motif=soin"), "data-ancre-rdv": "", texte: "Prendre rendez-vous" }),
       ]),
     ]),
   ]);
@@ -353,7 +353,7 @@ async function rendreSoins() {
               el("p", { class: "prix", texte: prix(option.prix) }),
               el("p", { class: "attenue carte__duree", texte: `pour ${option.duree}` }),
             ]),
-            el("a", { class: "bouton bouton--or", href: url("pages/contact.html?motif=soin"), texte: "Prendre rendez-vous" }),
+            el("a", { class: "bouton bouton--or", href: url("pages/contact.html?motif=soin"), "data-ancre-rdv": "", texte: "Prendre rendez-vous" }),
           ]),
         ])
       )
@@ -777,6 +777,7 @@ document.addEventListener("ca:socle-pret", async () => {
     .then(() => {
       // Les rayons de la médiathèque n'existaient pas au premier passage.
       if (typeof activerSommaire === "function") activerSommaire();
+      return lierVocabulaire();
     })
     .catch((e) => console.error("Erreur de rendu :", e));
 });
@@ -802,11 +803,14 @@ async function rendreMediatheque() {
   };
   if (!hotes.rayons) return;
 
-  const [d, livres, elearnings] = await Promise.all([
+  const [d, livres, elearnings, articles] = await Promise.all([
     donnees("mediatheque"),
     donnees("livres"),
     donnees("elearnings"),
+    donnees("articles"),
   ]);
+  // audio → article qui le contient (noté côté articles.json, champ `audio`)
+  const articleDeLAudio = new Map(articles.articles.filter((a) => a.audio).map((a) => [a.audio, a]));
 
   if (hotes.intro) {
     hotes.intro.replaceChildren(
@@ -1075,6 +1079,13 @@ async function rendreMediatheque() {
                   texte: "Télécharger",
                 })
               : null,
+            audio && articleDeLAudio.has(i.id)
+              ? el("a", {
+                  class: "media__telecharger",
+                  href: url(`pages/${articleDeLAudio.get(i.id).lien}`),
+                  texte: "Lire l'article",
+                })
+              : null,
           ]),
           i.aRenseigner
             ? el("span", { class: "a-renseigner", texte: `À renseigner : ${i.aRenseigner}` })
@@ -1217,8 +1228,24 @@ function etagereDecorative(graine = 0, nombre = 90) {
 */
 
 function creerFiche() {
-  const dlg = document.getElementById("fiche");
-  if (!dlg) return null;
+  let dlg = document.getElementById("fiche");
+  /* Les pages qui n'ont pas la fiche dans leur HTML (articles, accueil,
+     accompagnement) la reçoivent ici, à l'identique : c'est elle qui
+     affiche une définition quand on touche un mot souligné. */
+  if (!dlg) {
+    dlg = el("dialog", { class: "fiche", id: "fiche", "aria-labelledby": "fiche-titre" }, [
+      el("form", { method: "dialog", class: "fiche__fermer-forme" }, [
+        el("button", {
+          class: "fiche__fermer",
+          type: "submit",
+          "aria-label": "Fermer",
+          html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+        }),
+      ]),
+      el("div", { class: "fiche__corps", "data-fiche-corps": "" }),
+    ]);
+    (document.querySelector("main") || document.body).append(dlg);
+  }
   const corps = dlg.querySelector("[data-fiche-corps]");
   let origine = null;
 
@@ -1268,6 +1295,53 @@ function enteteDeSection(intro) {
   ]);
 }
 
+/* Ouvrir la définition d'un mot dans la fiche. Partagé entre le
+   vocabulaire de la Médiathèque et les mots soulignés des pages. */
+async function ouvrirMot(id, declencheur) {
+  const d = await donnees("vocabulaire");
+  const parId = new Map(d.termes.map((t) => [t.id, t]));
+  const t = parId.get(id);
+  const f = fiche();
+  if (!t || !f) return;
+  const surLaMediatheque = !!document.querySelector('[data-rendu="vocabulaire-termes"]');
+  f.ouvrir(
+    [
+      el("h3", { id: "fiche-titre", tabindex: "-1", texte: t.terme }),
+      el("p", { texte: t.definition }),
+      (t.voirAussi || []).length
+        ? el("div", { class: "fiche__voir-aussi" }, [
+            el("span", { class: "surtitre", texte: "Voir aussi" }),
+            el(
+              "ul",
+              {},
+              t.voirAussi
+                .filter((autre) => parId.has(autre))
+                .map((autre) =>
+                  el("li", {}, [
+                    el("button", {
+                      type: "button",
+                      class: "fiche__renvoi",
+                      texte: parId.get(autre).terme,
+                      onclick: () => ouvrirMot(autre),
+                    }),
+                  ])
+                )
+            ),
+          ])
+        : null,
+      surLaMediatheque
+        ? null
+        : el("p", { class: "fiche__tout" }, [
+            el("a", { href: url("pages/mediatheque.html#vocabulaire"), texte: "Tout le vocabulaire →" }),
+          ]),
+    ],
+    { declencheur, hash: surLaMediatheque ? `mot-${id}` : null }
+  );
+}
+
+/* La première phrase d'une définition, pour l'aperçu du lexique. */
+const premierePhrase = (texte) => (texte.match(/^.*?[.!?…](?=\s|$)/) || [texte])[0];
+
 async function rendreVocabulaire() {
   const hoteIntro = document.querySelector('[data-rendu="vocabulaire-intro"]');
   const hoteTermes = document.querySelector('[data-rendu="vocabulaire-termes"]');
@@ -1275,56 +1349,51 @@ async function rendreVocabulaire() {
 
   const d = await donnees("vocabulaire");
   const parId = new Map(d.termes.map((t) => [t.id, t]));
-  const f = fiche();
+  const ouvrir = (id, declencheur) => ouvrirMot(id, declencheur);
 
   if (hoteIntro) hoteIntro.replaceChildren(enteteDeSection(d.intro));
 
-  const ouvrir = (id, declencheur) => {
-    const t = parId.get(id);
-    if (!t || !f) return;
-    f.ouvrir(
-      [
-        el("h3", { id: "fiche-titre", tabindex: "-1", texte: t.terme }),
-        el("p", { texte: t.definition }),
-        (t.voirAussi || []).length
-          ? el("div", { class: "fiche__voir-aussi" }, [
-              el("span", { class: "surtitre", texte: "Voir aussi" }),
-              el(
-                "ul",
-                {},
-                t.voirAussi
-                  .filter((autre) => parId.has(autre))
-                  .map((autre) =>
-                    el("li", {}, [
-                      el("button", {
-                        type: "button",
-                        class: "fiche__renvoi",
-                        texte: parId.get(autre).terme,
-                        onclick: () => ouvrir(autre),
-                      }),
-                    ])
-                  )
-              ),
-            ])
-          : null,
-      ],
-      { declencheur, hash: `mot-${id}` }
-    );
-  };
+  /* Un lexique rangé par familles plutôt qu'une rangée de pastilles :
+     chaque mot montre la première phrase de sa définition, on ouvre la
+     fiche pour lire la suite. Un terme sans famille connue atterrit
+     dans un dernier groupe, il ne disparaît pas. */
+  const familles = [...(d.familles || [])];
+  const connues = new Set(familles.map((f) => f.id));
+  if (d.termes.some((t) => !connues.has(t.famille))) familles.push({ id: "_autres", titre: "Autres mots" });
 
   hoteTermes.replaceChildren(
     el(
       "div",
-      { class: "mots" },
-      d.termes.map((t) =>
-        el("button", {
-          type: "button",
-          class: "mot",
-          id: `mot-${t.id}`,
-          texte: t.terme,
-          onclick: (e) => ouvrir(t.id, e.currentTarget),
+      { class: "lexique" },
+      familles
+        .map((fam) => {
+          const termes = d.termes.filter((t) =>
+            fam.id === "_autres" ? !connues.has(t.famille) : t.famille === fam.id
+          );
+          if (!termes.length) return null;
+          return el("section", { class: "lexique__famille", "aria-label": fam.titre }, [
+            el("h3", { class: "lexique__titre", texte: fam.titre }),
+            el(
+              "ul",
+              { class: "lexique__liste" },
+              termes.map((t) =>
+                el("li", {}, [
+                  el("button", {
+                    type: "button",
+                    class: "lexique__mot",
+                    id: `mot-${t.id}`,
+                    "aria-haspopup": "dialog",
+                    onclick: (e) => ouvrir(t.id, e.currentTarget),
+                  }, [
+                    el("span", { class: "lexique__terme", texte: t.terme }),
+                    el("span", { class: "lexique__apercu", texte: premierePhrase(t.definition) }),
+                  ]),
+                ])
+              )
+            ),
+          ]);
         })
-      )
+        .filter(Boolean)
     ),
     etagereDecorative(3)
   );
@@ -1339,21 +1408,34 @@ async function rendreVocabulaire() {
 async function rendreArticles() {
   const hoteIntro = document.querySelector('[data-rendu="articles-intro"]');
   const hoteListe = document.querySelector('[data-rendu="articles-liste"]');
-  /* La note de lecture est posée en tête de chaque page d'article. Elle
-     vit dans articles.json et non dans le HTML : une seule formulation
-     pour tous, qui se corrige sans rouvrir huit pages. */
-  const hoteNote = document.querySelector('[data-rendu="note-lecture"]');
-  if (!hoteListe && !hoteNote) return;
+  /* L'encart « Avant de lire » a été retiré le 02/10 : le cadre est dit
+     dans le pied de page et les mentions légales, et les mots du
+     vocabulaire sont maintenant cliquables dans le texte. */
+  const hoteAudio = document.querySelector('[data-rendu="article-audio"]');
+  if (!hoteListe && !hoteAudio) return;
 
   const d = await donnees("articles");
 
-  if (hoteNote && d.noteLecture) {
-    hoteNote.replaceChildren(
-      el("aside", { class: "note-lecture" }, [
-        el("span", { class: "note-lecture__titre", texte: "Avant de lire" }),
-        el("p", { texte: d.noteLecture }),
-      ])
-    );
+  /* La pratique guidée en audio, dans l'article qui la décrit. Le lien
+     article → audio est noté UNE fois, dans articles.json (`audio`) ;
+     la carte de la Médiathèque le relit dans l'autre sens. */
+  if (hoteAudio) {
+    const page = (location.pathname.split("/").pop() || "").toLowerCase();
+    const article = d.articles.find((a) => (a.lien || "").toLowerCase() === page);
+    const media = article && article.audio ? await donnees("mediatheque") : null;
+    const item = media && media.items.find((i) => i.id === article.audio);
+    if (item) {
+      hoteAudio.replaceChildren(
+        el("figure", { class: "audio-pratique" }, [
+          el("figcaption", {}, [
+            el("span", { class: "surtitre", texte: hoteAudio.dataset.intitule || "Écouter la pratique guidée" }),
+            el("span", { class: "audio-pratique__titre", texte: item.titre }),
+            item.detail ? el("span", { class: "media__detail", texte: item.detail }) : null,
+          ]),
+          el("audio", { class: "lecteur", controls: "", preload: "none", src: url(item.fichier) }),
+        ])
+      );
+    }
   }
 
   if (!hoteListe) return;
@@ -1557,5 +1639,83 @@ async function rendreMiroir() {
        rompt autrement, ce qui est exactement le moment où le pas doit
        être recalculé. */
     new ResizeObserver(ajusterPas).observe(figures[d.figures[0].id].n);
+  }
+}
+
+/* =========================================================
+   Les mots du vocabulaire, cliquables dans le texte
+
+   Dans toute zone marquée [data-vocabulaire] (le corps des articles,
+   l'accueil, l'accompagnement), la PREMIÈRE apparition de chaque mot de
+   vocabulaire.json devient un bouton souligné en pointillé, qui ouvre
+   sa définition dans la fiche. Rien à baliser à la main : un mot ajouté
+   au vocabulaire se branche partout tout seul.
+
+   - Les expressions longues passent en premier, et un mot court ne
+     mord pas dans une plus longue : « Enfant Intérieur » ne se pose pas
+     au début de « Enfant Intérieur Blessé ».
+   - Pluriels tolérés (un « s » ou un « x » en fin de mot), apostrophe
+     droite ou courbe, insensible à la casse.
+   - Jamais dans un titre, un lien, un bouton, le hero, une note de
+     chantier : [data-sans-vocabulaire] exclut une zone à la main.
+   ========================================================= */
+async function lierVocabulaire() {
+  const zones = [...document.querySelectorAll("[data-vocabulaire]")];
+  if (!zones.length) return;
+  const d = await donnees("vocabulaire");
+
+  const echapper = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const motif = (terme) =>
+    terme
+      .split(/\s+/)
+      .map((mot) => echapper(mot).replace(/'/g, "['’]") + (mot.length > 3 ? "[sx]?" : ""))
+      .join("[\\s\u00a0]+");
+
+  const termes = [...d.termes].sort((a, b) => b.terme.length - a.terme.length);
+  const regles = termes.map((t) => {
+    // Les expressions plus longues qui commencent par ce mot : on ne
+    // veut pas les couper en deux.
+    const suites = termes
+      .filter((l) => l !== t && l.terme.toLowerCase().startsWith(t.terme.toLowerCase() + " "))
+      .map((l) => motif(l.terme.slice(t.terme.length).trim()));
+    const garde = suites.length ? `(?![\\s\u00a0]+(?:${suites.join("|")}))` : "";
+    return {
+      id: t.id,
+      re: new RegExp(`(?<![\\p{L}\\p{N}-])${motif(t.terme)}(?![\\p{L}\\p{N}-])${garde}`, "iu"),
+    };
+  });
+
+  const EXCLUS =
+    "a, button, h1, h2, h3, h4, h5, h6, label, mark, nav, svg, dialog, figcaption, .hero, .surtitre, " +
+    ".entete-section, .chantier, .a-renseigner, .a-trancher__motif, [role='tab'], [data-sans-vocabulaire], .mot-lie";
+
+  const lies = new Set();
+  for (const zone of zones) {
+    for (const r of regles) {
+      if (lies.has(r.id)) continue;
+      const parcours = document.createTreeWalker(zone, NodeFilter.SHOW_TEXT, {
+        acceptNode: (n) =>
+          n.parentElement && !n.parentElement.closest(EXCLUS) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT,
+      });
+      let n;
+      while ((n = parcours.nextNode())) {
+        const m = r.re.exec(n.nodeValue);
+        if (!m) continue;
+        const debut = n.splitText(m.index);
+        debut.splitText(m[0].length);
+        debut.replaceWith(
+          el("button", {
+            type: "button",
+            class: "mot-lie",
+            "aria-haspopup": "dialog",
+            title: "Voir la définition",
+            texte: debut.nodeValue,
+            onclick: (e) => ouvrirMot(r.id, e.currentTarget),
+          })
+        );
+        lies.add(r.id);
+        break;
+      }
+    }
   }
 }

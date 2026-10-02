@@ -5,7 +5,6 @@
     "chapo": "Des textes courts, écrits au fil de la pratique. Certains reprennent des articles de mon ancien blog, d'autres sont nouveaux. Tout est en accès libre.",
     "note": null
   },
-  "noteLecture": "Cet article fait partie de Cœur Alchimique. Quand j'emploie un mot du vocabulaire médical, c'est pour nommer quelque chose que tout le monde connaît déjà, pas pour inventer un terme de plus ; ce que j'en dis, en revanche, m'appartient — c'est mon approche, née de ma pratique. Elle vient en complément d'un suivi médical ou psychologique, jamais à sa place.",
   "articles": [
     {
       "id": "remonter-a-l-origine",
@@ -45,7 +44,8 @@
       "resume": "Il fait circuler dans le corps bien plus que des signaux : les informations, les fréquences, les émotions. Ce qu'il devient quand elles sont basses, et une pratique guidée pour l'apaiser.",
       "date": "2026-09-23",
       "lecture": "6 min",
-      "lien": "article-le-systeme-nerveux.html"
+      "lien": "article-le-systeme-nerveux.html",
+      "audio": "pratique-systeme-nerveux"
     },
     {
       "id": "ces-programmes-qui-nous-bloquent",
@@ -69,7 +69,8 @@
       "resume": "Passer de l'attente à la création active, et déposer sa propre signature sur ce qu'on fait naître.",
       "date": "2026-09-23",
       "lecture": "2 min",
-      "lien": "article-la-force-de-vie-creatrice.html"
+      "lien": "article-la-force-de-vie-creatrice.html",
+      "audio": "pratique-force-de-vie-creatrice"
     },
     {
       "id": "ecouter-son-intuition",

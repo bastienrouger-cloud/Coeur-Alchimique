@@ -47,7 +47,7 @@
 
   <main id="principal">
 
-    <article class="fondu" style="--de:var(--g0); --vers:var(--g2)" data-theme="sombre">
+    <article class="fondu" data-vocabulaire style="--de:var(--g0); --vers:var(--g2)" data-theme="sombre">
       <div class="contenu--etroit">
 
         <a class="retour-rayon" href="mediatheque.html#articles">
@@ -71,8 +71,6 @@
           <hr class="filet">
         </header>
 
-        <!-- La note vient de articles.json, comme sur les autres articles. -->
-        <div data-rendu="note-lecture"></div>
 
         <div class="prose">
           <p>
@@ -160,6 +158,8 @@
             À faire assis·e ou allongé·e, au calme, quand vous en avez le temps.
             Vous pouvez la refaire aussi souvent que vous le souhaitez.
           </p>
+          <!-- Le lecteur de la pratique enregistrée (articles.json → audio). -->
+          <div data-rendu="article-audio"></div>
 
           <p>Installe-toi confortablement… Ferme les yeux…</p>
           <p>

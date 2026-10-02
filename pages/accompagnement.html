@@ -47,7 +47,7 @@
   </noscript>
   <nav class="sommaire" data-sommaire-hote></nav>
 
-  <main id="principal">
+  <main id="principal" data-vocabulaire>
 
     <!-- L'illustration est composée pour ce gabarit : le sujet occupe
          le tiers droit, la gauche est un aplat de nuit. C'est là que
@@ -77,8 +77,8 @@
             demande votre attention aujourd'hui, en comprendre le message, et transformer
             ce qui pesait en quelque chose de neuf.
           </p>
-          <div class="groupe-boutons">
-            <a class="bouton bouton--or" href="contact.html?motif=soin">Prendre rendez-vous</a>
+          <div class="groupe-boutons groupe-boutons--hero-rdv">
+            <a class="bouton bouton--or" href="contact.html?motif=soin" data-ancre-rdv>Prendre rendez-vous</a>
           </div>
         </div>
       </div>
@@ -315,6 +315,12 @@
         </a>
       </div>
     </section>
+
+    <!-- Bouton flottant (mobile) : il apparaît quand aucun autre bouton
+         « Prendre rendez-vous » n'est à l'écran, et s'efface dès qu'un
+         bouton [data-ancre-rdv] ou le pied de page revient. Voir socle.js. -->
+    <a class="bouton bouton--or rdv-flottant" href="contact.html?motif=soin" data-rdv-flottant
+       aria-hidden="true" tabindex="-1">Prendre rendez-vous</a>
 
   </main>
 

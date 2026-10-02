@@ -31,6 +31,40 @@ const MODE_CHANTIER = (() => {
   return actif;
 })();
 
+/* ---------- Bouton « Prendre rendez-vous » flottant ----------
+
+   Sur mobile, la page Accompagnement est longue : le bouton du hero
+   « se décroche » et suit la lecture en bas d'écran. Il s'efface dès
+   qu'un vrai bouton de rendez-vous ([data-ancre-rdv] : hero, fiches
+   des formules) ou le pied de page est visible — d'où l'effet
+   accroché / flottant / accroché. Les boutons des fiches sont créés
+   par rendu.js après coup : un MutationObserver les rattrape. */
+function activerRdvFlottant() {
+  const flottant = document.querySelector("[data-rdv-flottant]");
+  if (!flottant || !("IntersectionObserver" in window)) return;
+
+  const visibles = new Set();
+  const maj = () => {
+    const montrer = visibles.size === 0;
+    flottant.classList.toggle("rdv-flottant--visible", montrer);
+    flottant.setAttribute("aria-hidden", montrer ? "false" : "true");
+    flottant.tabIndex = montrer ? 0 : -1;
+  };
+  const io = new IntersectionObserver((entrees) => {
+    for (const e of entrees) e.isIntersecting ? visibles.add(e.target) : visibles.delete(e.target);
+    maj();
+  });
+  const suivre = (racine) =>
+    racine.querySelectorAll?.("[data-ancre-rdv], .pied").forEach((n) => {
+      if (!n.dataset.rdvSuivi) { n.dataset.rdvSuivi = "1"; io.observe(n); }
+    });
+
+  suivre(document);
+  new MutationObserver((mutations) => {
+    for (const m of mutations) m.addedNodes.forEach((n) => n.nodeType === 1 && (n.matches?.("[data-ancre-rdv], .pied") ? suivre(n.parentNode) : suivre(n)));
+  }).observe(document.body, { childList: true, subtree: true });
+}
+
 function afficherBadgeChantier() {
   if (!MODE_CHANTIER) return;
   const badge = document.createElement("a");
@@ -483,5 +517,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   activerEnteteEscamotable();
   activerSommaire();
   afficherBadgeChantier();
+  activerRdvFlottant();
   document.dispatchEvent(new CustomEvent("ca:socle-pret"));
 });
