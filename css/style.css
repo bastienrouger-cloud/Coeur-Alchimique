@@ -3083,3 +3083,9 @@ html:not(.mode-chantier) mark.a-trancher {
   .contact__intro { display: contents; }
   .contact__suite { order: 1; margin-top: 0; }
 }
+
+/* ---------- CGV ---------- */
+.cgv h3 { font-size: 1.2rem; margin-bottom: 0.4rem; }
+.cgv .liste-puces { margin-bottom: 1rem; }
+.cgv__formulaire:hover { transform: none; }
+.cgv__formulaire-titre { font-size: 1.4rem; margin: 0; }

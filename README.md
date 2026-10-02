@@ -639,7 +639,7 @@ Ensuite, déclarer le sitemap dans Google Search Console pour accélérer l'inde
 
 - [x] Formulaire de contact refait et branché sur Formspree (02/10) — à tester en ligne après push
 - [ ] Compléter les mentions légales — statut, SIRET, téléphone (adresse et hébergeur faits le 02/10)
-- [ ] Rédiger les CGV (soins à distance, parcours et livres vendus sur Payhip)
+- [ ] CGV : base rédigée le 02/10 (`pages/cgv.html`, lien en pied de page) — restent paiement, annulation tardive, SIRET/TVA, médiateur, vérification Payhip (pastilles en mode chantier)
 - [x] Notes de chantier masquées pour le public (mode `?chantier`, 02/10)
 - [ ] Mettre les e-books sur Payhip et renseigner leurs liens dans `livres.json` (aucun pour l'instant)
 - [ ] Remplacer les placeholders restants : portrait de Sophie, 2 visuels des soins, 4 visuels d'e-learnings
