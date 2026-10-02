@@ -273,17 +273,25 @@ function carteSoin(option) {
    sans prevenir, c'est le genre de panne qu'on ne decouvre qu'une fois
    le texte parti chez quelqu'un d'autre. */
 function texteMarque(texte, marque) {
-  if (!marque) return [document.createTextNode(texte)];
-  const i = texte.indexOf(marque);
-  if (i < 0) {
-    console.warn("[a-trancher] extrait introuvable :", marque);
-    return [document.createTextNode(texte)];
+  // `marque` : un extrait, ou une liste d'extraits (dans n'importe quel ordre).
+  const marques = [].concat(marque || []);
+  const plages = [];
+  for (const m of marques) {
+    const i = texte.indexOf(m);
+    if (i < 0) console.warn("[a-trancher] extrait introuvable :", m);
+    else plages.push([i, i + m.length]);
   }
-  return [
-    document.createTextNode(texte.slice(0, i)),
-    el("mark", { class: "a-trancher", texte: marque }),
-    document.createTextNode(texte.slice(i + marque.length)),
-  ];
+  plages.sort((a, b) => a[0] - b[0]);
+  const noeuds = [];
+  let curseur = 0;
+  for (const [debut, fin] of plages) {
+    if (debut < curseur) continue; // extraits qui se chevauchent : on garde le premier
+    noeuds.push(document.createTextNode(texte.slice(curseur, debut)));
+    noeuds.push(el("mark", { class: "a-trancher", texte: texte.slice(debut, fin) }));
+    curseur = fin;
+  }
+  noeuds.push(document.createTextNode(texte.slice(curseur)));
+  return noeuds;
 }
 
 const motifATrancher = (motif) =>
@@ -680,7 +688,8 @@ async function rendreSophie() {
   if (cibles.presentation) {
     // Pas de surtitre ni de h1 ici : la page les porte en dur.
     cibles.presentation.replaceChildren(
-      el("p", { class: "etat__resume", texte: d.accroche }),
+      el("p", { class: "etat__resume" }, texteMarque(d.accroche, d.marqueAccroche)),
+      ...[].concat(d.motifAccroche || []).map(motifATrancher),
       ...d.presentation.map((p) => el("p", { class: "attenue", texte: p }))
     );
   }

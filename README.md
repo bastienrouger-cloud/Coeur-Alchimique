@@ -256,23 +256,30 @@ les deux appels du hero — là où l'action est le sujet, pas une destination p
 
 ## La navigation
 
-**Six entrées dans le header, sans article.** Accompagnement · E-learnings · Livres ·
-Ressources · Sophie · Contact. Pas d'article, parce que « tout avec article » est
-impossible : *Sophie* et *Contact* n'en prennent pas.
+**Quatre entrées dans le header, sans article.** Accompagnement · Médiathèque · Sophie ·
+Contact. Pas d'article, parce que « tout avec article » est impossible : *Sophie* et
+*Contact* n'en prennent pas. La liste vit dans `site.json` → `nav`.
 
-**Ressources est dans la nav principale, pas dans le pied.** C'est le contenu gratuit,
+**Livres et E-learnings ne sont pas dans la nav : ce sont des rayons de la Médiathèque.**
+L'entrée « Médiathèque » reste allumée sur leurs pages (champ `aussi`). Les e-learnings
+sont centralisés dans le rayon Pratiquer (`mediatheque.html#rayon-pratiquer`).
+
+**La Médiathèque est dans la nav principale, pas dans le pied.** C'est le contenu gratuit,
 donc la porte d'entrée : quelqu'un tombe sur une méditation, revient, et finit par prendre
 rendez-vous. L'enterrer dans le pied revenait à gâcher le seul levier qui travaille seul.
+
+La liste de secours du `<noscript>` (en tête de chaque page) suit la même nav, plus
+l'accueil. **Si la nav change, la changer aussi dans les `<noscript>`** : c'est ce que
+voit un robot ou un auditeur sans JavaScript.
 
 **Le pied ne répète pas la nav principale.** Le header est `position: sticky` : la
 navigation est à un coup d'œil à n'importe quelle hauteur de page. Une colonne « Le site »
 au pied n'aurait été utile qu'avec un header qui défile. Le pied porte donc la marque, le
-contact, les réseaux, et les deux pages qui ne sont pas dans le header : le livre d'or et
-les mentions légales.
+contact, les réseaux, et deux liens qui ne sont pas dans le header : le livre d'or et
+les mentions légales (`site.json` → `navSecondaire`).
 
-*Le livre d'or est en pied tant qu'il est vide. Quand il sera rempli, la bonne place pour
-un témoignage est sans doute la page Accompagnement — là où quelqu'un hésite — plutôt
-qu'une page dédiée que personne n'ouvre.*
+Le livre d'or n'a plus de page à lui (supprimée le 30/09) : il vit dans la page
+Accompagnement, section `#temoignages` — là où quelqu'un hésite. Le lien du pied y mène.
 
 **Piège corrigé :** le panneau du menu mobile ne doit **pas** porter de `backdrop-filter`.
 Il est enfant de `.entete`, qui en porte déjà un ; Chromium compose alors les deux et la
@@ -305,10 +312,13 @@ Sophie fera relire la formulation.
 **L'année du copyright se calcule en JS.** Une année en dur devient fausse le 1er janvier
 et personne ne s'en aperçoit avant des mois.
 
-**« Aucun cookie, aucun traceur »** est dans `site.json` → `mentionTechnique`. C'est vrai
-aujourd'hui. **À rerelire le jour où on branche le formulaire de contact ou le livre d'or
-sur un service extérieur** — si ce service pose un cookie, cette phrase devient un
-mensonge, et le site devient redevable d'un bandeau de consentement.
+**« Aucun cookie, aucun traceur »** est dans `site.json` → `mentionTechnique`. **Vérifié
+après le branchement de Formspree (livre d'or) :** toujours vrai. Le formulaire envoie ses
+données par un simple `fetch` au moment de l'envoi ; aucun script ni aucune ressource de
+Formspree n'est chargé dans la page, donc aucun cookie. Même raisonnement pour Payhip :
+de simples liens sortants, pas de bouton d'intégration (décidé le 02/10).
+**À rerelire avant tout ajout tiers** — script, statistiques, vidéo intégrée, bouton de
+paiement : s'il pose un cookie, la phrase devient un mensonge et il faut un bandeau.
 
 Une lueur bleue très basse (`.pied::before`) évite que le pied soit le seul aplat noir d'un
 site qui module sa profondeur partout ailleurs.
@@ -525,8 +535,8 @@ script depuis la photo du hero et le sceau, dans la police du site — donc repr
 > **Domaine : `coeur-alchimique.fr` (avec un tiret).** Les URL `og:url`, `canonical`, `og:image`
 > et celles du sitemap et de `robots.txt` pointent en dur sur `https://coeur-alchimique.fr/`
 > (basculé le 02/10/2026). C'est le seul endroit du site qui n'est pas indépendant de sa racine.
-> Le fichier `CNAME` (à la racine du dépôt, contenant `coeur-alchimique.fr`) se crée au moment
-> où les DNS pointent sur GitHub Pages — pas avant, sinon l'ancienne adresse redirige dans le vide.
+> Le fichier `CNAME` (racine du dépôt, contenant `coeur-alchimique.fr`) est en place et les DNS
+> pointent sur GitHub Pages : le site est servi en HTTPS sur le domaine depuis le 02/10/2026.
 
 **Un `<noscript>`** en tête de chaque page : sans JavaScript il n'y a ni en-tête ni menu,
 donc au minimum une barre qui liste les pages en liens directs.
@@ -574,15 +584,50 @@ Retirer un fichier du suivi ne le retire pas des commits précédents.
 
 Aucun script tiers, aucune police distante, aucun cookie, aucun traceur.
 Tout est servi depuis le domaine. C'est aussi ce qui permet de se passer de bandeau de consentement.
+Seule exception, au moment où le visiteur clique sur « Envoyer » : le message du livre d'or
+part chez Formspree (États-Unis), ce que disent les mentions légales.
 
 ---
 
-## Ce qui reste à faire avant une mise en ligne
+## Le mode chantier
 
-- [ ] Brancher le formulaire de contact sur un service d'envoi
-- [ ] Compléter les mentions légales — les champs entre pastilles sont obligatoires
-- [ ] Rédiger les CGV (vente de contenus numériques)
-- [ ] Remplacer les 19 placeholders par les vraies images
+Les notes de travail — bandeaux `.chantier`, pastilles `.a-renseigner`, passages
+`mark.a-trancher` et leur motif, bandeau du pied — **restent dans le HTML mais sont masquées
+pour le public**, en CSS. Le site public est donc propre, sans branche séparée.
+
+**Pour les voir :** ajouter `?chantier` à n'importe quelle adresse, par exemple
+`https://coeur-alchimique.fr/?chantier` — c'est le lien à donner à Sophie pour relire.
+Le mode tient pour tout l'onglet (`sessionStorage`) ; un badge en bas à gauche le rappelle
+et permet de l'éteindre (`?chantier=0`).
+
+- Le masquage est en CSS (`html:not(.mode-chantier) …`, fin de `style.css`) : sans
+  JavaScript, un visiteur ne voit aucune note.
+- **`.note-seule`** sur un `<li>`, un `<p>` ou un titre qui n'a pas de sens sans sa note
+  (« SIRET » à renseigner) : il disparaît entier au lieu de laisser une puce vide.
+- Un réseau social sans adresse (`"aRenseigner": true` dans `site.json`) est masqué aussi :
+  ce serait un lien mort.
+- **Masqué n'est pas secret** : les notes se lisent dans le code source et sur le dépôt
+  public. Ne jamais y écrire quoi que ce soit de confidentiel.
+
+## Avant d'ouvrir le site
+
+Le site est en ligne sur son domaine depuis le 02/10/2026, mais **pas encore ouvert** :
+chaque page porte une balise `<meta name="robots" content="noindex">` (posée le 02/10) pour
+que les moteurs n'indexent pas une version incomplète.
+
+**Le jour de l'ouverture, retirer cette balise de toutes les pages** (chercher `noindex`,
+commentaire compris) — sinon le site reste invisible dans Google. Ne pas toucher à
+`robots.txt` : il doit laisser passer les robots, sinon ils ne liraient même pas la balise.
+Ensuite, déclarer le sitemap dans Google Search Console pour accélérer l'indexation.
+
+À régler avant de retirer le `noindex` :
+
+- [ ] Brancher le formulaire de contact (page à reprendre entièrement)
+- [ ] Compléter les mentions légales — statut, SIRET, téléphone (adresse et hébergeur faits le 02/10)
+- [ ] Rédiger les CGV (soins à distance, parcours et livres vendus sur Payhip)
+- [x] Notes de chantier masquées pour le public (mode `?chantier`, 02/10)
+- [ ] Mettre les e-books sur Payhip et renseigner leurs liens dans `livres.json` (aucun pour l'instant)
+- [ ] Remplacer les placeholders restants : portrait de Sophie, 2 visuels des soins, 4 visuels d'e-learnings
 - [ ] Renseigner les URL des réseaux sociaux dans `site.json`
 - [x] Trancher la solution de livre d'or (Formspree + publication manuelle) — ID Formspree posé, envoi testé
 - [ ] Vérifier le site avec PageSpeed Insights

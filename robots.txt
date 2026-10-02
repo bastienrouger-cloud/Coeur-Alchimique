@@ -1,5 +1,7 @@
 # Cœur Alchimique — coeur-alchimique.fr
-# Tout est indexable : le site n'a rien de privé.
+# Ne JAMAIS bloquer l'exploration ici : pendant la phase « noindex » (voir README),
+# Google doit pouvoir lire la balise noindex des pages. Un Disallow l'en empêcherait
+# et l'URL pourrait rester indexée sans contenu.
 
 User-agent: *
 Allow: /

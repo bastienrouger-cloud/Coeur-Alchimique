@@ -2981,3 +2981,44 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
 }
 
 .chemin .carte__suite { margin-top: auto; padding-top: 1.1rem; align-self: flex-start; }
+
+
+/* ---------- Mode chantier ----------
+
+   Toutes les notes de travail sont masquées par défaut ; la classe
+   .mode-chantier sur <html> (posée par socle.js avec ?chantier dans
+   l'URL) les rend visibles. Le masquage est en CSS, pas en JS : sans
+   JavaScript, un visiteur ne voit donc aucune note.
+
+   .note-seule : un paragraphe, un élément de liste ou un titre qui n'a
+   pas de sens sans sa note (ex. « SIRET » à renseigner). Il disparaît
+   entièrement, au lieu de laisser une puce ou un titre vide. */
+html:not(.mode-chantier) .chantier,
+html:not(.mode-chantier) .pied__chantier,
+html:not(.mode-chantier) .a-renseigner,
+html:not(.mode-chantier) .a-renseigner-lien,
+html:not(.mode-chantier) .a-trancher__motif,
+html:not(.mode-chantier) .note-seule {
+  display: none !important;
+}
+html:not(.mode-chantier) mark.a-trancher {
+  background: none;
+  box-shadow: none;
+}
+
+.badge-chantier {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 200;
+  padding: 0.5rem 0.85rem;
+  border: 1px dashed rgba(227, 160, 60, 0.75);
+  border-radius: 6px;
+  background: rgba(7, 13, 24, 0.94);
+  color: var(--texte-sombre-fond-attenue);
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+.badge-chantier strong { color: #e8a83c; }
+.badge-chantier:hover,
+.badge-chantier:focus-visible { border-style: solid; }

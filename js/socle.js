@@ -3,6 +3,43 @@
    Chargé sur toutes les pages.
    ========================================================= */
 
+/* ---------- Mode chantier ----------
+
+   Les notes de travail (bandeaux .chantier, pastilles « à renseigner »,
+   passages « à trancher ») restent dans le HTML mais sont MASQUÉES par
+   défaut, en CSS : le visiteur ne les voit jamais, même sans JavaScript.
+
+   Pour les voir : ajouter ?chantier à n'importe quelle adresse du site
+   (ex. coeur-alchimique.fr/?chantier). Le mode tient pour tout l'onglet
+   (sessionStorage), puis ?chantier=0 — ou le badge en bas d'écran — l'éteint.
+
+   Attention : masqué n'est pas secret. Les notes sont lisibles dans le
+   code source et sur le dépôt public. Rien de confidentiel dedans. */
+const MODE_CHANTIER = (() => {
+  const params = new URLSearchParams(window.location.search);
+  const demande = params.has("chantier") ? params.get("chantier") !== "0" : null;
+  let actif = demande === true;
+  try {
+    if (demande === true) sessionStorage.setItem("ca-chantier", "1");
+    else if (demande === false) sessionStorage.removeItem("ca-chantier");
+    else actif = sessionStorage.getItem("ca-chantier") === "1";
+  } catch (e) {
+    /* Stockage bloqué (navigation privée stricte) : le mode ne tient que
+       sur les pages ouvertes avec ?chantier. */
+  }
+  if (actif) document.documentElement.classList.add("mode-chantier");
+  return actif;
+})();
+
+function afficherBadgeChantier() {
+  if (!MODE_CHANTIER) return;
+  const badge = document.createElement("a");
+  badge.className = "badge-chantier";
+  badge.href = "?chantier=0";
+  badge.innerHTML = "<strong>Mode chantier</strong> — notes visibles · masquer";
+  document.body.append(badge);
+}
+
 const CA = (() => {
   const cache = new Map();
 
@@ -162,6 +199,7 @@ async function garnirSocle() {
         CA.el(
           "a",
           {
+            class: r.aRenseigner ? "a-renseigner-lien" : null,
             href: r.href,
             "aria-label": r.label,
             title: r.aRenseigner ? `${r.label} — adresse à renseigner` : r.label,
@@ -444,5 +482,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   suivreHauteurEntete();
   activerEnteteEscamotable();
   activerSommaire();
+  afficherBadgeChantier();
   document.dispatchEvent(new CustomEvent("ca:socle-pret"));
 });

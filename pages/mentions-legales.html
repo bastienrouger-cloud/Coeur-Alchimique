@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- TEMPORAIRE : le site n'est pas encore ouvert. À RETIRER de toutes les pages
+       à l'ouverture (chercher « noindex »). Voir README, « Avant d'ouvrir le site ». -->
+  <meta name="robots" content="noindex">
   <title>Mentions légales et confidentialité — Cœur Alchimique</title>
   <meta name="description" content="Mentions légales, hébergement, politique de confidentialité et cadre de la pratique.">
   <meta property="og:type" content="website">
@@ -36,8 +39,6 @@
       s'afficheront pas. Les pages restent accessibles directement :
       <a href="../index.html">Accueil</a>,
       <a href="accompagnement.html">Accompagnement</a>,
-      <a href="mediatheque.html#rayon-pratiquer">E-learnings</a>,
-      <a href="livres.html">Livres</a>,
       <a href="mediatheque.html">Médiathèque</a>,
       <a href="sophie.html">Sophie</a>,
       <a href="contact.html">Contact</a>.
@@ -66,16 +67,21 @@
 
         <h2>Éditeur du site</h2>
         <ul class="liste-puces">
-          <li>Sophie Loret — <span class="a-renseigner">statut juridique à préciser</span></li>
-          <li><span class="a-renseigner">Adresse du siège</span></li>
-          <li><span class="a-renseigner">SIRET</span></li>
-          <li><span class="a-renseigner">Numéro de téléphone</span></li>
-          <li>Courriel : <a data-site="mailtoEmail" href="#" style="color:var(--or-clair)"><span data-site="email">contact@coeur-alchimique.fr</span></a></li>
+          <li>Sophie Loret</li>
+          <li class="note-seule"><span class="a-renseigner">Statut juridique à préciser</span></li>
+          <li>79240 L'Absie</li>
+          <li class="note-seule"><span class="a-renseigner">SIRET</span></li>
+          <li class="note-seule"><span class="a-renseigner">Numéro de téléphone</span></li>
+          <li>Courriel : <a data-site="mailtoEmail" href="mailto:contact@coeur-alchimique.fr" style="color:var(--or-clair)"><span data-site="email">contact@coeur-alchimique.fr</span></a></li>
           <li>Directrice de la publication : Sophie Loret</li>
         </ul>
 
         <h2 class="mt-l">Hébergement</h2>
-        <p class="attenue"><span class="a-renseigner">Nom, adresse et téléphone de l'hébergeur à compléter une fois le choix arrêté.</span></p>
+        <p class="attenue">
+          Ce site est hébergé par GitHub, Inc. (service GitHub Pages)<br>
+          88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis<br>
+          Téléphone : +1 877 448 4820
+        </p>
 
         <h2 class="mt-l">Cadre de la pratique</h2>
         <div class="cadre" data-cadre></div>
@@ -95,7 +101,7 @@
           Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'opposition
           et de suppression de vos données. Il s'exerce par simple courriel à l'adresse ci-dessus.
         </p>
-        <p class="attenue"><span class="a-renseigner">Durée de conservation des messages à préciser.</span></p>
+        <p class="attenue note-seule"><span class="a-renseigner">Durée de conservation des messages à préciser.</span></p>
 
         <h3 class="mt-m" id="livre-d-or">Livre d'or</h3>
         <p class="attenue">
@@ -126,9 +132,10 @@
           tiers. Aucun bandeau de consentement n'est donc nécessaire.
         </p>
 
-        <h2 class="mt-l">Conditions générales de vente</h2>
-        <p class="attenue">
-          <span class="a-renseigner">À rédiger : les parcours en autonomie sont présentés et vendus depuis ce site. Les CGV doivent notamment préciser le droit de rétractation applicable aux contenus numériques et les modalités de livraison.</span>
+        <!-- note-seule : à retirer quand les CGV seront rédigées -->
+        <h2 class="mt-l note-seule">Conditions générales de vente</h2>
+        <p class="attenue note-seule">
+          <span class="a-renseigner">À rédiger : les CGV des soins, et celles des parcours et livres, présentés sur ce site et vendus sur la plateforme Payhip. Elles doivent notamment préciser le droit de rétractation applicable aux prestations à distance et aux contenus numériques.</span>
         </p>
 
         <h2 class="mt-l">Propriété intellectuelle</h2>
