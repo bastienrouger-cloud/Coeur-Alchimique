@@ -50,20 +50,17 @@
     {
       "label": "YouTube",
       "href": "#",
-      "icone": "youtube",
-      "aRenseigner": true
+      "icone": "youtube"
     },
     {
       "label": "Facebook",
       "href": "#",
-      "icone": "facebook",
-      "aRenseigner": true
+      "icone": "facebook"
     },
     {
       "label": "Instagram",
       "href": "#",
-      "icone": "instagram",
-      "aRenseigner": true
+      "icone": "instagram"
     }
   ]
 }

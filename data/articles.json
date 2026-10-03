@@ -12,7 +12,7 @@
       "resume": "Pourquoi aller à l'origine des blessures émotionnelles plutôt que rester à la surface.",
       "date": "2026-09-29",
       "lecture": "5 min",
-      "lien": "article-remonter-a-l-origine.html"
+      "lien": "articles/remonter-a-l-origine.html"
     },
     {
       "id": "l-observation-cle-de-transformation",
@@ -20,7 +20,15 @@
       "resume": "Devenir observateur et témoin de soi, sans jugement : ce qui se transforme quand on regarde.",
       "date": "2026-09-29",
       "lecture": "2 min",
-      "lien": "article-l-observation-cle-de-transformation.html"
+      "lien": "articles/l-observation-cle-de-transformation.html"
+    },
+    {
+      "id": "devenir-un-observateur",
+      "titre": "Devenir un observateur pour créer",
+      "resume": "Ce que change le simple fait de regarder, et comment s'en servir pour orienter sa vie.",
+      "date": "2026-09-23",
+      "lecture": "1 min",
+      "lien": "articles/devenir-un-observateur.html"
     },
     {
       "id": "devenir-libre-et-createur",
@@ -28,15 +36,15 @@
       "resume": "Qu'est-ce qui nous empêche d'être Libre et Créateur de notre Vie ?\\",
       "date": "2026-09-29",
       "lecture": "4 min",
-      "lien": "article-devenir-libre-et-createur.html"
+      "lien": "articles/devenir-libre-et-createur.html"
     },
     {
       "id": "ce-qui-ne-s-exprime-pas-s-imprime",
-      "titre": "Ce qui ne s'exprime pas s'imprime",
+      "titre": "Ce qui ne s'exprime pas s'imprime à l'intérieur",
       "resume": "Une émotion qu'on ne laisse pas passer ne disparaît pas pour autant. Elle se range, elle attend, et elle revient au premier terrain qui lui ressemble.",
       "date": "2026-09-18",
       "lecture": "4 min",
-      "lien": "article-ce-qui-ne-s-exprime-pas-s-imprime.html"
+      "lien": "articles/ce-qui-ne-s-exprime-pas-s-imprime.html"
     },
     {
       "id": "le-systeme-nerveux",
@@ -44,7 +52,7 @@
       "resume": "Il fait circuler dans le corps bien plus que des signaux : les informations, les fréquences, les émotions. Ce qu'il devient quand elles sont basses, et une pratique guidée pour l'apaiser.",
       "date": "2026-09-23",
       "lecture": "6 min",
-      "lien": "article-le-systeme-nerveux.html",
+      "lien": "articles/le-systeme-nerveux.html",
       "audio": "pratique-systeme-nerveux"
     },
     {
@@ -53,7 +61,7 @@
       "resume": "Le temps, les religions, le mental, nos croyances, nos mémoires : ce que j'appelle des programmes, et ce qu'il faudrait pour en sortir.",
       "date": "2026-09-23",
       "lecture": "7 min",
-      "lien": "article-ces-programmes-qui-nous-bloquent.html"
+      "lien": "articles/ces-programmes-qui-nous-bloquent.html"
     },
     {
       "id": "la-souverainete-individuelle",
@@ -61,7 +69,7 @@
       "resume": "Elle est intérieure, jamais donnée par l'extérieur. Ce qu'elle change quand on la retrouve : « Je décide », « Je choisis », « Je crée ».",
       "date": "2026-09-23",
       "lecture": "2 min",
-      "lien": "article-la-souverainete-individuelle.html"
+      "lien": "articles/la-souverainete-individuelle.html"
     },
     {
       "id": "la-force-de-vie-creatrice",
@@ -69,7 +77,7 @@
       "resume": "Passer de l'attente à la création active, et déposer sa propre signature sur ce qu'on fait naître.",
       "date": "2026-09-23",
       "lecture": "2 min",
-      "lien": "article-la-force-de-vie-creatrice.html",
+      "lien": "articles/la-force-de-vie-creatrice.html",
       "audio": "pratique-force-de-vie-creatrice"
     },
     {
@@ -78,7 +86,7 @@
       "resume": "Une connaissance immédiate, en dehors du mental. Comment la reconnaître, et comment lui faire de la place.",
       "date": "2026-09-23",
       "lecture": "2 min",
-      "lien": "article-ecouter-son-intuition.html",
+      "lien": "articles/ecouter-son-intuition.html",
       "aRenseigner": "texte encore sous forme de notes — à rédiger"
     },
     {
@@ -87,7 +95,7 @@
       "resume": "Des cailloux blancs posés sur le chemin. Comment les distinguer d'une simple coïncidence, et ce qui les fait revenir.",
       "date": "2026-09-23",
       "lecture": "2 min",
-      "lien": "article-les-synchronicites.html",
+      "lien": "articles/les-synchronicites.html",
       "aRenseigner": "texte encore sous forme de notes — à rédiger"
     },
     {
@@ -96,7 +104,7 @@
       "resume": "Le mental, l'émotionnel, le créateur. Ce que chacun fait, et ce qui se passe quand ils s'unissent.",
       "date": "2026-09-23",
       "lecture": "1 min",
-      "lien": "article-les-trois-centres.html",
+      "lien": "articles/les-trois-centres.html",
       "aRenseigner": "texte encore sous forme de notes — à rédiger"
     }
   ]

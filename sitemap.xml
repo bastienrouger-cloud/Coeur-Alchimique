@@ -26,11 +26,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coeur-alchimique.fr/pages/article-ce-qui-ne-s-exprime-pas-s-imprime.html</loc>
-    <lastmod>2026-09-18</lastmod>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://coeur-alchimique.fr/pages/sophie.html</loc>
     <lastmod>2026-09-16</lastmod>
     <priority>0.8</priority>
@@ -49,5 +44,65 @@
     <loc>https://coeur-alchimique.fr/pages/cgv.html</loc>
     <lastmod>2026-10-02</lastmod>
     <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://coeur-alchimique.fr/pages/articles/remonter-a-l-origine.html</loc>
+    <lastmod>2026-09-29</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://coeur-alchimique.fr/pages/articles/l-observation-cle-de-transformation.html</loc>
+    <lastmod>2026-09-29</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://coeur-alchimique.fr/pages/articles/devenir-un-observateur.html</loc>
+    <lastmod>2026-09-23</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://coeur-alchimique.fr/pages/articles/devenir-libre-et-createur.html</loc>
+    <lastmod>2026-09-29</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://coeur-alchimique.fr/pages/articles/ce-qui-ne-s-exprime-pas-s-imprime.html</loc>
+    <lastmod>2026-09-18</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://coeur-alchimique.fr/pages/articles/le-systeme-nerveux.html</loc>
+    <lastmod>2026-09-23</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://coeur-alchimique.fr/pages/articles/ces-programmes-qui-nous-bloquent.html</loc>
+    <lastmod>2026-09-23</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://coeur-alchimique.fr/pages/articles/la-souverainete-individuelle.html</loc>
+    <lastmod>2026-09-23</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://coeur-alchimique.fr/pages/articles/la-force-de-vie-creatrice.html</loc>
+    <lastmod>2026-09-23</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://coeur-alchimique.fr/pages/articles/ecouter-son-intuition.html</loc>
+    <lastmod>2026-09-23</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://coeur-alchimique.fr/pages/articles/les-synchronicites.html</loc>
+    <lastmod>2026-09-23</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://coeur-alchimique.fr/pages/articles/les-trois-centres.html</loc>
+    <lastmod>2026-09-23</lastmod>
+    <priority>0.6</priority>
   </url>
 </urlset>

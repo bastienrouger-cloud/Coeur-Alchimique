@@ -1,0 +1,89 @@
+# ------------------------------------------------------------------------
+# Publication automatique du site — PRÉPARÉE, PAS ENCORE ACTIVE.
+#
+# Ce fichier ne fait rien tant qu'il reste ici. Pour l'activer :
+#   1. le déplacer vers .github/workflows/publier.yml ;
+#   2. sur GitHub : Settings → Pages → Build and deployment → Source :
+#      « GitHub Actions » (au lieu de « Deploy from a branch ») ;
+#   3. vérifier dans la même page que le domaine coeur-alchimique.fr est
+#      toujours renseigné (avec ce mode, le fichier CNAME est ignoré).
+#
+# À chaque modification poussée sur main (par Bastien ou depuis le CMS) :
+#   - régénère les pages des articles depuis contenus/articles/ ;
+#   - vérifie toutes les données (outils/valider.py) ;
+#   - si tout est bon, enregistre les pages régénérées dans le dépôt
+#     et met le site en ligne ;
+#   - si une vérification échoue, RIEN n'est mis en ligne : le site reste
+#     tel qu'il était, et GitHub envoie un mail d'échec au propriétaire du
+#     dépôt. Le détail est dans l'onglet « Actions ».
+#
+# Pourquoi pas le mode « Deploy from a branch » ? Une modification
+# enregistrée par une Action ne relance pas la mise en ligne dans ce mode
+# (documentation GitHub) : les pages régénérées n'apparaîtraient qu'au
+# commit suivant.
+# Versions des actions relevées le 03/10/2026 sur leurs pages de versions.
+# ------------------------------------------------------------------------
+name: Publier le site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # enregistrer les pages régénérées
+  pages: write      # mettre en ligne
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publier:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v7
+
+      - name: Installer Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Installer les dépendances
+        run: python -m pip install -r outils/requirements.txt
+
+      - name: Générer les pages des articles
+        run: python outils/generer_articles.py
+
+      - name: Vérifier les données
+        run: python outils/valider.py
+
+      - name: Enregistrer les pages régénérées dans le dépôt
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pages/articles data/articles.json sitemap.xml
+          if git diff --cached --quiet; then
+            echo "Pages déjà à jour."
+          else
+            git commit -m "Articles régénérés automatiquement"
+            git pull --rebase
+            git push
+          fi
+
+      - name: Préparer GitHub Pages
+        uses: actions/configure-pages@v6
+
+      - name: Empaqueter le site
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: "."
+
+      - name: Mettre en ligne
+        id: deploiement
+        uses: actions/deploy-pages@v5

@@ -537,8 +537,8 @@ async function rendreLivres() {
                 texte: o.editeur ? `Voir chez ${o.editeur}` : "Commander cet e-book",
               })
             : null,
-          o.aRenseigner && o.aRenseigner.length
-            ? el("span", { class: "a-renseigner", texte: `À renseigner : ${o.aRenseigner.join(", ")}` })
+          o.aRenseigner
+            ? el("span", { class: "a-renseigner", texte: `À renseigner : ${o.aRenseigner}` })
             : null,
         ]),
       ])
@@ -1421,7 +1421,7 @@ async function rendreArticles() {
      la carte de la Médiathèque le relit dans l'autre sens. */
   if (hoteAudio) {
     const page = (location.pathname.split("/").pop() || "").toLowerCase();
-    const article = d.articles.find((a) => (a.lien || "").toLowerCase() === page);
+    const article = d.articles.find((a) => (a.lien || "").split("/").pop().toLowerCase() === page);
     const media = article && article.audio ? await donnees("mediatheque") : null;
     const item = media && media.items.find((i) => i.id === article.audio);
     if (item) {

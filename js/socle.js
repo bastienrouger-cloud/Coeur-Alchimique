@@ -233,10 +233,11 @@ async function garnirSocle() {
         CA.el(
           "a",
           {
-            class: r.aRenseigner ? "a-renseigner-lien" : null,
+            // Une adresse vide ou « # » signale un compte encore à renseigner.
+            class: !r.href || r.href === "#" ? "a-renseigner-lien" : null,
             href: r.href,
             "aria-label": r.label,
-            title: r.aRenseigner ? `${r.label} — adresse à renseigner` : r.label,
+            title: !r.href || r.href === "#" ? `${r.label} — adresse à renseigner` : r.label,
             rel: "noopener",
             target: r.href === "#" ? null : "_blank",
           },

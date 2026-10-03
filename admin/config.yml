@@ -1,0 +1,650 @@
+# =========================================================================
+# Configuration du CMS (Sveltia CMS) — https://sveltiacms.app/fr/
+#
+# Moz se connecte sur https://coeur-alchimique.fr/admin/ avec un jeton
+# GitHub à portée limitée (ce dépôt seulement, permission « Contents »).
+# Chaque enregistrement crée un commit sur la branche ci-dessous.
+#
+# RÈGLE IMPORTANTE : le CMS n'écrit QUE les champs décrits ici. Un champ
+# présent dans un fichier JSON mais absent de cette configuration est
+# SUPPRIMÉ au premier enregistrement. Ajouter un champ dans data/*.json,
+# c'est aussi l'ajouter ici (et dans outils/valider.py).
+#
+# data/articles.json n'est volontairement pas éditable : sa liste est
+# générée depuis contenus/articles/ par outils/generer_articles.py.
+# =========================================================================
+
+backend:
+  name: github
+  repo: bastienrouger-cloud/Coeur-Alchimique
+  branch: CMS                 # passer à « main » une fois la branche fusionnée
+  auth_methods: [token]       # connexion par jeton uniquement : aucun serveur tiers
+  commit_messages:
+    create: "CMS : nouveau — {{collection}} « {{slug}} »"
+    update: "CMS : modification — {{collection}} « {{slug}} »"
+    delete: "CMS : suppression — {{collection}} « {{slug}} »"
+    uploadMedia: "CMS : fichier ajouté — {{path}}"
+    deleteMedia: "CMS : fichier supprimé — {{path}}"
+
+app_title: Cœur Alchimique — édition du site
+site_url: https://coeur-alchimique.fr
+logo:
+  src: /assets/icons/favicon.svg
+
+media_folder: assets/images
+public_folder: /assets/images
+
+slug:
+  encoding: ascii
+  clean_accents: true
+  maxlength: 80
+
+output:
+  omit_empty_optional_fields: true
+  json:
+    indent_size: 2
+
+collections:
+  # -----------------------------------------------------------------------
+  - name: articles
+    label: Articles
+    label_singular: article
+    icon: article
+    description: >-
+      Les articles de la Médiathèque. Un nouvel article apparaît en premier
+      dans la liste du site, environ une minute après l'enregistrement.
+    folder: contenus/articles
+    extension: md
+    format: yaml-frontmatter
+    identifier_field: titre
+    slug:
+      template: "{{titre}}"
+      editable: false
+    summary: "{{titre}}"
+    sortable_fields:
+      fields: [date, titre]
+      default: { field: date, direction: descending }
+    preview_path: "pages/articles/{{slug}}.html"
+    fields:
+      - { name: titre, label: Titre, widget: string }
+      - name: resume
+        label: Résumé
+        widget: text
+        hint: Une ou deux phrases. Elles apparaissent sous le titre de l'article et sur sa carte dans la Médiathèque.
+      - name: date
+        label: Date de publication
+        widget: datetime
+        type: date
+        format: YYYY-MM-DD
+        default: "{{now}}"
+      - name: lecture
+        label: Durée de lecture
+        widget: string
+        required: false
+        hint: Par exemple « 4 min ». Laisser vide pour qu'elle soit calculée automatiquement.
+      - name: audio
+        label: Pratique audio associée
+        widget: relation
+        collection: pages
+        file: mediatheque
+        value_field: "items.*.id"
+        display_fields: ["items.*.titre"]
+        search_fields: ["items.*.titre"]
+        required: false
+        hint: Facultatif. Le lecteur audio s'affiche alors à la fin de l'article.
+      - name: aRenseigner
+        label: Note « à renseigner »
+        widget: string
+        required: false
+        hint: Note interne affichée sur la carte (ex. « texte encore à rédiger »). Laisser vide en temps normal.
+      - name: brouillon
+        label: Brouillon (ne pas publier)
+        widget: boolean
+        default: false
+        required: false
+      - name: body
+        label: Texte
+        widget: richtext
+
+  # -----------------------------------------------------------------------
+  - name: pages
+    label: Contenus du site
+    label_singular: contenu
+    icon: library_books
+    editor: { preview: false }
+    files:
+      # ---------------------------------------------------------------- Médiathèque
+      - name: mediatheque
+        label: Médiathèque (contes, e-books gratuits, audios)
+        file: data/mediatheque.json
+        fields:
+          - name: intro
+            label: Introduction de la page
+            widget: object
+            collapsed: true
+            fields:
+              - { name: surtitre, label: Surtitre, widget: string }
+              - { name: titre, label: Titre, widget: string }
+              - { name: chapo, label: Chapô, widget: text }
+              - { name: note, label: Note, widget: text, required: false }
+          - name: rayons
+            label: Rayons
+            widget: list
+            collapsed: true
+            allow_add: false
+            allow_remove: false
+            summary: "{{fields.titre}}"
+            fields:
+              - { name: id, label: Identifiant, widget: string, readonly: true }
+              - { name: titre, label: Titre, widget: string }
+              - { name: chapo, label: Chapô, widget: text }
+          - name: items
+            label: Éléments
+            label_singular: élément
+            widget: list
+            collapsed: true
+            summary: "{{fields.titre}} — {{fields.rayon}}"
+            fields:
+              - name: id
+                label: Identifiant
+                widget: string
+                pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Minuscules, chiffres et tirets seulement (ex. mon-conte)"]
+              - name: rayon
+                label: Rayon
+                widget: select
+                options:
+                  - { label: Lire, value: lire }
+                  - { label: Pratiquer, value: pratiquer }
+                  - { label: Écouter, value: ecouter }
+              - name: acces
+                label: Accès
+                widget: select
+                default: libre
+                options:
+                  - { label: Accès libre, value: libre }
+                  - { label: Payant, value: payant }
+              - { name: titre, label: Titre, widget: string }
+              - { name: sousTitre, label: Sous-titre, widget: string, required: false }
+              - { name: genre, label: Genre, widget: string, hint: "Ex. Conte, Méditation, Pratique, Exercice, Enseignements, Vidéo" }
+              - { name: support, label: Support, widget: string, hint: "Ex. E-book, Audio, Vidéo" }
+              - { name: detail, label: Détail, widget: string, hint: "Ex. « E-book · 12 pages » ou « Audio · 15 min »" }
+              - { name: description, label: Description, widget: text }
+              - name: fichier
+                label: Fichier (PDF ou audio)
+                widget: file
+                required: false
+                media_folder: /assets/documents
+                public_folder: /assets/documents
+                hint: Le PDF ou le MP3. Un élément a soit un fichier, soit un lien.
+              - name: image
+                label: Image de couverture
+                widget: image
+                required: false
+                media_folder: /assets/images/contes
+                public_folder: /assets/images/contes
+              - { name: lien, label: Lien externe, widget: string, required: false, hint: "Ex. la chaîne YouTube" }
+              - { name: aRenseigner, label: Note « à renseigner », widget: string, required: false }
+
+      # ---------------------------------------------------------------- Livres
+      - name: livres
+        label: Livres et e-books payants
+        file: data/livres.json
+        fields:
+          - name: intro
+            label: Introduction
+            widget: object
+            collapsed: true
+            fields:
+              - { name: titre, label: Titre, widget: string }
+              - { name: chapo, label: Chapô, widget: text }
+              - { name: note, label: Note, widget: text, required: false }
+          - name: ouvrages
+            label: Ouvrages
+            label_singular: ouvrage
+            widget: list
+            collapsed: true
+            summary: "{{fields.titre}}"
+            thumbnail: image
+            fields:
+              - name: id
+                label: Identifiant
+                widget: string
+                pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Minuscules, chiffres et tirets seulement"]
+              - { name: titre, label: Titre, widget: string }
+              - { name: sousTitre, label: Sous-titre, widget: string, required: false }
+              - { name: genre, label: Genre, widget: string, hint: "Ex. Roman, Essai, Carnet, Manuel" }
+              - { name: support, label: Support, widget: string, hint: "Ex. Livre papier, E-book" }
+              - { name: format, label: Format, widget: string, hint: "Ex. « Broché · 196 pages »" }
+              - { name: editeur, label: Éditeur, widget: string, required: false, hint: Laisser vide pour un e-book vendu en direct. }
+              - { name: lien, label: Lien d'achat, widget: string, hint: Adresse complète (https://…) }
+              - { name: prix, label: Prix (€), widget: number, value_type: float, min: 0, step: 0.5 }
+              - { name: description, label: Description, widget: text }
+              - name: image
+                label: Couverture
+                widget: image
+                media_folder: /assets/images/livres
+                public_folder: /assets/images/livres
+              - { name: alt, label: Description de l'image (accessibilité), widget: string }
+              - { name: isbn, label: ISBN, widget: string, required: false }
+              - { name: parution, label: Année de parution, widget: number, value_type: int, required: false }
+              - { name: aRenseigner, label: Note « à renseigner », widget: string, required: false }
+
+      # ---------------------------------------------------------------- E-learnings
+      - name: elearnings
+        label: Parcours e-learning
+        file: data/elearnings.json
+        fields:
+          - name: intro
+            label: Introduction
+            widget: object
+            collapsed: true
+            fields:
+              - { name: titre, label: Titre, widget: string }
+              - { name: chapo, label: Chapô, widget: text }
+              - { name: texte, label: Texte, widget: text, required: false }
+          - name: programmes
+            label: Parcours
+            label_singular: parcours
+            widget: list
+            collapsed: true
+            summary: "{{fields.nom}} — {{fields.prix}} €"
+            thumbnail: image
+            fields:
+              - name: id
+                label: Identifiant
+                widget: string
+                pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Minuscules, chiffres et tirets seulement"]
+              - { name: nom, label: Nom, widget: string }
+              - { name: promesse, label: Promesse (une phrase), widget: text }
+              - { name: prix, label: Prix (€), widget: number, value_type: float, min: 0 }
+              - { name: duree, label: Durée, widget: string, hint: "Ex. « 5 jours », « À votre rythme »" }
+              - { name: niveau, label: Niveau, widget: string, hint: "Ex. Découverte, Approfondissement, Parcours complet" }
+              - name: image
+                label: Image
+                widget: image
+                media_folder: /assets/images/elearnings
+                public_folder: /assets/images/elearnings
+              - { name: alt, label: Description de l'image (accessibilité), widget: string }
+              - name: contenu
+                label: Contenu (une ligne par élément)
+                widget: list
+                field: { name: ligne, label: Ligne, widget: string }
+              - { name: description, label: Description, widget: text }
+              - { name: lien, label: Lien Payhip, widget: string, required: false, hint: "Adresse complète (https://payhip.com/…). Sans lien, le bouton propose de poser une question." }
+          - name: tutorat
+            label: Encadré « tutorat »
+            widget: object
+            collapsed: true
+            fields:
+              - { name: titre, label: Titre, widget: string }
+              - { name: chapo, label: Chapô, widget: text }
+              - { name: texte, label: Texte, widget: text }
+              - name: benefices
+                label: Bénéfices
+                widget: list
+                field: { name: ligne, label: Ligne, widget: text }
+          - name: achat
+            label: Encadré « comment acheter »
+            widget: object
+            collapsed: true
+            fields:
+              - { name: titre, label: Titre, widget: string }
+              - name: etapes
+                label: Étapes
+                widget: list
+                field: { name: ligne, label: Étape, widget: text }
+              - { name: note, label: Note, widget: text, required: false }
+
+      # ---------------------------------------------------------------- Soins
+      - name: soins
+        label: Soins (formules, prix, FAQ)
+        file: data/soins.json
+        fields:
+          - { name: titre, label: Titre, widget: string }
+          - { name: accroche, label: Accroche, widget: text, required: false }
+          - { name: modalite, label: Modalité, widget: text, required: false }
+          - { name: accrocheFormules, label: Accroche des formules, widget: text, required: false }
+          - { name: noteAutoSoin, label: Note sur l'auto-soin, widget: text, required: false }
+          - name: options
+            label: Formules
+            label_singular: formule
+            widget: list
+            collapsed: true
+            summary: "{{fields.nom}} — {{fields.prix}} €"
+            fields:
+              - { name: id, label: Identifiant, widget: string, readonly: true }
+              - { name: numero, label: Numéro, widget: string }
+              - { name: nom, label: Nom, widget: string }
+              - { name: resume, label: Résumé, widget: text }
+              - { name: duree, label: Durée, widget: string }
+              - { name: prix, label: Prix (€), widget: number, value_type: float, min: 0 }
+              - { name: canal, label: Canal, widget: string }
+              - name: image
+                label: Image
+                widget: image
+                media_folder: /assets/images/soins
+                public_folder: /assets/images/soins
+              - { name: alt, label: Description de l'image (accessibilité), widget: string }
+              - { name: description, label: Description, widget: text }
+              - name: etapes
+                label: Déroulé
+                widget: list
+                collapsed: true
+                summary: "{{fields.texte}}"
+                fields:
+                  - { name: texte, label: Étape, widget: text }
+              - { name: description2, label: Description (suite), widget: text, required: false }
+              - { name: fin, label: Phrase de fin, widget: text, required: false }
+          - name: origine
+            label: Généalogie de la pratique
+            widget: object
+            collapsed: true
+            fields:
+              - { name: titre, label: Titre, widget: string }
+              - { name: texte, label: Texte, widget: text }
+              - name: jalons
+                label: Jalons
+                widget: list
+                summary: "{{fields.annee}}"
+                fields:
+                  - { name: annee, label: Année(s), widget: string }
+                  - { name: texte, label: Texte, widget: text }
+          - name: faq
+            label: Questions fréquentes
+            label_singular: question
+            widget: list
+            collapsed: true
+            summary: "{{fields.q}}"
+            fields:
+              - { name: q, label: Question, widget: string }
+              - { name: r, label: Réponse, widget: text }
+
+      # ---------------------------------------------------------------- Livre d'or
+      - name: livre-dor
+        label: Livre d'or (messages publiés)
+        file: data/livre-dor.json
+        fields:
+          - name: messages
+            label: Messages
+            label_singular: message
+            widget: list
+            add_to_top: true
+            collapsed: true
+            summary: "{{fields.prenom}} — {{fields.date}}"
+            fields:
+              - { name: prenom, label: Prénom, widget: string }
+              - { name: message, label: Message, widget: text }
+              - { name: date, label: Date, widget: datetime, type: date, format: YYYY-MM-DD, default: "{{now}}" }
+              - { name: accueil, label: Montrer aussi sur l'accueil, widget: boolean, default: false, required: false }
+              - { name: extrait, label: Extrait pour l'accueil, widget: text, required: false, hint: Facultatif. Sinon le message entier est repris. }
+
+      # ---------------------------------------------------------------- Sophie
+      - name: sophie
+        label: Page « Sophie »
+        file: data/sophie.json
+        fields:
+          - { name: nom, label: Nom, widget: string }
+          - { name: role, label: Rôle, widget: string, required: false }
+          - name: photo
+            label: Portrait
+            widget: image
+            media_folder: /assets/images/sophie
+            public_folder: /assets/images/sophie
+          - { name: alt, label: Description du portrait (accessibilité), widget: string }
+          - { name: accroche, label: Accroche, widget: text, required: false }
+          - name: marqueAccroche
+            label: Mots mis en valeur dans l'accroche
+            widget: list
+            required: false
+            field: { name: mot, label: Mot, widget: string }
+          - name: motifAccroche
+            label: Motif de l'accroche
+            widget: list
+            required: false
+            field: { name: mot, label: Élément, widget: string }
+          - name: presentation
+            label: Présentation (un paragraphe par ligne)
+            widget: list
+            field: { name: paragraphe, label: Paragraphe, widget: text }
+          - name: frise
+            label: Frise du parcours
+            label_singular: étape
+            widget: list
+            collapsed: true
+            summary: "{{fields.periode}} — {{fields.titre}}"
+            fields:
+              - { name: periode, label: Période, widget: string }
+              - name: embleme
+                label: Emblème
+                widget: select
+                options: [accompagnement, alchimie, coeur-rayonnant, croissant, etoiles, feuille, oeil, rosace, trois-etats]
+              - { name: titre, label: Titre, widget: string }
+              - { name: texte, label: Texte, widget: text }
+              - { name: aRenseigner, label: Note « à renseigner », widget: string, required: false }
+          - name: filConducteur
+            label: Fil conducteur
+            widget: object
+            collapsed: true
+            required: false
+            fields:
+              - { name: titre, label: Titre, widget: string }
+              - { name: texte, label: Texte, widget: text }
+              - name: chaine
+                label: Chaîne
+                widget: list
+                field: { name: maillon, label: Maillon, widget: string }
+          - { name: citation, label: Citation, widget: text, required: false }
+
+      # ---------------------------------------------------------------- Vocabulaire
+      - name: vocabulaire
+        label: Vocabulaire
+        file: data/vocabulaire.json
+        fields:
+          - name: intro
+            label: Introduction
+            widget: object
+            collapsed: true
+            fields:
+              - { name: surtitre, label: Surtitre, widget: string }
+              - { name: titre, label: Titre, widget: string }
+              - { name: chapo, label: Chapô, widget: text }
+              - { name: note, label: Note, widget: text, required: false }
+          - name: termes
+            label: Termes
+            label_singular: terme
+            widget: list
+            collapsed: true
+            summary: "{{fields.terme}}"
+            fields:
+              - name: id
+                label: Identifiant
+                widget: string
+                pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Minuscules, chiffres et tirets seulement"]
+              - { name: terme, label: Terme, widget: string }
+              - { name: definition, label: Définition, widget: text }
+              - name: voirAussi
+                label: Voir aussi
+                widget: relation
+                collection: pages
+                file: vocabulaire
+                value_field: "termes.*.id"
+                display_fields: ["termes.*.terme"]
+                search_fields: ["termes.*.terme"]
+                multiple: true
+                required: false
+              - name: famille
+                label: Famille
+                widget: relation
+                collection: pages
+                file: vocabulaire
+                value_field: "familles.*.id"
+                display_fields: ["familles.*.titre"]
+                search_fields: ["familles.*.titre"]
+          - name: familles
+            label: Familles
+            widget: list
+            collapsed: true
+            summary: "{{fields.titre}}"
+            fields:
+              - { name: id, label: Identifiant, widget: string }
+              - { name: titre, label: Titre, widget: string }
+
+      # ---------------------------------------------------------------- Réglages
+      - name: site
+        label: Réglages (adresse mail, réseaux, pied de page)
+        file: data/site.json
+        fields:
+          - { name: nom, label: Nom du site, widget: string }
+          - { name: baseline, label: Baseline, widget: string }
+          - { name: praticienne, label: Praticienne, widget: string, required: false }
+          - { name: email, label: Adresse mail affichée, widget: string, pattern: ['^[^@\s]+@[^@\s]+\.[a-z]{2,}$', "Adresse mail invalide"] }
+          - { name: delaiReponse, label: Délai de réponse annoncé, widget: string, required: false }
+          - { name: mentionTechnique, label: Mention technique (pied de page), widget: text, required: false }
+          - name: cadre
+            label: Cadre (« un accompagnement, pas un traitement »)
+            widget: object
+            collapsed: true
+            fields:
+              - { name: titre, label: Titre, widget: string }
+              - { name: texte, label: Texte, widget: text, hint: "Les balises <strong> mettent du texte en gras : les garder telles quelles." }
+              - { name: court, label: Version courte, widget: text }
+          - name: nav
+            label: Menu principal (ne pas modifier)
+            widget: list
+            collapsed: true
+            readonly: true
+            summary: "{{fields.label}}"
+            fields:
+              - { name: label, label: Libellé, widget: string }
+              - { name: href, label: Lien, widget: string }
+              - name: aussi
+                label: Pages rattachées
+                widget: list
+                required: false
+                field: { name: page, label: Page, widget: string }
+          - name: navSecondaire
+            label: Menu du pied de page (ne pas modifier)
+            widget: list
+            collapsed: true
+            readonly: true
+            summary: "{{fields.label}}"
+            fields:
+              - { name: label, label: Libellé, widget: string }
+              - { name: href, label: Lien, widget: string }
+          - name: reseaux
+            label: Réseaux sociaux
+            widget: list
+            collapsed: true
+            allow_add: false
+            allow_remove: false
+            summary: "{{fields.label}}"
+            fields:
+              - { name: label, label: Nom, widget: string, readonly: true }
+              - { name: href, label: Adresse du compte, widget: string, hint: "Adresse complète (https://…). « # » tant que le compte n'est pas prêt." }
+              - { name: icone, label: Icône, widget: select, readonly: true, options: [youtube, facebook, instagram] }
+
+      # ---------------------------------------------------------------- Avancé
+      - name: etats-coeur
+        label: Avancé — les trois états du cœur
+        file: data/etats-coeur.json
+        fields:
+          - name: intro
+            label: Introduction
+            widget: object
+            collapsed: true
+            fields:
+              - { name: titre, label: Titre, widget: string }
+              - { name: chapo, label: Chapô, widget: text }
+              - name: etapes
+                label: Étapes
+                widget: list
+                summary: "{{fields.numero}} — {{fields.titre}}"
+                fields:
+                  - { name: numero, label: Numéro, widget: string }
+                  - { name: titre, label: Titre, widget: string }
+                  - { name: texte, label: Texte, widget: text }
+          - name: etats
+            label: États
+            widget: list
+            collapsed: true
+            allow_add: false
+            allow_remove: false
+            allow_reorder: false
+            summary: "{{fields.nom}}"
+            fields:
+              - { name: id, label: Identifiant, widget: string, readonly: true }
+              - { name: nom, label: Nom, widget: string }
+              - { name: accroche, label: Accroche, widget: string }
+              - { name: sousTitre, label: Sous-titre, widget: string }
+              - { name: resume, label: Résumé, widget: text }
+              - { name: texte, label: Texte, widget: text }
+              - name: signes
+                label: Signes
+                widget: list
+                field: { name: signe, label: Signe, widget: text }
+              - { name: teinte, label: Teinte, widget: select, readonly: true, options: [froid, passage, chaud] }
+
+      - name: miroir
+        label: Avancé — le miroir d'eau
+        file: data/miroir.json
+        fields:
+          - name: intro
+            label: Introduction
+            widget: object
+            collapsed: true
+            fields:
+              - { name: surtitre, label: Surtitre, widget: string }
+              - { name: titre, label: Titre, widget: string }
+              - { name: chapo, label: Chapô, widget: text }
+              - { name: note, label: Note, widget: text, required: false }
+              - name: origine
+                label: Origine
+                widget: object
+                fields:
+                  - { name: titre, label: Titre, widget: string }
+                  - { name: texte, label: Texte, widget: text }
+          - name: figures
+            label: Figures
+            widget: list
+            collapsed: true
+            allow_add: false
+            allow_remove: false
+            allow_reorder: false
+            summary: "{{fields.nom}}"
+            fields:
+              - { name: id, label: Identifiant, widget: string, readonly: true }
+              - { name: nom, label: Nom, widget: string }
+          - name: etats
+            label: États
+            widget: list
+            collapsed: true
+            allow_add: false
+            allow_remove: false
+            allow_reorder: false
+            summary: "{{fields.titre}}"
+            fields:
+              - { name: id, label: Identifiant, widget: string, readonly: true }
+              - { name: titre, label: Titre, widget: string }
+              - { name: texte, label: Texte, widget: text }
+              - name: figures
+                label: Position des figures (1 = tout en haut, 3 = la surface, 5 = tout en bas)
+                widget: object
+                fields:
+                  - name: masque
+                    label: Masque
+                    widget: object
+                    fields:
+                      - { name: rang, label: Rang, widget: number, value_type: int, min: 1, max: 5 }
+                      - { name: detail, label: Détail, widget: string }
+                  - name: blesse
+                    label: Blessé
+                    widget: object
+                    fields:
+                      - { name: rang, label: Rang, widget: number, value_type: int, min: 1, max: 5 }
+                      - { name: detail, label: Détail, widget: string }
+                  - name: createur
+                    label: Créateur
+                    widget: object
+                    fields:
+                      - { name: rang, label: Rang, widget: number, value_type: int, min: 1, max: 5 }
+                      - { name: detail, label: Détail, widget: string }

@@ -18,7 +18,6 @@
       "image": "/assets/images/livres/alchimie-spirituelle-de-l-etre.webp",
       "alt": "Couverture — L'Alchimie Spirituelle de l'Être",
       "isbn": "9782312027814",
-      "aRenseigner": [],
       "parution": 2014
     },
     {
@@ -35,7 +34,6 @@
       "alt": "Couverture — La fée et l'alchimiste",
       "sousTitre": "Un voyage initiatique",
       "isbn": "9782312034065",
-      "aRenseigner": [],
       "parution": 2015
     },
     {
@@ -51,7 +49,6 @@
       "image": "/assets/images/livres/bienvenue-sur-gaia.webp",
       "alt": "Couverture — Bienvenue sur Gaïa, la Nouvelle Terre !",
       "isbn": "9782312058870",
-      "aRenseigner": [],
       "parution": 2018
     },
     {
@@ -66,8 +63,7 @@
       "description": "Quarante-six pages de connaissances, d'exercices ludiques et de visualisations créatives autour de l'écoute de soi et de ses émotions. Le carnet traverse plusieurs situations : faire à contrecœur, écouter son mental, comprendre comment naît une pensée, faire de bon cœur, écouter son Moi Supérieur.",
       "image": "/assets/images/livres/carnet-s-ecouter-soi-m-aime.webp",
       "alt": "Couverture — Carnet d'Apprentis-Sages",
-      "sousTitre": "Pour apprendre à s'écouter soi-m'aime ! S'écouter, s'aimer, se réaliser.",
-      "aRenseigner": []
+      "sousTitre": "Pour apprendre à s'écouter soi-m'aime ! S'écouter, s'aimer, se réaliser."
     },
     {
       "id": "carnet-meilleur-de-vous-m-aime",
@@ -81,8 +77,7 @@
       "description": "Cent trente-neuf pages d'exercices, d'entraînements et de visualisations créatives pour accéder à son Moi Supérieur. Un mode d'emploi pour se dégager des lourdeurs émotionnelles, du mental et de l'ego, et retrouver son unité intérieure en s'alignant sur son axe alchimique.",
       "image": "/assets/images/livres/carnet-meilleur-de-vous-m-aime.webp",
       "alt": "Couverture — Carnet d'Apprentis-Sages",
-      "sousTitre": "Pour accéder au Meilleur de vous-m'aime !",
-      "aRenseigner": []
+      "sousTitre": "Pour accéder au Meilleur de vous-m'aime !"
     },
     {
       "id": "manuel-eveil-spirituel",
@@ -95,8 +90,7 @@
       "prix": 12.0,
       "description": "Un accompagnement pas à pas vers l'éveil spirituel, par une voie alchimique intérieure. La première partie porte sur les lourdeurs émotionnelles, les mémoires et les blessures ; la seconde aborde les niveaux de conscience des quatrième et cinquième dimensions, l'arbre de Vie et la communication avec son Moi Supérieur.",
       "image": "/assets/images/livres/manuel-eveil-spirituel.webp",
-      "alt": "Couverture — Manuel de l'Éveil Spirituel",
-      "aRenseigner": []
+      "alt": "Couverture — Manuel de l'Éveil Spirituel"
     },
     {
       "id": "manuel-lacher-l-ancien",
@@ -110,8 +104,7 @@
       "description": "Cinquante pages d'exercices ludiques et créatifs, simples à faire seul·e et à son rythme. Deux thèmes principaux : les émotions, avec une boussole émotionnelle pour se repérer et s'orienter ; puis les croyances et les jugements, ce que Sophie appelle les autosaboteurs. Le fil : repérer les anciens fonctionnements qui freinent, et reconnaître ceux qui portent pour les garder.",
       "image": "/assets/images/livres/manuel-lacher-l-ancien.webp",
       "alt": "Couverture — Manuel d'exercices",
-      "sousTitre": "Pour lâcher l'ancien",
-      "aRenseigner": []
+      "sousTitre": "Pour lâcher l'ancien"
     }
   ]
 }
