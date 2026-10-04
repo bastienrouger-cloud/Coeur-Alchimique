@@ -7,15 +7,6 @@
   },
   "articles": [
     {
-      "id": "article-de-test",
-      "titre": "article de test",
-      "resume": "test du cms",
-      "date": "2026-10-04",
-      "lecture": "1 min",
-      "lien": "articles/article-de-test.html",
-      "aRenseigner": "fghrzo"
-    },
-    {
       "id": "remonter-a-l-origine",
       "titre": "Remonter à l'origine : une exploration intérieure qui change tout !",
       "resume": "Pourquoi aller à l'origine des blessures émotionnelles plutôt que rester à la surface.",
