@@ -58,16 +58,11 @@ output:
   json:
     indent_size: 2
 
-# Bibliothèques de fichiers, rangées par usage (menu « Ressources »).
-# Les images d'en-tête des pages (accueil, accompagnement, médiathèque) n'y
-# figurent pas : elles sont écrites dans le HTML, pas dans les données.
+# Bibliothèque « Audios » : aucun formulaire ne téléverse dans ce dossier,
+# il faut donc le déclarer pour que Moz y dépose un MP3. Les autres dossiers
+# (couvertures, parcours, soins, portrait, PDF) sont déjà rattachés à leur
+# case de formulaire : les redéclarer ici les affichait vides (essai du 04/10).
 asset_collections:
-  - { name: images-contes, label: Couvertures des contes, icon: auto_stories, media_folder: assets/images/contes, public_folder: /assets/images/contes }
-  - { name: images-livres, label: Couvertures des livres, icon: menu_book, media_folder: assets/images/livres, public_folder: /assets/images/livres }
-  - { name: images-elearnings, label: Images des parcours, icon: school, media_folder: assets/images/elearnings, public_folder: /assets/images/elearnings }
-  - { name: images-soins, label: Images des soins, icon: spa, media_folder: assets/images/soins, public_folder: /assets/images/soins }
-  - { name: images-sophie, label: Portrait, icon: person, media_folder: assets/images/sophie, public_folder: /assets/images/sophie }
-  - { name: documents, label: E-books gratuits (PDF), icon: picture_as_pdf, media_folder: assets/documents, public_folder: /assets/documents }
   - { name: audios, label: Audios, icon: headphones, media_folder: assets/audio, public_folder: /assets/audio }
 
 collections:
