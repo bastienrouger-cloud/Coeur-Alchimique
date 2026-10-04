@@ -34,6 +34,20 @@ logo:
 media_folder: assets/images
 public_folder: /assets/images
 
+# Téléversements : nom de fichier nettoyé (minuscules, sans accent) et images
+# converties en WebP, 2400 px de large au plus. Un PNG de 3 Mo devient
+# quelques centaines de Ko, comme le reste du site.
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+      max_file_size: 52428800   # 50 Mo (les audios)
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2400
+
 slug:
   encoding: ascii
   clean_accents: true

@@ -1,10 +1,9 @@
 ---
 titre: Le Système Nerveux
-resume: "Il fait circuler dans le corps bien plus que des signaux : les informations, les fréquences, les émotions. Ce qu'il devient quand elles sont basses, et une pratique guidée pour l'apaiser."
-date: 2026-09-23
+resume: 'Il fait circuler dans le corps bien plus que des signaux : les informations, les fréquences, les émotions. Ce qu''il devient quand elles sont basses, et une pratique guidée pour l''apaiser.'
+date: '2026-09-23'
 lecture: 6 min
 audio: pratique-systeme-nerveux
-brouillon: false
 ---
 
 Chers Âme-I(e)s,
@@ -29,7 +28,7 @@ Vous pouvez le sentir : irritabilité, émotivité accrue, susceptibilité, nerv
 
 <p class="a-trancher__motif"> <strong>À trancher avec Moz</strong> — Phrase réécrite. L'original disait : « Vous ressentez ces déséquilibres dans votre corps : irritabilité, émotivité accrue, susceptibilité, nervosité, douleurs physiques inexplicables, acouphènes, fourmillements des membres, engourdissements… Cela peut vous permettre de savoir si votre Système Nerveux est surstimulé en ce moment ! » Toute la liste est conservée, mais la conclusion est retournée : des acouphènes et des fourmillements justifient un avis médical, et en faire une grille d'auto-diagnostic peut conduire quelqu'un à ne pas consulter. </p>
 
-Lorsque les fréquences hertziennes sont hautes — joie, paix, amour, unité, confiance —, le système nerveux est calme et clair, il transmet des informations fluides. Le corps émet une fréquence élevée, les émotions et les pensées sont positives, ce qui crée du positif en vous et dans votre vie.
+Lorsque les fréquences émotionnelles sont hautes — joie, paix, amour, unité, confiance —, le système nerveux est calme et clair, il transmet des informations fluides. Le corps émet une fréquence élevée, les émotions et les pensées sont positives, ce qui crée du positif en vous et dans votre vie.
 
 Il est donc essentiel d'apprendre à calmer son système nerveux central, périphérique, ainsi que son nerf vague. Quand ils sont calmes, ils véhiculent toute notre Force de Vie Créatrice à tout notre corps — à nos cellules, à nos organes, à nos muscles.
 
