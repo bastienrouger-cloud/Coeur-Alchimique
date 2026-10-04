@@ -38,7 +38,9 @@ concurrency:
 
 jobs:
   publier:
-    runs-on: ubuntu-latest
+    # Version d'Ubuntu figée : « ubuntu-latest » passe à Ubuntu 26 le 19/10/2026
+    # (avis GitHub), on évite une surprise. À relever le moment venu.
+    runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deploiement.outputs.page_url }}
