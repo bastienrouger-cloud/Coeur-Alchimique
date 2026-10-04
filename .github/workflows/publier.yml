@@ -1,12 +1,9 @@
 # ------------------------------------------------------------------------
-# Publication automatique du site — PRÉPARÉE, PAS ENCORE ACTIVE.
+# Publication automatique du site — ACTIVE depuis le 04/10/2026.
 #
-# Ce fichier ne fait rien tant qu'il reste ici. Pour l'activer :
-#   1. le déplacer vers .github/workflows/publier.yml ;
-#   2. sur GitHub : Settings → Pages → Build and deployment → Source :
-#      « GitHub Actions » (au lieu de « Deploy from a branch ») ;
-#   3. vérifier dans la même page que le domaine coeur-alchimique.fr est
-#      toujours renseigné (avec ce mode, le fichier CNAME est ignoré).
+# Réglage associé sur GitHub : Settings → Pages → Build and deployment →
+# Source : « GitHub Actions ». Avec ce mode, le fichier CNAME est ignoré :
+# le domaine coeur-alchimique.fr est réglé dans cette même page.
 #
 # À chaque modification poussée sur main (par Bastien ou depuis le CMS) :
 #   - régénère les pages des articles depuis contenus/articles/ ;
