@@ -13,7 +13,7 @@
       "format": "Livre broché · 198 pages",
       "editeur": "Les Éditions du Net",
       "lien": "https://www.leseditionsdunet.com/livre/lalchimie-spirituelle-de-letre",
-      "prix": 12.0,
+      "prix": 12,
       "description": "Le premier livre, paru en 2014. Un chemin vers l'amour de soi, en soi, et vers le couple féminin-masculin — intérieur autant qu'extérieur. Sophie y remonte à l'origine de la blessure intérieure et propose un processus alchimique pour retrouver l'équilibre. Nourri d'expériences personnelles, d'exemples concrets et de contes initiatiques.",
       "image": "/assets/images/livres/alchimie-spirituelle-de-l-etre.webp",
       "alt": "Couverture — L'Alchimie Spirituelle de l'Être",
@@ -23,6 +23,7 @@
     {
       "id": "la-fee-et-l-alchimiste",
       "titre": "La fée et l'alchimiste",
+      "sousTitre": "Un voyage initiatique",
       "genre": "Roman",
       "support": "Livre papier",
       "format": "Livre broché · 122 pages",
@@ -32,7 +33,6 @@
       "description": "Un roman initiatique. La fée Lucybèle et l'alchimiste Magnusor ont chacun perdu quelque chose, et se mettent en quête de le retrouver. Au fil du voyage : une initiation aux couleurs et aux énergies qui circulent en chacun, et la réconciliation du féminin et du masculin. Un conte des temps modernes, qui s'adresse autant au cœur qu'à l'intelligence.",
       "image": "/assets/images/livres/la-fee-et-l-alchimiste.webp",
       "alt": "Couverture — La fée et l'alchimiste",
-      "sousTitre": "Un voyage initiatique",
       "isbn": "9782312034065",
       "parution": 2015
     },
@@ -44,7 +44,7 @@
       "format": "Livre broché · 218 pages",
       "editeur": "Les Éditions du Net",
       "lien": "https://www.leseditionsdunet.com/livre/bienvenue-sur-gaia-la-nouvelle-terre",
-      "prix": 23.0,
+      "prix": 23,
       "description": "Une invitation à entrer sur la Nouvelle Terre. Le livre rassemble des exercices, des visualisations et des enseignements autour de l'évolution des douze chakras, du développement de l'ADN et des qualités lumineuses du cœur. Sophie y partage ses propres expériences et celles de ses guides.",
       "image": "/assets/images/livres/bienvenue-sur-gaia.webp",
       "alt": "Couverture — Bienvenue sur Gaïa, la Nouvelle Terre !",
@@ -54,30 +54,28 @@
     {
       "id": "carnet-s-ecouter-soi-m-aime",
       "titre": "Carnet d'Apprentis-Sages",
+      "sousTitre": "Pour apprendre à s'écouter soi-m'aime ! S'écouter, s'aimer, se réaliser.",
       "genre": "Carnet",
       "support": "E-book",
       "format": "E-book · 46 pages",
-      "editeur": null,
       "lien": "https://www.paypal.com/donate?token=kzItitF-1i3NqW8VmS6HOI293XEsESEx7DkaKWiP1R1gTipWiiHK11MdGnMGOjEMw4Fo0LukJzWKQ4Qy",
-      "prix": 10.0,
+      "prix": 10,
       "description": "Quarante-six pages de connaissances, d'exercices ludiques et de visualisations créatives autour de l'écoute de soi et de ses émotions. Le carnet traverse plusieurs situations : faire à contrecœur, écouter son mental, comprendre comment naît une pensée, faire de bon cœur, écouter son Moi Supérieur.",
       "image": "/assets/images/livres/carnet-s-ecouter-soi-m-aime.webp",
-      "alt": "Couverture — Carnet d'Apprentis-Sages",
-      "sousTitre": "Pour apprendre à s'écouter soi-m'aime ! S'écouter, s'aimer, se réaliser."
+      "alt": "Couverture — Carnet d'Apprentis-Sages"
     },
     {
       "id": "carnet-meilleur-de-vous-m-aime",
       "titre": "Carnet d'Apprentis-Sages",
+      "sousTitre": "Pour accéder au Meilleur de vous-m'aime !",
       "genre": "Carnet",
       "support": "E-book",
       "format": "E-book · 139 pages",
-      "editeur": null,
       "lien": "https://www.paypal.com/donate?token=9uaIQeHUf-NQBQNaUK5qcfvUWEaFoLHZOR2-OL8d92U025eBgcMZCjpnXlbirciqryExyKdn1cCvuSHI",
-      "prix": 27.0,
+      "prix": 50,
       "description": "Cent trente-neuf pages d'exercices, d'entraînements et de visualisations créatives pour accéder à son Moi Supérieur. Un mode d'emploi pour se dégager des lourdeurs émotionnelles, du mental et de l'ego, et retrouver son unité intérieure en s'alignant sur son axe alchimique.",
       "image": "/assets/images/livres/carnet-meilleur-de-vous-m-aime.webp",
-      "alt": "Couverture — Carnet d'Apprentis-Sages",
-      "sousTitre": "Pour accéder au Meilleur de vous-m'aime !"
+      "alt": "Couverture — Carnet d'Apprentis-Sages"
     },
     {
       "id": "manuel-eveil-spirituel",
@@ -85,9 +83,8 @@
       "genre": "Manuel",
       "support": "E-book",
       "format": "E-book",
-      "editeur": null,
       "lien": "https://www.paypal.com/donate?token=ZyKQmafB-9vHtpH4WcDmrx3MMjgTrNxbNyJd16qeXtsbh40fUkBbXcAu-nKD8cWhP12fnHhG48KReZ97",
-      "prix": 12.0,
+      "prix": 12,
       "description": "Un accompagnement pas à pas vers l'éveil spirituel, par une voie alchimique intérieure. La première partie porte sur les lourdeurs émotionnelles, les mémoires et les blessures ; la seconde aborde les niveaux de conscience des quatrième et cinquième dimensions, l'arbre de Vie et la communication avec son Moi Supérieur.",
       "image": "/assets/images/livres/manuel-eveil-spirituel.webp",
       "alt": "Couverture — Manuel de l'Éveil Spirituel"
@@ -95,16 +92,15 @@
     {
       "id": "manuel-lacher-l-ancien",
       "titre": "Manuel d'exercices",
+      "sousTitre": "Pour lâcher l'ancien",
       "genre": "Manuel",
       "support": "E-book",
       "format": "E-book · 50 pages",
-      "editeur": null,
       "lien": "https://www.paypal.com/donate?token=lYArJcatdAN7k4DtU6RwSakplLTcOag6xcNGIw8QuhVvOrhfa9ax8OPAKknGq-Ow-Cn3P16EDb-rnc82",
-      "prix": 10.0,
+      "prix": 10,
       "description": "Cinquante pages d'exercices ludiques et créatifs, simples à faire seul·e et à son rythme. Deux thèmes principaux : les émotions, avec une boussole émotionnelle pour se repérer et s'orienter ; puis les croyances et les jugements, ce que Sophie appelle les autosaboteurs. Le fil : repérer les anciens fonctionnements qui freinent, et reconnaître ceux qui portent pour les garder.",
       "image": "/assets/images/livres/manuel-lacher-l-ancien.webp",
-      "alt": "Couverture — Manuel d'exercices",
-      "sousTitre": "Pour lâcher l'ancien"
+      "alt": "Couverture — Manuel d'exercices"
     }
   ]
 }
