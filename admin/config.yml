@@ -17,7 +17,7 @@
 backend:
   name: github
   repo: bastienrouger-cloud/Coeur-Alchimique
-  branch: CMS                 # passer à « main » une fois la branche fusionnée
+  branch: main                # la branche publiée : chaque enregistrement part en ligne
   auth_methods: [token]       # connexion par jeton uniquement : aucun serveur tiers
   commit_messages:
     create: "CMS : nouveau — {{collection}} « {{slug}} »"
