@@ -203,18 +203,24 @@ async function garnirSocle() {
 
   // Une entrée peut couvrir plusieurs pages : « Médiathèque » reste
   // allumée quand on est sur Livres ou E-learnings, qui sont ses rayons.
+  // Une valeur de « aussi » qui finit par « / » désigne un dossier entier
+  // (pages/articles/ : les articles publiés plus tard sont couverts d'office).
   // Sur la page elle-même c'est "page" ; sur une page fille, "true" —
   // « l'élément courant du groupe », ce qui est exactement le cas.
   const lien = (entree) => {
     const nomFichier = (h) => h.split("/").pop().toLowerCase();
     const cible = nomFichier(entree.href);
-    const filles = (entree.aussi || []).map(nomFichier);
+    const aussi = entree.aussi || [];
+    const filles = aussi.filter((h) => !h.endsWith("/")).map(nomFichier);
+    const dansDossier = aussi
+      .filter((h) => h.endsWith("/"))
+      .some((h) => window.location.pathname.toLowerCase().includes(h.toLowerCase()));
     return CA.el("li", {}, [
       CA.el("a", {
         href: CA.url(entree.href),
         texte: entree.label,
         "aria-current":
-          cible === pageActuelle ? "page" : filles.includes(pageActuelle) ? "true" : null,
+          cible === pageActuelle ? "page" : filles.includes(pageActuelle) || dansDossier ? "true" : null,
       }),
     ]);
   };

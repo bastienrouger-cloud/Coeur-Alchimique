@@ -6,9 +6,7 @@ lecture: 2 min
 audio: pratique-force-de-vie-creatrice
 ---
 
-**La Force de Vie Créatrice** est <mark class="a-trancher">l’énergie la plus puissante du corps humain</mark> ! Vous voyez donc l’importance de cette haute fréquence !
-
-<p class="a-trancher__motif"><strong>À trancher avec Moz</strong> — Affirmation physiologique : « l'énergie la plus puissante du corps humain » se présente comme un fait mesurable. Déjà signalé lors de la relecture du vocabulaire.</p>
+**La Force de Vie Créatrice** est l’énergie la plus puissante du corps humain ! Vous voyez donc l’importance de cette haute fréquence !
 
 Elle nous permet de créer, d’être un **Créateur** sur cette planète Terre et c’est l’expérience que nous sommes venus vivre ici ! Car nous sommes les créateurs de notre vie, de notre réalité !
 

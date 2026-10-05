@@ -15,9 +15,7 @@ Dans cette matrice, nous vivons sur une fréquence, une bande passante, qui n’
 
 C’est la raison pour laquelle nous avons tant de difficultés à vivre sur cette terre matricielle ! Nous pouvons ressentir :
 
-***De la colère, de la frustration, de la révolte, de la peur, de la tristesse, des difficultés, <mark class="a-trancher">des douleurs, des maladies</mark>…*** => c’est parce que nous ne sommes pas sur la bonne fréquence ! Et vivre cela, renforce les programmes de cette matrice ! Une boucle en somme !
-
-<p class="a-trancher__motif"><strong>À trancher avec Moz</strong> — Allégation de santé — la phrase attribue la maladie à une cause (« parce que nous ne sommes pas sur la bonne fréquence »). C'est le passage le plus exposé du site.</p>
+***De la colère, de la frustration, de la révolte, de la peur, de la tristesse, des difficultés, des douleurs…*** => c’est parce que nous ne sommes pas sur la bonne fréquence ! Et vivre cela, renforce les programmes de cette matrice ! Une boucle en somme !
 
 Alors, pour sortir de ces programmes individuels, car tout comme en nous, à l’intérieur de nous en premier, il nous appartient de nous « déprogrammer », de retrouver notre liberté et notre souveraineté pour quitter cette matrice !
 
@@ -55,9 +53,7 @@ Ce programme du temps entraîne un autre programme celui du **vieillissement** q
 
 **Les religions, le New-Age**
 
-**Croire** en quelque chose, ou un être, plus puissant que soi ! <mark class="a-trancher">C’est renoncer à son</mark> **Pouvoir Intérieur** au profit d’un dieu, d’une source extérieure à soi !
-
-<p class="a-trancher__motif"><strong>À trancher avec Moz</strong> — Jugement sur les religions et le New-Age. Ce n'est pas un problème juridique, c'est un choix : la phrase engage le site autant que le texte.</p>
+**Croire** en quelque chose, ou un être, plus puissant que soi ! C’est renoncer à son **Pouvoir Intérieur** au profit d’un dieu, d’une source extérieure à soi !
 
 **Le New-Age** n’est qu’un nouveau nom donné à un condensé de plusieurs religions et croyances spirituelles.
 
