@@ -30,7 +30,15 @@ Attention : Ne pas faire de choix lorsque vous ressentez de la colère, de la pe
 
 Lorsque votre mission est en accord avec votre Âme, votre Vrai Moi Originel, vous attirez à vous naturellement :
 
-<ul><li></li><li><p>Les gens,</p></li><li><p>Les choses,</p></li><li><p>Les synchronicités,</p></li><li><p>Tout ce dont vous avez besoin,</p></li><li><p>Tous ceux qui sont attirés par cette vibration.</p></li></ul>
+- Les gens,
+
+- Les choses,
+
+- Les synchronicités,
+
+- Tout ce dont vous avez besoin,
+
+- Tous ceux qui sont attirés par cette vibration.
 
 Lorsque vous êtes aligné.e, tout est simple et fluide.
 
