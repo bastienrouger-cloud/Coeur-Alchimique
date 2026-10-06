@@ -94,6 +94,27 @@ const CA = (() => {
     return RACINE + String(chemin).replace(/^\/+/, "");
   }
 
+  /* Masquer un élément sans le supprimer.
+
+     Un parcours ou un livre coché « Masquer sur le site » dans le CMS
+     (champ `masquer: true`) reste dans son fichier JSON, avec son texte et
+     son image, prêt à revenir. Il est retiré ici, au chargement : c'est le
+     seul point de passage des données, donc cartes, Médiathèque, compteurs
+     (« quatre parcours, à partir de 77 € ») et menu du formulaire de contact
+     l'ignorent tous, sans qu'aucun d'eux ait à y penser.
+
+     Seuls les éléments des listes de premier niveau sont concernés
+     (programmes, ouvrages…), et seulement si `masquer` vaut exactement true. */
+  function sansMasques(json) {
+    if (!json || typeof json !== "object" || Array.isArray(json)) return json;
+    for (const [cle, valeur] of Object.entries(json)) {
+      if (Array.isArray(valeur)) {
+        json[cle] = valeur.filter((x) => !(x && typeof x === "object" && x.masquer === true));
+      }
+    }
+    return json;
+  }
+
   /** Charge un JSON une seule fois par session, puis le sert depuis le cache. */
   async function donnees(nom) {
     if (!cache.has(nom)) {
@@ -102,7 +123,7 @@ const CA = (() => {
         fetch(url(`data/${nom}.json`)).then((r) => {
           if (!r.ok) throw new Error(`Données introuvables : ${nom}.json`);
           return r.json();
-        })
+        }).then(sansMasques)
       );
     }
     return cache.get(nom);

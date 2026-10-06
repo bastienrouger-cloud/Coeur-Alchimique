@@ -941,12 +941,15 @@ async function rendreMediatheque() {
   const carteOeuvre = (o) =>
     el("button", { type: "button", class: "carte carte--ouvrante", id: o.id,
                    "data-acces": o.acces, onclick: (e) => ouvrirOeuvre(o, e.currentTarget) }, [
-      /* La couverture et l'étiquette partagent une rangée : sans cadre,
-         la place à droite de la couverture était vide, et l'étiquette
-         plus bas repoussait le titre d'une ligne pour rien. En rangée,
-         elles ne peuvent pas se chevaucher — ce qui arriverait avec une
-         étiquette en position absolue sur un visuel en paysage. */
-      el("span", { class: "carte__visuel" }, [
+      /* Couverture (portrait) : elle partage une rangée avec l'étiquette.
+         Sans cadre, la place à droite de la couverture était vide, et
+         l'étiquette plus bas repoussait le titre d'une ligne pour rien.
+
+         Visuel en paysage (les parcours) : il prend toute la largeur de
+         la carte, en haut, et l'étiquette est posée dessus, dans le coin
+         (carte__visuel--large). Le chevauchement est voulu : l'étiquette
+         a un fond sombre qui la garde lisible sur n'importe quelle image. */
+      el("span", { class: `carte__visuel${o.image && !o.portrait ? " carte__visuel--large" : ""}` }, [
         o.image
           ? el("span", { class: `carte__media${o.portrait ? " carte__media--portrait" : ""}` }, [
               el("img", { src: url(o.image), alt: "", loading: "lazy" }),

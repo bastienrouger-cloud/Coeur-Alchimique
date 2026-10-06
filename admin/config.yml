@@ -247,6 +247,7 @@ collections:
                 public_folder: /assets/images/livres
               - { name: alt, label: Description de l'image (accessibilité), widget: string }
               - { name: isbn, label: ISBN, widget: string, required: false }
+              - { name: masquer, label: Masquer sur le site, widget: boolean, default: false, required: false, hint: "Cochée, la fiche disparaît du site mais reste ici, prête à revenir." }
               - { name: parution, label: Année de parution, widget: number, value_type: int, required: false }
               - { name: aRenseigner, label: Note « à renseigner », widget: string, required: false }
 
@@ -292,6 +293,7 @@ collections:
                 field: { name: ligne, label: Ligne, widget: string }
               - { name: description, label: Description, widget: text }
               - { name: lien, label: Lien Payhip, widget: string, required: false, hint: "Adresse complète (https://payhip.com/…). Sans lien, le bouton propose de poser une question." }
+              - { name: masquer, label: Masquer sur le site, widget: boolean, default: false, required: false, hint: "Cochée, la fiche disparaît du site mais reste ici, prête à revenir." }
           - name: tutorat
             label: Encadré « tutorat »
             widget: object

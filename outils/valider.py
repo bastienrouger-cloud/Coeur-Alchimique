@@ -157,9 +157,10 @@ def regles(d):
         ids["elearnings"] = liste("elearnings.json › programmes", x.get("programmes"), {
             "id": ("texte", T), "nom": ("texte", T), "promesse": ("texte", T), "prix": ("nombre", T),
             "duree": ("texte", T), "niveau": ("texte", T), "image": ("fichier", T), "alt": ("texte", T),
-            "contenu": ("liste", T), "description": ("texte", T), "lien": ("lien", O)})
+            "contenu": ("liste", T), "description": ("texte", T), "lien": ("lien", O), "masquer": ("bool", O)})
+        # Un parcours masqué n'est pas affiché : son lien manquant ne gêne personne.
         for p in x.get("programmes", []):
-            if isinstance(p, dict) and not p.get("lien"):
+            if isinstance(p, dict) and not p.get("lien") and p.get("masquer") is not True:
                 avert(f"elearnings.json › programmes[{p.get('id')}]", "pas de lien Payhip : le bouton renvoie vers « Poser une question »")
 
     def etats_coeur(x):
@@ -182,9 +183,9 @@ def regles(d):
             "id": ("texte", T), "titre": ("texte", T), "sousTitre": ("texte", O), "genre": ("texte", T),
             "support": ("texte", T), "format": ("texte", T), "editeur": ("texte", O), "lien": ("lien", T),
             "prix": ("nombre", T), "description": ("texte", T), "image": ("fichier", T), "alt": ("texte", T),
-            "isbn": ("texte", O), "parution": ("nombre", O), "aRenseigner": ("texte", O)})
+            "isbn": ("texte", O), "parution": ("nombre", O), "aRenseigner": ("texte", O), "masquer": ("bool", O)})
         for o in x.get("ouvrages", []):
-            if isinstance(o, dict) and "paypal.com/donate" in str(o.get("lien", "")):
+            if isinstance(o, dict) and "paypal.com/donate" in str(o.get("lien", "")) and o.get("masquer") is not True:
                 avert(f"livres.json › ouvrages[{o.get('id')}]", "vendu par un bouton PayPal « Don » (à remplacer par Payhip)")
 
     def mediatheque(x):

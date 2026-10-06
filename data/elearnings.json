@@ -13,7 +13,7 @@
       "duree": "5 jours",
       "niveau": "Découverte",
       "image": "/assets/images/elearnings/elever-ses-frequences.webp",
-      "alt": "Placeholder — visuel du parcours Élever ses fréquences",
+      "alt": "Une femme assise en tailleur, les yeux fermés et le visage levé, sous une gerbe de particules de lumière dorée",
       "contenu": [
         "Un ebook de 23 pages",
         "Une pratique évolutive en 3 étapes",
@@ -26,6 +26,7 @@
     },
     {
       "id": "la-neutralite",
+      "masquer": true,
       "nom": "La Neutralité",
       "promesse": "Sortir des polarités pour retrouver du discernement et du détachement.",
       "prix": 93,
@@ -44,6 +45,7 @@
     },
     {
       "id": "unite-et-souverainete",
+      "masquer": true,
       "nom": "Unité et Souveraineté",
       "promesse": "Aligner l'intérieur avant de chercher l'alignement au-dehors.",
       "prix": 93,
@@ -62,6 +64,7 @@
     },
     {
       "id": "se-liberer-des-programmes",
+      "masquer": true,
       "nom": "Se libérer des programmes",
       "promesse": "Reconnaître les schémas de contrôle, de limitation et de soumission — et s'en défaire.",
       "prix": 180,
@@ -86,7 +89,7 @@
       "duree": "5 modules",
       "niveau": "Parcours complet",
       "image": "/assets/images/elearnings/mission-de-vie.webp",
-      "alt": "Placeholder — visuel du parcours Mission de vie",
+      "alt": "Une jeune fille en robe verte trace un cœur de lumière dorée entre deux grands arbres d'une forêt d'automne",
       "contenu": [
         "5 modules",
         "4 heures d'audio",
@@ -105,7 +108,7 @@
       "duree": "13 outils",
       "niveau": "Parcours complet",
       "image": "/assets/images/elearnings/revelez-votre-lumiere-interieure.webp",
-      "alt": "Placeholder — visuel du parcours Incarnez votre Lumière",
+      "alt": "Une femme assise de dos au milieu d'un champ de fleurs lumineuses, sous un arbre aux branches éclairées",
       "contenu": [
         "Un livret d'apprentissage de 60 pages",
         "7 heures d'audios de pratique",
@@ -124,7 +127,7 @@
       "duree": "4 modules",
       "niveau": "Parcours complet",
       "image": "/assets/images/elearnings/s-eveiller-a-sa-puissance-interieure.webp",
-      "alt": "Placeholder — visuel du parcours S'éveiller à sa Puissance Intérieure",
+      "alt": "Une femme aux yeux fermés au sommet d'une montagne, un cœur de lumière dorée sur la poitrine, face au soleil levant",
       "contenu": [
         "4 modules",
         "7 heures d'audio",
