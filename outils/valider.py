@@ -181,10 +181,14 @@ def regles(d):
         champs("livres.json", x, {"intro": ("objet", T), "ouvrages": ("liste", T)})
         liste("livres.json › ouvrages", x.get("ouvrages"), {
             "id": ("texte", T), "titre": ("texte", T), "sousTitre": ("texte", O), "genre": ("texte", T),
-            "support": ("texte", T), "format": ("texte", T), "editeur": ("texte", O), "lien": ("lien", T),
+            "support": ("texte", T), "format": ("texte", T), "editeur": ("texte", O), "lien": ("lien", O),
             "prix": ("nombre", T), "description": ("texte", T), "image": ("fichier", T), "alt": ("texte", T),
-            "isbn": ("texte", O), "parution": ("nombre", O), "aRenseigner": ("texte", O), "masquer": ("bool", O)})
+            "isbn": ("texte", O), "parution": ("nombre", O), "aRenseigner": ("texte", O), "masquer": ("bool", O),
+            "reedition": ("bool", O)})
         for o in x.get("ouvrages", []):
+            # Un ouvrage sans lien d'achat n'est admis que s'il est en réédition.
+            if isinstance(o, dict) and not o.get("lien") and o.get("reedition") is not True:
+                err(f"livres.json › ouvrages[{o.get('id')}]", "il faut un « lien » d'achat, ou cocher « réédition en cours »")
             if isinstance(o, dict) and "paypal.com/donate" in str(o.get("lien", "")) and o.get("masquer") is not True:
                 avert(f"livres.json › ouvrages[{o.get('id')}]", "vendu par un bouton PayPal « Don » (à remplacer par Payhip)")
 

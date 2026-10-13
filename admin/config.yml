@@ -238,7 +238,8 @@ collections:
               - { name: support, label: Support, widget: string, hint: "Ex. Livre papier, E-book" }
               - { name: format, label: Format, widget: string, hint: "Ex. « Broché · 196 pages »" }
               - { name: editeur, label: Éditeur, widget: string, required: false, hint: Laisser vide pour un e-book vendu en direct. }
-              - { name: lien, label: Lien d'achat, widget: string, hint: Adresse complète (https://…) }
+              - { name: lien, label: Lien d'achat, widget: string, required: false, hint: "Adresse complète (https://…). Peut rester vide pendant une réédition." }
+              - { name: reedition, label: Réédition en cours, widget: boolean, default: false, required: false, hint: "Cochée, le livre reste visible mais sans bouton d'achat, avec la mention « Réédition en cours ». À décocher quand le lien Payhip est prêt." }
               - { name: prix, label: Prix (€), widget: number, value_type: float, min: 0, step: 0.5 }
               - { name: description, label: Description, widget: text }
               - name: image

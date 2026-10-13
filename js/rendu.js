@@ -846,6 +846,76 @@ async function rendreMediatheque() {
      « E-book · 46 pages », « PDF · 6 pages »), et stocké à part dans le
      champ `support` des JSON, prêt pour le jour où une recherche voudra
      filtrer dessus. */
+  const TEXTE_REEDITION =
+    "Réédition en cours : ce livre revient bientôt, dans une version revue.";
+
+  /* « Prévenez-moi » — pour un livre en réédition.
+
+     Même formulaire Formspree que le contact et le livre d'or : pas de
+     service de plus, pas de cookie. Sophie reçoit un mail par demande
+     (objet « Réédition — prévenir : <titre> ») ; à la remise en vente,
+     elle écrit une fois à toutes les adresses, en Cci, puis les efface.
+     Pas de case à cocher : le geste est sans ambiguïté et sa finalité
+     est écrite juste au-dessus du bouton. */
+  const FORMSPREE = "https://formspree.io/f/xwlpyjej";
+
+  const formulaireReedition = (o) => {
+    const idChamp = `prevenir-${o.id}`;
+    const statut = el("div", { class: "statut-formulaire", role: "status", "aria-live": "polite" });
+    const bouton = el("button", { class: "bouton bouton--contour", type: "submit", texte: "Me prévenir" });
+    const afficher = (texte, type) => {
+      statut.textContent = texte;
+      statut.className = `statut-formulaire statut-formulaire--${type}`;
+    };
+    const form = el("form", {
+      class: "fiche__prevenir",
+      action: FORMSPREE,
+      method: "POST",
+      onsubmit: async (e) => {
+        e.preventDefault();
+        if (bouton.disabled || !form.reportValidity()) return;
+        bouton.disabled = true;
+        afficher("", "neutre");
+        try {
+          const reponse = await fetch(FORMSPREE, {
+            method: "POST",
+            body: new FormData(form),
+            headers: { Accept: "application/json" },
+          });
+          if (!reponse.ok) throw new Error(`Formspree a répondu ${reponse.status}`);
+          form.reset();
+          afficher("C'est noté : vous recevrez un mail quand ce livre sera de nouveau disponible.", "succes");
+        } catch (erreur) {
+          console.error("Réédition : envoi échoué.", erreur);
+          afficher("La demande n'a pas pu être envoyée. Vérifiez votre connexion et réessayez.", "erreur");
+        } finally {
+          bouton.disabled = false;
+        }
+      },
+    }, [
+      el("p", { class: "fiche__prevenir-titre", texte: "Être prévenu·e de son retour" }),
+      el("div", { class: "fiche__prevenir-ligne" }, [
+        el("label", { class: "sr-only", for: idChamp, texte: "Votre adresse mail" }),
+        el("input", { type: "email", id: idChamp, name: "email", required: "", autocomplete: "email",
+                      placeholder: "Votre adresse mail" }),
+        bouton,
+      ]),
+      el("p", { class: "champ__aide attenue" }, [
+        "Votre adresse sert uniquement à vous prévenir de la réédition de ce livre ; elle est effacée ensuite (",
+        el("a", { href: url("pages/mentions-legales.html#reedition"), texte: "en savoir plus" }),
+        ").",
+      ]),
+      el("input", { type: "hidden", name: "livre", value: o.titre + (o.detail ? ` (${o.detail})` : "") }),
+      el("input", { type: "hidden", name: "_subject", value: `Réédition — prévenir : ${o.titre}` }),
+      el("div", { class: "pot-de-miel", "aria-hidden": "true" }, [
+        el("label", { for: `${idChamp}-gotcha`, texte: "Ne pas remplir" }),
+        el("input", { type: "text", id: `${idChamp}-gotcha`, name: "_gotcha", tabindex: "-1", autocomplete: "off" }),
+      ]),
+      statut,
+    ]);
+    return form;
+  };
+
   const oeuvreLivre = (l) => ({
     id: `livre-${l.id}`,
     rayon: "lire",
@@ -859,8 +929,12 @@ async function rendreMediatheque() {
     portrait: true,
     description: l.description,
     prix: l.prix,
+    /* Réédition en cours : le livre reste dans la Médiathèque, mais sans
+       prix ni bouton d'achat — l'ancien lien (un bouton PayPal « Don »)
+       est retiré, le lien Payhip viendra avec la nouvelle version. */
+    reedition: l.reedition === true,
     faits: [l.editeur, l.format, l.parution ? `Paru en ${l.parution}` : null].filter(Boolean),
-    action: l.lien
+    action: l.lien && l.reedition !== true
       ? { href: l.lien, texte: l.editeur ? "Commander chez l'éditeur" : "L'obtenir", externe: true }
       : null,
   });
@@ -912,10 +986,14 @@ async function rendreMediatheque() {
             o.faits.length
               ? el("ul", { class: "liste-puces fiche__faits" }, o.faits.map((x) => el("li", { texte: x })))
               : null,
+            o.reedition ? formulaireReedition(o) : null,
           ]),
         ]),
         el("div", { class: "fiche__actions" }, [
-          o.prix !== undefined && o.prix !== null
+          o.reedition
+            ? el("p", { class: "fiche__reedition", texte: TEXTE_REEDITION })
+            : null,
+          !o.reedition && o.prix !== undefined && o.prix !== null
             ? el("span", { class: "prix", texte: prix(o.prix) })
             : null,
           o.action
@@ -970,9 +1048,11 @@ async function rendreMediatheque() {
            qu'on lit « Livre broché » ou « E-book », puisque la pastille
            dorée ne porte plus que le genre. */
         el("span", { class: "media__ligne" }, [
-          el("span", { class: "pastille-acces pastille-acces--payant", texte: "Payant" }),
+          o.reedition
+            ? el("span", { class: "pastille-acces pastille-acces--reedition", texte: "Réédition en cours" })
+            : el("span", { class: "pastille-acces pastille-acces--payant", texte: "Payant" }),
           o.detail ? el("span", { class: "media__detail", texte: o.detail }) : null,
-          o.prix !== undefined && o.prix !== null
+          !o.reedition && o.prix !== undefined && o.prix !== null
             ? el("span", { class: "media__detail media__prix", texte: prix(o.prix) })
             : null,
         ]),

@@ -2734,6 +2734,49 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
   border: 1px solid rgba(157, 192, 232, 0.3);
   color: var(--texte-sombre-fond-attenue);
 }
+/* Réédition : ni gratuit ni en vente — un contour en pointillé, comme
+   quelque chose qui n'est pas encore revenu à sa place. */
+.pastille-acces--reedition {
+  background: transparent;
+  border: 1px dashed rgba(227, 200, 121, 0.5);
+  color: var(--or-pale);
+}
+.fiche__reedition {
+  margin: 0;
+  font-style: italic;
+  color: var(--or-pale);
+}
+/* « Prévenez-moi » : un champ et un bouton sur une ligne, qui passent
+   l'un sous l'autre quand la place manque. */
+.fiche__prevenir {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(157, 192, 232, 0.16);
+}
+.fiche__prevenir-titre {
+  margin: 0;
+  font-family: var(--font-titre);
+  font-size: 1.15rem;
+  color: var(--or-pale);
+}
+.fiche__prevenir-ligne { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.fiche__prevenir-ligne input {
+  flex: 1 1 14rem;
+  min-width: 0;
+  font: inherit;
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--rayon-s);
+  border: 1px solid rgba(157, 192, 232, 0.28);
+  background: rgba(157, 192, 232, 0.08);
+  color: var(--creme);
+}
+.fiche__prevenir-ligne input:focus-visible { outline: 2px solid var(--or); outline-offset: 2px; }
+.fiche__prevenir-ligne .bouton { flex: 0 0 auto; }
+.fiche__prevenir .champ__aide { margin: 0; }
+.fiche__prevenir .champ__aide a { color: var(--or-clair); }
+.fiche__prevenir button:disabled { opacity: 0.6; cursor: wait; }
 
 .media__ligne {
   display: flex;
