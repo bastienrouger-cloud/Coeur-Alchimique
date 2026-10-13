@@ -1100,6 +1100,66 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
 [data-theme="clair"] .pratique-guidee h2,
 [data-theme="clair"] .pratique-guidee strong { color: #7d6119; }
 [data-theme="clair"] .pratique-guidee__note { color: var(--texte-clair-fond-attenue); }
+.pratique-guidee h2 + p { margin-top: 1.4rem; }
+
+/* ---- Les illustrations d'un article ----
+
+   Les schémas de Sophie sont petits (300 à 500 px) : on les montre à
+   leur taille, à côté du texte sur grand écran, centrés au-dessus sur
+   téléphone. Le texte coule autour ; un intertitre ou la fin d'un bloc
+   repart toujours sous l'image. */
+.illustration { margin: 1.6rem auto; max-width: min(100%, 12rem); }
+.illustration--moyenne { max-width: min(100%, 20rem); }
+.illustration img { width: 100%; height: auto; margin-inline: auto; }
+.illustration--petite { max-width: 8rem; }
+.illustration--large { max-width: min(100%, 30rem); }
+.illustration--large img { border-radius: var(--rayon); }
+@media (min-width: 40rem) {
+  .prose > .illustration--droite,
+  .pratique-guidee > .illustration--droite {
+    float: right;
+    width: 11rem;
+    margin: 0.3rem 0 1rem 2rem;
+  }
+  .prose > .illustration--droite.illustration--petite,
+  .pratique-guidee > .illustration--droite.illustration--petite { width: 7rem; }
+}
+.prose h2 { clear: both; }
+.prose::after,
+.pratique-guidee::after { content: ""; display: block; clear: both; }
+
+/* ---- Les trois centres : trois colonnes côte à côte ----
+
+   Un tableau dans le document de Sophie ; ici trois cartes, qui
+   s'empilent sur téléphone. */
+.trois-centres {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  margin: 1.6rem 0;
+}
+.trois-centres__carte {
+  background: rgba(157, 192, 232, 0.06);
+  border: 1px solid rgba(157, 192, 232, 0.16);
+  border-radius: var(--rayon);
+  padding: 1.3rem 1.4rem;
+}
+.trois-centres__carte h3 { margin: 0; font-size: 1.25rem; color: var(--or-pale); }
+.trois-centres__corps {
+  margin: 0.15rem 0 0.8rem;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--texte-sombre-fond-attenue);
+}
+.trois-centres__carte p { margin: 0; line-height: 1.65; }
+.trois-centres__carte p + p { margin-top: 0.6rem; }
+.trois-centres__carte .trois-centres__corps + p { margin-top: 0; }
+[data-theme="clair"] .trois-centres__carte {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(20, 36, 61, 0.12);
+}
+[data-theme="clair"] .trois-centres__carte h3 { color: #7d6119; }
+[data-theme="clair"] .trois-centres__corps { color: var(--texte-clair-fond-attenue); }
 
 /* ---------- 10. Le cadre (complément médical) ---------- */
 .cadre {
