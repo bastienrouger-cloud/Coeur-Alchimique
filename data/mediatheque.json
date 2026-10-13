@@ -8,16 +8,19 @@
   "rayons": [
     {
       "id": "lire",
+      "surtitre": "Ce que je raconte",
       "titre": "Lire",
       "chapo": "Des récits, des textes et des ouvrages, pour aborder par l'imaginaire ce que les mots directs n'atteignent pas."
     },
     {
       "id": "pratiquer",
+      "surtitre": "Ce que je transmets",
       "titre": "Pratiquer",
       "chapo": "Des exercices et des parcours à faire soi-même, du geste de cinq minutes au cheminement de plusieurs semaines."
     },
     {
       "id": "ecouter",
+      "surtitre": "Ma voix, pour vous guider",
       "titre": "Écouter",
       "chapo": "Des méditations et des pratiques guidées, à suivre au casque, allongé·e, quand vous en avez besoin. Tout est en écoute libre."
     }

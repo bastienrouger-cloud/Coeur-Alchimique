@@ -157,6 +157,7 @@ collections:
             summary: "{{fields.titre}}"
             fields:
               - { name: id, label: Identifiant, widget: string, readonly: true }
+              - { name: surtitre, label: Surtitre, widget: string, hint: "La petite ligne au-dessus du titre du rayon." }
               - { name: titre, label: Titre, widget: string }
               - { name: chapo, label: Chapô, widget: text }
           - name: items

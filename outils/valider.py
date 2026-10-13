@@ -190,7 +190,7 @@ def regles(d):
 
     def mediatheque(x):
         champs("mediatheque.json", x, {"intro": ("objet", T), "rayons": ("liste", T), "items": ("liste", T)})
-        ids["rayons"] = liste("mediatheque.json › rayons", x.get("rayons"), {"id": ("texte", T), "titre": ("texte", T), "chapo": ("texte", T)})
+        ids["rayons"] = liste("mediatheque.json › rayons", x.get("rayons"), {"id": ("texte", T), "surtitre": ("texte", T), "titre": ("texte", T), "chapo": ("texte", T)})
         ids["mediatheque"] = liste("mediatheque.json › items", x.get("items"), {
             "id": ("texte", T), "rayon": ("texte", T), "acces": ("texte", T), "titre": ("texte", T),
             "sousTitre": ("texte", O), "genre": ("texte", T), "support": ("texte", T), "detail": ("texte", T),

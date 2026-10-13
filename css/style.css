@@ -2297,6 +2297,7 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
 .carte--ouvrante {
   font-family: inherit;
   font-size: inherit;
+  line-height: inherit;
   color: inherit;
   text-align: left;
   cursor: pointer;
@@ -2309,6 +2310,9 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
   color: var(--creme);
 }
 .carte--ouvrante:hover .carte__titre { color: var(--or-pale); }
+/* Le bouton hérite maintenant de l'interligne du texte courant (pour la
+   description) ; la promesse en italique garde un interligne de sous-titre. */
+.carte--ouvrante .media__sous-titre { line-height: 1.45; }
 .carte--ouvrante:focus-visible { outline: 2px solid var(--or); outline-offset: 3px; }
 /* La couverture est un objet posé sur la carte, pas une image dans un
    cadre.

@@ -959,6 +959,11 @@ async function rendreMediatheque() {
       ]),
       el("span", { class: "carte__titre", texte: o.titre }),
       o.sousTitre ? el("span", { class: "media__sous-titre", texte: o.sousTitre }) : null,
+      /* La description, comme sur les cartes de documents. Sans elle, une
+         carte de parcours (image + titre + promesse) restait à moitié vide
+         à côté de ses voisines, plus longues, dont elle prend la hauteur.
+         La fiche la reprend, avec le contenu détaillé et le bouton d'achat. */
+      o.description ? el("span", { class: "attenue", texte: o.description }) : null,
       el("span", { class: "carte__pied" }, [
         /* Même ligne que sur les documents libres : accès, support,
            puis prix. C'est ici — et nulle part ailleurs sur la carte —
@@ -1129,7 +1134,7 @@ async function rendreMediatheque() {
         [
           el("div", { class: "contenu" }, [
             el("div", { class: "entete-section" }, [
-              el("span", { class: "surtitre", texte: `Rayon ${rang + 1} sur ${d.rayons.length}` }),
+              r.surtitre ? el("span", { class: "surtitre", texte: r.surtitre }) : null,
               el("h2", { texte: r.titre }),
               el("p", { class: "chapo attenue", texte: r.chapo }),
             ]),
