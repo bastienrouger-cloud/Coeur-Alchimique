@@ -165,12 +165,12 @@ Les notes de travail (pastilles « à renseigner », passages « à trancher »)
 masquées pour le public. Pour les voir, ajouter `?chantier` à l'adresse, par
 exemple https://coeur-alchimique.fr/?chantier. Détails dans le manuel.
 
-## Avant d'ouvrir le site
+## Ouverture du site
 
-Chaque page porte `<meta name="robots" content="noindex">` tant que le site est
-incomplet. **Le jour de l'ouverture**, retirer cette balise partout (chercher
-`noindex`, y compris dans `outils/gabarits/article.html`), sans toucher à
-`robots.txt`, puis déclarer `sitemap.xml` dans Google Search Console.
+Le site est ouvert aux moteurs de recherche depuis le 22/10/2026 : la balise
+`noindex` a été retirée de toutes les pages et du gabarit d'article. Seul
+`admin/index.html` la garde (l'interface du CMS n'a pas à être indexée).
+Reste à déclarer `sitemap.xml` dans Google Search Console.
 
 La liste de ce qui reste à régler avant l'ouverture est suivie dans Notion
 (page « Cœur Alchimique », base Tâches).

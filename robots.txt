@@ -1,7 +1,7 @@
 # Cœur Alchimique — coeur-alchimique.fr
-# Ne JAMAIS bloquer l'exploration ici : pendant la phase « noindex » (voir README),
-# Google doit pouvoir lire la balise noindex des pages. Un Disallow l'en empêcherait
-# et l'URL pourrait rester indexée sans contenu.
+# Ne JAMAIS bloquer l'exploration ici. Pour exclure une page de Google, utiliser la
+# balise <meta name="robots" content="noindex"> (cas de /admin/) : un Disallow
+# empêcherait Google de la lire et l'URL pourrait rester indexée sans contenu.
 
 User-agent: *
 Allow: /

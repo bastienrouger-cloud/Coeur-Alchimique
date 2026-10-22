@@ -654,18 +654,16 @@ et permet de l'éteindre (`?chantier=0`).
 - **Masqué n'est pas secret** : les notes se lisent dans le code source et sur le dépôt
   public. Ne jamais y écrire quoi que ce soit de confidentiel.
 
-## Avant d'ouvrir le site
+## Ouverture du site
 
-Le site est en ligne sur son domaine depuis le 02/10/2026, mais **pas encore ouvert** :
-chaque page porte une balise `<meta name="robots" content="noindex">` (posée le 02/10) pour
-que les moteurs n'indexent pas une version incomplète.
+Le site est en ligne sur son domaine depuis le 02/10/2026 et **ouvert aux moteurs depuis le
+22/10/2026** : la balise `<meta name="robots" content="noindex">` posée le 02/10 a été retirée
+de toutes les pages et de `outils/gabarits/article.html`. Seul `admin/index.html` la garde.
+Ne pas toucher à `robots.txt` : il laisse passer les robots. Prochaine étape : déclarer le
+sitemap dans Google Search Console.
 
-**Le jour de l'ouverture, retirer cette balise de toutes les pages** (chercher `noindex`,
-commentaire compris) — sinon le site reste invisible dans Google. Ne pas toucher à
-`robots.txt` : il doit laisser passer les robots, sinon ils ne liraient même pas la balise.
-Ensuite, déclarer le sitemap dans Google Search Console pour accélérer l'indexation.
+Points qui étaient listés avant l'ouverture (historique, le suivi vit dans Notion) :
 
-À régler avant de retirer le `noindex` :
 
 - [x] Formulaire de contact refait et branché sur Formspree (02/10) — à tester en ligne après push
 - [ ] Compléter les mentions légales — statut, SIRET, téléphone (adresse et hébergeur faits le 02/10)
