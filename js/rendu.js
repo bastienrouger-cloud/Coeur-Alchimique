@@ -8,6 +8,44 @@ const { el, prix, donnees, url } = CA;
 
 /* ---------- Outils ---------- */
 
+/** Flèches de défilement pour une rangée de cartes (.grille--defilante).
+
+    Sur grand écran, rien ne disait qu'une rangée se poursuivait à droite :
+    la dernière carte visible tombait pile au bord, et la molette verticale
+    ne fait pas défiler à l'horizontale. Deux boutons ronds, posés au-dessus
+    de la rangée côté droit, la font avancer d'un écran de cartes.
+
+    Ils disparaissent quand toute la rangée tient à l'écran, et chacun
+    s'éteint au bout de sa course. Le CSS ne les montre qu'avec une souris
+    et sur écran large : sur téléphone, le doigt fait déjà le travail. */
+const CHEVRON = (d) =>
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ` +
+  `stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+
+function flechesDefilement(grille, nom = "les cartes") {
+  const pas = (sens) => {
+    const lent = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    grille.scrollBy({ left: sens * Math.max(grille.clientWidth * 0.85, 240), behavior: lent ? "auto" : "smooth" });
+  };
+  const prec = el("button", { type: "button", class: "defilement__fleche", "aria-label": `Faire défiler ${nom} vers la gauche`,
+                              html: CHEVRON("M15 18l-6-6 6-6"), onclick: () => pas(-1) });
+  const suiv = el("button", { type: "button", class: "defilement__fleche", "aria-label": `Faire défiler ${nom} vers la droite`,
+                              html: CHEVRON("M9 6l6 6-6 6"), onclick: () => pas(1) });
+  const nav = el("div", { class: "defilement", hidden: "" }, [prec, suiv]);
+
+  const maj = () => {
+    const max = grille.scrollWidth - grille.clientWidth;
+    nav.hidden = max <= 4;
+    prec.disabled = grille.scrollLeft <= 4;
+    suiv.disabled = grille.scrollLeft >= max - 4;
+  };
+  grille.addEventListener("scroll", maj, { passive: true });
+  if ("ResizeObserver" in window) new ResizeObserver(maj).observe(grille);
+  else window.addEventListener("resize", maj);
+  requestAnimationFrame(maj);
+  return nav;
+}
+
 /** Suite pseudo-aléatoire déterministe : l'étagère est identique à chaque visite. */
 function graine(n) {
   let x = Math.sin(n * 9973) * 10000;
@@ -935,7 +973,9 @@ async function rendreMediatheque() {
     reedition: l.reedition === true,
     faits: [l.editeur, l.format, l.parution ? `Paru en ${l.parution}` : null].filter(Boolean),
     action: l.lien && l.reedition !== true
-      ? { href: l.lien, texte: l.editeur ? "Commander chez l'éditeur" : "L'obtenir", externe: true }
+      ? { href: l.lien,
+          texte: l.editeur ? "Commander chez l'éditeur" : /payhip\.com/.test(l.lien) ? "Acheter sur Payhip" : "L'obtenir",
+          externe: true }
       : null,
   });
 
@@ -1202,6 +1242,7 @@ async function rendreMediatheque() {
         ...oeuvres.filter((o) => o.rayon === r.id).map(carteOeuvre),
       ];
       const [de, vers] = teintes[rang % teintes.length];
+      const grille = el("div", { class: "grille grille--defilante" }, cartes);
       return el(
         "section",
         {
@@ -1218,7 +1259,8 @@ async function rendreMediatheque() {
               el("h2", { texte: r.titre }),
               el("p", { class: "chapo attenue", texte: r.chapo }),
             ]),
-            el("div", { class: "grille grille--defilante" }, cartes),
+            flechesDefilement(grille, `le rayon ${r.titre}`),
+            grille,
             etagereDecorative(rang),
           ]),
         ]
@@ -1538,8 +1580,7 @@ async function rendreArticles() {
     });
   };
 
-  hoteListe.replaceChildren(
-    el(
+  const grilleArticles = el(
       "div",
       { class: "grille grille--defilante" },
       d.articles.map((a) => {
@@ -1559,8 +1600,8 @@ async function rendreArticles() {
           ]),
         ]);
       })
-    )
-  );
+    );
+  hoteListe.replaceChildren(flechesDefilement(grilleArticles, "les articles"), grilleArticles);
 }
 
 /* =========================================================

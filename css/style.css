@@ -2119,6 +2119,45 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
 }
 .grille--defilante::-webkit-scrollbar-track { background: transparent; }
 
+/* Les flèches de défilement.
+
+   Posées au-dessus de la rangée, côté droit, à hauteur du chapô — la
+   place y est libre : le chapô s'arrête à sa mesure de lecture. Même
+   langage que la croix de la fiche : un rond au filet discret qui se
+   dore au survol. Seulement avec une souris et sur écran large ; au
+   doigt, la rangée se pousse d'elle-même. */
+.defilement { display: none; }
+@media (min-width: 64rem) and (hover: hover) {
+  .defilement:not([hidden]) {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.7rem;
+    margin: -5.75rem 0 2.75rem;
+    position: relative;
+    z-index: 1;
+  }
+}
+.defilement__fleche {
+  width: 3rem; height: 3rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(227, 200, 121, 0.4);
+  border-radius: 50%;
+  background: rgba(7, 13, 24, 0.25);
+  color: var(--or-pale);
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition), background var(--transition), opacity var(--transition);
+}
+.defilement__fleche svg { width: 1.4rem; height: 1.4rem; }
+.defilement__fleche:hover:not(:disabled) {
+  border-color: rgba(227, 200, 121, 0.8);
+  background: rgba(227, 200, 121, 0.12);
+}
+.defilement__fleche:focus-visible { outline: 2px solid var(--or); outline-offset: 3px; }
+.defilement__fleche:disabled { opacity: 0.3; cursor: default; }
+[data-theme="clair"] .defilement__fleche { color: #7d6119; border-color: rgba(125, 97, 25, 0.45); background: transparent; }
+
 /* =========================================================
    22. Cartes cliquables et cartes d'action
 
