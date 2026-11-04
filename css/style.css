@@ -2439,15 +2439,88 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
   border-radius: 0;
   box-shadow: none;
 }
-.carte__visuel--large .etiquette {
+/* La couverture centrée (livres, contes, e-books).
+
+   L'objet au milieu d'une scène qui occupe tout le haut de la carte,
+   comme l'image des parcours : les rangées mélangées gardent ainsi un
+   même gabarit. Les deux pastilles sont posées dans les coins — le genre
+   à gauche, puis le prix (ou l'accès) à droite : on lit ce que c'est,
+   puis ce que ça coûte — et mordent sur la couverture. Pour qu'elles s'en détachent, un fond sombre et une ombre
+   portée, plutôt qu'un voile : les titres sont en haut des couvertures,
+   un voile les aurait éteints. */
+.carte__visuel--couverture {
+  display: block;
+  position: relative;
+  margin: -1.6rem -1.6rem 1.2rem;
+  padding: 1.6rem 1.6rem 1.5rem;
+  border-radius: calc(var(--rayon) - 1px) calc(var(--rayon) - 1px) 0 0;
+  background:
+    radial-gradient(60% 70% at 50% 45%, rgba(227, 200, 121, 0.10), transparent 75%),
+    rgba(7, 13, 24, 0.28);
+  border-bottom: 1px solid rgba(157, 192, 232, 0.12);
+}
+.carte__visuel--couverture .carte__media {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+}
+.carte__visuel--couverture .carte__media img { max-height: 230px; }
+.carte__visuel--couverture .carte__etiquettes {
   position: absolute;
   top: 0.9rem;
   left: 0.9rem;
+  right: 0.9rem;
+  z-index: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.carte__visuel--couverture .etiquette,
+.carte__visuel--couverture .pastille-acces {
+  background: rgba(7, 13, 24, 0.82);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
+}
+.carte__visuel--couverture .pastille-acces--prix { color: var(--creme); }
+
+/* Les deux étiquettes de la carte : le genre et l'accès (ou le prix).
+
+   - à côté d'une couverture : empilées dans la colonne de droite ;
+   - sans image : sur une ligne, le genre à gauche, l'accès à droite ;
+   - sur une image pleine largeur (les parcours) : posées dessus, une
+     dans chaque coin, sur fond sombre pour rester lisibles. */
+.carte__etiquettes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+}
+.carte__etiquettes > * { align-self: auto; }
+.carte__visuel > .carte__etiquettes:only-child {
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.carte__visuel--large .carte__etiquettes {
+  position: absolute;
+  top: 0.9rem;
+  left: 0.9rem;
+  right: 0.9rem;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.carte__visuel--large .etiquette,
+.carte__visuel--large .pastille-acces {
   background: rgba(7, 13, 24, 0.72);
   border-color: rgba(227, 200, 121, 0.45);
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
+.carte__visuel--large .pastille-acces--prix { color: var(--creme); }
 
 /* =========================================================
    Les étagères décoratives
@@ -2598,7 +2671,7 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
   border-bottom-color: var(--or-clair);
 }
 
-.fiche--large { width: min(52rem, calc(100vw - 3rem)); }
+.fiche--large { width: min(60rem, calc(100vw - 3rem)); }
 
 .fiche__colonnes { display: grid; gap: 1.6rem; }
 @media (min-width: 46rem) {
@@ -2704,6 +2777,115 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
   .fiche__actions .bouton { flex: 1 1 auto; text-align: center; padding-inline: 1rem; }
 }
 
+/* ---- La fiche d'une œuvre ----
+
+   Mise en page d'une page de présentation de livre : le texte à gauche,
+   l'objet à droite, centré dans la hauteur. Le genre devient un surtitre
+   (plus de pastille ici : la fiche n'a pas à se distinguer de ses
+   voisines), la promesse prend la voix du titre en italique doré, et le
+   prix rejoint le bouton — c'est là qu'on le cherche au moment d'agir. */
+.fiche--large .fiche__corps { padding: clamp(2rem, 4vw, 3rem); }
+.fiche__oeuvre { display: grid; gap: 1.8rem; }
+@media (min-width: 46rem) {
+  .fiche__oeuvre {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: clamp(2rem, 5vw, 3.5rem);
+    align-items: center;
+  }
+}
+@media (max-width: 45.99rem) {
+  .fiche__oeuvre .fiche__objet { order: -1; }
+}
+.fiche__oeuvre .fiche__texte > * { margin: 0; }
+.fiche__oeuvre .surtitre { display: block; }
+.fiche__oeuvre .surtitre + h3 { margin-top: 0.7rem; }
+.fiche__oeuvre h3 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  line-height: 1.08;
+  color: var(--creme);
+  padding-right: 0;
+}
+.fiche__promesse {
+  margin-top: 0.6rem !important;
+  font-family: var(--font-titre);
+  font-style: italic;
+  font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+  line-height: 1.3;
+  color: var(--or-pale) !important;
+}
+.fiche__description { margin-top: 1.4rem !important; line-height: 1.75; }
+.fiche__contenu { margin-top: 1.3rem !important; }
+.fiche__contenu-titre {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--texte-sombre-fond-attenue);
+}
+.fiche__contenu .liste-puces { margin: 0; font-size: 0.95rem; }
+.fiche__metas {
+  margin-top: 1.4rem !important;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.55rem;
+  font-size: 0.85rem;
+  color: var(--texte-sombre-fond-attenue) !important;
+}
+.fiche__point { color: var(--or); }
+.fiche__oeuvre .fiche__reedition { margin-top: 1.4rem; }
+.fiche__boutons {
+  margin-top: 1.6rem !important;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.6rem;
+}
+.fiche__lien-question {
+  font-size: 0.9rem;
+  color: var(--creme);
+  text-decoration: underline;
+  text-decoration-color: rgba(227, 200, 121, 0.5);
+  text-underline-offset: 0.25em;
+}
+.fiche__lien-question:hover { color: var(--or-pale); text-decoration-color: var(--or-clair); }
+@media (max-width: 30rem) {
+  .fiche__boutons .bouton { flex: 1 1 100%; justify-content: center; }
+}
+
+/* L'objet : un livre posé, pas une vignette. Une ombre longue et douce
+   en dessous, un dos suggéré par un dégradé sur le bord gauche. */
+.fiche__objet { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.fiche__couverture { position: relative; display: block; line-height: 0; }
+.fiche__couverture img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 22rem;
+  border-radius: 2px 4px 4px 2px;
+  box-shadow: 0 30px 60px -18px rgba(0, 0, 0, 0.85), 0 10px 22px rgba(0, 0, 0, 0.45);
+}
+.fiche__oeuvre--livre .fiche__couverture::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 2px 4px 4px 2px;
+  background: linear-gradient(90deg,
+    rgba(0, 0, 0, 0.35) 0, rgba(255, 255, 255, 0.18) 2.5%, rgba(0, 0, 0, 0.12) 5%, transparent 9%);
+  pointer-events: none;
+}
+.fiche__oeuvre:not(.fiche__oeuvre--livre) .fiche__couverture img { max-height: none; width: 100%; border-radius: var(--rayon-s, 6px); }
+.fiche__objet figcaption {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--texte-sombre-fond-attenue);
+  text-align: center;
+}
+@media (max-width: 45.99rem) {
+  .fiche__couverture img { max-height: 15rem; }
+}
+
 .fiche__voir-aussi { margin-top: 1.6rem; padding-top: 1.1rem; border-top: 1px solid rgba(157, 192, 232, 0.16); }
 .fiche__voir-aussi ul { list-style: none; margin: 0.6rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .fiche__renvoi {
@@ -2773,6 +2955,17 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
   border: 1px solid rgba(157, 192, 232, 0.3);
   color: var(--texte-sombre-fond-attenue);
 }
+/* Le prix dans la pastille : même forme que « Accès libre », en bleu
+   comme l'ancienne pastille « Payant », mais en chiffres lisibles —
+   pas de capitales espacées, un corps un peu plus grand. */
+.pastille-acces--prix {
+  background: rgba(157, 192, 232, 0.12);
+  border: 1px solid rgba(157, 192, 232, 0.35);
+  color: var(--creme);
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+[data-theme="clair"] .pastille-acces--prix { color: var(--texte-clair-fond); }
 /* Réédition : ni gratuit ni en vente — un contour en pointillé, comme
    quelque chose qui n'est pas encore revenu à sa place. */
 .pastille-acces--reedition {
@@ -2825,6 +3018,7 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
   margin-bottom: 0.6rem;
 }
 .media__detail { font-size: 0.85rem; color: var(--texte-sombre-fond-attenue); }
+.media__detail--bloc { display: block; margin-bottom: 0.6rem; }
 /* Le prix est un détail comme les autres par la taille, mais il se
    lit en premier dans la ligne : c'est la seule information qu'on
    vient y chercher sans l'avoir cherchée. */

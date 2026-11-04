@@ -971,7 +971,8 @@ async function rendreMediatheque() {
        prix ni bouton d'achat — l'ancien lien (un bouton PayPal « Don »)
        est retiré, le lien Payhip viendra avec la nouvelle version. */
     reedition: l.reedition === true,
-    faits: [l.editeur, l.format, l.parution ? `Paru en ${l.parution}` : null].filter(Boolean),
+    metas: [l.editeur, l.format, l.parution ? `Paru en ${l.parution}` : null].filter(Boolean),
+    contenu: [],
     action: l.lien && l.reedition !== true
       ? { href: l.lien,
           texte: l.editeur ? "Commander chez l'éditeur" : /payhip\.com/.test(l.lien) ? "Acheter sur Payhip" : "L'obtenir",
@@ -992,7 +993,8 @@ async function rendreMediatheque() {
     portrait: false,
     description: p.description,
     prix: p.prix,
-    faits: p.contenu || [],
+    metas: ["En ligne", p.duree, p.niveau].filter(Boolean),
+    contenu: p.contenu || [],
     /* Le parcours se vend sur Payhip : la fiche envoie là-bas. Sans lien
        (parcours pas encore chargé), elle renvoie vers le contact. */
     action: p.lien
@@ -1009,41 +1011,61 @@ async function rendreMediatheque() {
     if (!f) return;
     f.ouvrir(
       [
-        /* La couverture est un objet posé à côté du texte, comme sur la
-           carte : même langage, et la fiche ne s'ouvre plus sur une
-           bande d'image qui repousse le titre hors de l'écran. */
-        el("div", { class: "fiche__colonnes" }, [
-          o.image
-            ? el("div", { class: "fiche__media" }, [
-                el("img", { src: url(o.image), alt: o.alt || "", loading: "lazy" }),
-              ])
-            : null,
+        /* La fiche d'une œuvre, à la manière d'une page de présentation
+           de livre : le texte à gauche, qui se lit de haut en bas — le
+           genre, le titre, la promesse, la description, une ligne de
+           repères, puis l'action, prix compris —, et l'objet à droite,
+           centré dans la hauteur, posé comme un livre sur une table.
+           Sur téléphone, l'objet passe au-dessus, plus petit. */
+        el("div", { class: `fiche__oeuvre${o.portrait ? " fiche__oeuvre--livre" : ""}` }, [
           el("div", { class: "fiche__texte" }, [
-            el("span", { class: "etiquette", texte: o.etiquette }),
+            el("span", { class: "surtitre", texte: o.etiquette }),
             el("h3", { id: "fiche-titre", tabindex: "-1", texte: o.titre }),
-            o.sousTitre ? el("p", { class: "fiche__sous-titre", texte: o.sousTitre }) : null,
-            el("p", { texte: o.description }),
-            o.faits.length
-              ? el("ul", { class: "liste-puces fiche__faits" }, o.faits.map((x) => el("li", { texte: x })))
+            o.sousTitre ? el("p", { class: "fiche__promesse", texte: o.sousTitre }) : null,
+            el("p", { class: "fiche__description", texte: o.description }),
+            o.contenu.length
+              ? el("div", { class: "fiche__contenu" }, [
+                  el("span", { class: "fiche__contenu-titre", texte: "Dans ce parcours" }),
+                  el("ul", { class: "liste-puces" }, o.contenu.map((x) => el("li", { texte: x }))),
+                ])
+              : null,
+            /* Les repères (support, éditeur, durée…). Le prix n'y est pas :
+               il est dans le bouton, là où on le cherche au moment d'agir. */
+            o.metas.length
+              ? el("p", { class: "fiche__metas" },
+                  o.metas
+                    .flatMap((x, k) => (k ? [el("span", { class: "fiche__point", "aria-hidden": "true", texte: "·" }), x] : [x]))
+                    .map((x) => (typeof x === "string" ? el("span", { texte: x }) : x)))
+              : null,
+            o.reedition
+              ? el("p", { class: "fiche__reedition", texte: TEXTE_REEDITION })
               : null,
             o.reedition ? formulaireReedition(o) : null,
+            o.action
+              ? el("div", { class: "fiche__boutons" }, [
+                  el("a", {
+                    class: "bouton bouton--or",
+                    href: o.action.href,
+                    rel: o.action.externe ? "noopener" : null,
+                    target: o.action.externe ? "_blank" : null,
+                    texte: o.action.texte + (!o.reedition && o.prix != null && o.action.externe ? ` — ${prix(o.prix)}` : ""),
+                  }),
+                  o.action.externe
+                    ? el("a", {
+                        class: "fiche__lien-question",
+                        href: url(`pages/contact.html?motif=parcours&ouvrage=${encodeURIComponent(o.id.replace(/^(livre|parcours)-/, ""))}`),
+                        texte: "Poser une question",
+                      })
+                    : null,
+                ])
+              : null,
           ]),
-        ]),
-        el("div", { class: "fiche__actions" }, [
-          o.reedition
-            ? el("p", { class: "fiche__reedition", texte: TEXTE_REEDITION })
-            : null,
-          !o.reedition && o.prix !== undefined && o.prix !== null
-            ? el("span", { class: "prix", texte: prix(o.prix) })
-            : null,
-          o.action
-            ? el("a", {
-                class: "bouton bouton--or",
-                href: o.action.href,
-                rel: o.action.externe ? "noopener" : null,
-                target: o.action.externe ? "_blank" : null,
-                texte: o.action.texte,
-              })
+          o.image
+            ? el("figure", { class: "fiche__objet" }, [
+                el("span", { class: "fiche__couverture" }, [
+                  el("img", { src: url(o.image), alt: o.alt || "", loading: "lazy" }),
+                ]),
+              ])
             : null,
         ]),
       ],
@@ -1067,13 +1089,24 @@ async function rendreMediatheque() {
          la carte, en haut, et l'étiquette est posée dessus, dans le coin
          (carte__visuel--large). Le chevauchement est voulu : l'étiquette
          a un fond sombre qui la garde lisible sur n'importe quelle image. */
-      el("span", { class: `carte__visuel${o.image && !o.portrait ? " carte__visuel--large" : ""}` }, [
+      el("span", { class: `carte__visuel${o.image ? (o.portrait ? " carte__visuel--couverture" : " carte__visuel--large") : ""}` }, [
         o.image
           ? el("span", { class: `carte__media${o.portrait ? " carte__media--portrait" : ""}` }, [
               el("img", { src: url(o.image), alt: "", loading: "lazy" }),
             ])
           : null,
-        el("span", { class: "etiquette", texte: o.etiquette }),
+        /* Le genre et l'accès vont ensemble, en haut : ce que c'est, et
+           ce que ça coûte. Ce sont les deux questions qu'on se pose avant
+           de lire la carte, et la réponse est au même endroit partout. */
+        el("span", { class: "carte__etiquettes" }, [
+          el("span", { class: "etiquette", texte: o.etiquette }),
+          o.reedition
+            ? el("span", { class: "pastille-acces pastille-acces--reedition", texte: "Réédition en cours" })
+            : el("span", {
+                class: "pastille-acces pastille-acces--prix",
+                texte: o.prix !== undefined && o.prix !== null ? prix(o.prix) : "Payant",
+              }),
+        ]),
       ]),
       el("span", { class: "carte__titre", texte: o.titre }),
       o.sousTitre ? el("span", { class: "media__sous-titre", texte: o.sousTitre }) : null,
@@ -1083,19 +1116,9 @@ async function rendreMediatheque() {
          La fiche la reprend, avec le contenu détaillé et le bouton d'achat. */
       o.description ? el("span", { class: "attenue", texte: o.description }) : null,
       el("span", { class: "carte__pied" }, [
-        /* Même ligne que sur les documents libres : accès, support,
-           puis prix. C'est ici — et nulle part ailleurs sur la carte —
-           qu'on lit « Livre broché » ou « E-book », puisque la pastille
-           dorée ne porte plus que le genre. */
-        el("span", { class: "media__ligne" }, [
-          o.reedition
-            ? el("span", { class: "pastille-acces pastille-acces--reedition", texte: "Réédition en cours" })
-            : el("span", { class: "pastille-acces pastille-acces--payant", texte: "Payant" }),
-          o.detail ? el("span", { class: "media__detail", texte: o.detail }) : null,
-          !o.reedition && o.prix !== undefined && o.prix !== null
-            ? el("span", { class: "media__detail media__prix", texte: prix(o.prix) })
-            : null,
-        ]),
+        /* Le pied : le support (« Livre broché · 198 pages »…), puis le
+           lien. Le prix est monté dans l'en-tête, à côté du genre. */
+        o.detail ? el("span", { class: "media__detail media__detail--bloc", texte: o.detail }) : null,
         el("span", { class: "carte__suite", texte: "En savoir plus" }),
       ]),
     ]);
@@ -1176,13 +1199,19 @@ async function rendreMediatheque() {
            désormais une couverture, et une étiquette posée dessous
            repousserait le titre d'une ligne pour rien. Sans image, la
            rangée ne contient que l'étiquette et ne change rien. */
-        el("div", { class: "carte__visuel" }, [
+        el("div", { class: `carte__visuel${i.image ? " carte__visuel--couverture" : ""}` }, [
           i.image
             ? el("div", { class: "carte__media carte__media--portrait" }, [
                 el("img", { src: url(i.image), alt: "", loading: "lazy" }),
               ])
             : null,
-          el("span", { class: "etiquette", texte: i.genre }),
+          el("span", { class: "carte__etiquettes" }, [
+            el("span", { class: "etiquette", texte: i.genre }),
+            el("span", {
+              class: `pastille-acces pastille-acces--${i.acces}`,
+              texte: i.acces === "libre" ? "Accès libre" : "Payant",
+            }),
+          ]),
         ]),
         titre,
         i.sousTitre ? el("p", { class: "media__sous-titre", texte: i.sousTitre }) : null,
@@ -1194,10 +1223,6 @@ async function rendreMediatheque() {
             ? el("audio", { class: "lecteur", controls: "", preload: "none", src: cible })
             : null,
           el("p", { class: "media__ligne" }, [
-            el("span", {
-              class: `pastille-acces pastille-acces--${i.acces}`,
-              texte: i.acces === "libre" ? "Accès libre" : "Payant",
-            }),
             i.detail ? el("span", { class: "media__detail", texte: i.detail }) : null,
             audio
               ? el("a", {
