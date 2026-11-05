@@ -1418,7 +1418,7 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
 .statut-formulaire--erreur { border-color: rgba(230, 140, 120, 0.7); background: rgba(230, 140, 120, 0.1); }
 
 /* Un masquage `hidden` ne doit jamais être écrasé par un display de section. */
-[data-livre-dor-mur][hidden], [data-livre-dor-accueil][hidden] { display: none !important; }
+[data-livre-dor-mur][hidden], [data-livre-dor-selection][hidden], [data-livre-dor-vide][hidden] { display: none !important; }
 
 .temoignages { display: grid; gap: 1.5rem; max-width: var(--largeur-lecture); margin-inline: auto; }
 .temoignage {

@@ -400,8 +400,8 @@ collections:
               - { name: prenom, label: Prénom, widget: string }
               - { name: message, label: Message, widget: text }
               - { name: date, label: Date, widget: datetime, type: date, format: YYYY-MM-DD, default: "{{now}}" }
-              - { name: accueil, label: Montrer aussi sur l'accueil, widget: boolean, default: false, required: false }
-              - { name: extrait, label: Extrait pour l'accueil, widget: text, required: false, hint: Facultatif. Sinon le message entier est repris. }
+              - { name: accueil, label: Mettre en avant (Accueil et Accompagnement), widget: boolean, default: false, required: false }
+              - { name: extrait, label: Extrait pour la mise en avant, widget: text, required: false, hint: Facultatif. Sinon le message entier est repris. }
 
       # ---------------------------------------------------------------- Sophie
       - name: sophie

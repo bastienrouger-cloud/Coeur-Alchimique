@@ -93,7 +93,7 @@ Un prix, un titre ou une description modifié dans un JSON se répercute partout
 | `sophie.json` | Présentation, frise, citation | Accueil (aperçu) et page Sophie |
 | `mediatheque.json` | Les trois rayons, les documents, les flux | Page Médiathèque |
 | `miroir.json` | Les trois temps du miroir d'eau | Accueil — composant interactif |
-| `livre-dor.json` | Les messages publiés du livre d'or | Page Accompagnement (mur + formulaire) et Accueil (sélection) |
+| `livre-dor.json` | Les messages publiés du livre d'or | Page Livre d'or (mur + formulaire), Accompagnement et Accueil (sélection) |
 
 **Exemple :** changer le prix de l'option 1 dans `soins.json` met à jour la carte de l'accueil
 et la fiche détaillée de la page Accompagnement, sans toucher au HTML.
@@ -105,10 +105,11 @@ ajouter un objet dans `livre-dor.json` → `messages` : `{ "prenom": "…", "dat
 L'ordre du fichier n'a pas d'importance, la page trie du plus récent au plus ancien. Ne jamais
 y mettre d'adresse e-mail : le dépôt est public.
 
-Deux champs facultatifs : `"accueil": true` fait apparaître le message sur la page d'accueil
-(trois au maximum), et `"extrait"` donne une version courte pour l'accueil. Tant qu'il y a
-moins de 3 messages, le mur et la sélection de l'accueil restent masqués (seuil `SEUIL_AFFICHAGE`
-dans `js/livre-dor.js`).
+Deux champs facultatifs : `"accueil": true` met le message dans la sélection reprise sur
+l'Accueil et sur Accompagnement (trois au maximum), et `"extrait"` en donne une version courte.
+La sélection reste masquée tant qu'il y a moins de 3 messages (`SEUIL_AFFICHAGE` dans
+`js/livre-dor.js`). Le mur de la page Livre d'or s'affiche dès le premier message
+(`data-seuil="1"`) ; sans message, une phrase d'attente le remplace.
 
 ### Le vocabulaire
 
@@ -323,8 +324,10 @@ au pied n'aurait été utile qu'avec un header qui défile. Le pied porte donc l
 contact, les réseaux, et deux liens qui ne sont pas dans le header : le livre d'or et
 les mentions légales (`site.json` → `navSecondaire`).
 
-Le livre d'or n'a plus de page à lui (supprimée le 30/09) : il vit dans la page
-Accompagnement, section `#temoignages` — là où quelqu'un hésite. Le lien du pied y mène.
+Le livre d'or a sa page, `pages/livre-d-or.html` (rétablie le 05/11 : une adresse à
+envoyer aux personnes accompagnées, un formulaire visible). Le lien du pied y mène.
+Accompagnement (section `#temoignages`) et l'Accueil n'en gardent qu'une sélection et un
+lien — c'est là que quelqu'un hésite.
 
 **Piège corrigé :** le panneau du menu mobile ne doit **pas** porter de `backdrop-filter`.
 Il est enfant de `.entete`, qui en porte déjà un ; Chromium compose alors les deux et la

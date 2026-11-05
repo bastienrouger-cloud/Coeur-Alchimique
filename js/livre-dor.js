@@ -1,18 +1,22 @@
 /* =========================================================
    Livre d'or — messages publiés + formulaire d'envoi.
 
-   Chargé sur deux pages :
-   - Accompagnement : le mur des messages et le formulaire ;
-   - Accueil : une sélection courte.
+   Chargé sur trois pages :
+   - Livre d'or (pages/livre-d-or.html) : le mur complet et le formulaire ;
+   - Accompagnement et Accueil : une sélection courte, avec un lien
+     vers la page du livre d'or.
 
    Les messages publiés vivent dans data/livre-dor.json :
    { prenom, date (AAAA-MM-JJ), message, accueil?, extrait? }.
-   `accueil: true` = le message apparaît sur la page d'accueil ;
-   `extrait` = version courte pour l'accueil (sinon le message entier).
+   `accueil: true` = le message fait partie de la sélection (Accueil et
+   Accompagnement, 3 au maximum) ;
+   `extrait` = version courte pour la sélection (sinon le message entier).
 
-   Tant qu'il y a moins de SEUIL_AFFICHAGE messages, le mur et la
-   sélection restent masqués : un livre d'or de un ou deux mots
-   dessert plus qu'il ne sert. Le formulaire, lui, est toujours là.
+   Seuils : la sélection reste masquée tant qu'il y a moins de
+   SEUIL_AFFICHAGE messages — sur une page qui parle d'autre chose, un
+   ou deux mots desservent plus qu'ils ne servent. Le mur, lui, prend son
+   seuil dans data-seuil (1 sur la page Livre d'or, où on vient exprès).
+   En dessous, [data-livre-dor-vide] s'affiche à la place.
 
    Tout ce qui vient du JSON ou du visiteur passe par textContent —
    jamais par insertion de HTML.
@@ -25,7 +29,7 @@
 const { el, donnees } = CA;
 
 const SEUIL_AFFICHAGE = 3;
-const MAX_ACCUEIL = 3;
+const MAX_SELECTION = 3;
 const LONGUEUR_REPLIEE = 320; // au-delà, le message est replié avec « Lire la suite »
 
 /* ---------- Données ---------- */
@@ -97,20 +101,27 @@ function carteMessage(m) {
 function rendreMur(messages) {
   const hote = document.querySelector('[data-rendu="livre-dor"]');
   const bloc = document.querySelector("[data-livre-dor-mur]");
-  if (!hote || !bloc || messages.length < SEUIL_AFFICHAGE) return;
+  if (!hote || !bloc) return;
+
+  const seuil = Math.max(1, Number(bloc.dataset.seuil) || SEUIL_AFFICHAGE);
+  if (messages.length < seuil) {
+    const vide = document.querySelector("[data-livre-dor-vide]");
+    if (vide) vide.hidden = false;
+    return;
+  }
 
   hote.replaceChildren(el("div", { class: "temoignages" }, messages.map(carteMessage)));
   bloc.hidden = false;
 }
 
-/* ---------- La sélection (page d'accueil) ---------- */
+/* ---------- La sélection (Accueil, Accompagnement) ---------- */
 
-function rendreAccueil(messages) {
-  const hote = document.querySelector('[data-rendu="livre-dor-accueil"]');
-  const bloc = document.querySelector("[data-livre-dor-accueil]");
+function rendreSelection(messages) {
+  const hote = document.querySelector('[data-rendu="livre-dor-selection"]');
+  const bloc = document.querySelector("[data-livre-dor-selection]");
   if (!hote || !bloc || messages.length < SEUIL_AFFICHAGE) return;
 
-  const choisis = messages.filter((m) => m.accueil === true).slice(0, MAX_ACCUEIL);
+  const choisis = messages.filter((m) => m.accueil === true).slice(0, MAX_SELECTION);
   if (!choisis.length) return;
 
   hote.replaceChildren(
@@ -195,6 +206,6 @@ function brancherFormulaire() {
 brancherFormulaire();
 chargerMessages().then((messages) => {
   rendreMur(messages);
-  rendreAccueil(messages);
+  rendreSelection(messages);
 });
 })();

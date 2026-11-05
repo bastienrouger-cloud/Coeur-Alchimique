@@ -227,70 +227,28 @@
       </div>
     </section>
 
-    <!-- Livre d'or : les messages publiés (visibles à partir de 3) + le formulaire -->
+    <!-- Livre d'or : une sélection (messages marqués « accueil »), visible à
+         partir de 3 messages publiés. Le mur complet et le formulaire sont
+         sur pages/livre-d-or.html. -->
     <section id="temoignages" data-sommaire="Livre d'or" class="fondu" style="--de:var(--g4); --vers:var(--g3)" data-theme="sombre">
       <div class="contenu">
-        <div data-livre-dor-mur hidden>
+        <div data-livre-dor-selection hidden>
           <div class="entete-section centre">
             <span class="surtitre">Ce que ça change</span>
             <h2>Ce qu'en disent les personnes accompagnées</h2>
             <hr class="filet">
           </div>
-          <div data-rendu="livre-dor"></div>
+          <div data-rendu="livre-dor-selection"></div>
         </div>
 
         <div class="contenu--etroit mt-l">
-          <details class="depot-message">
-            <summary>Vous avez fait ce chemin&nbsp;? Laissez un mot</summary>
-
-            <form class="formulaire mt-m" id="form-livre-dor" action="https://formspree.io/f/xwlpyjej" method="POST">
-              <div class="champ">
-                <label for="ld-prenom">Votre prénom ou pseudo <span class="obligatoire" aria-hidden="true">*</span></label>
-                <input type="text" id="ld-prenom" name="prenom" autocomplete="given-name" maxlength="60" required>
-              </div>
-
-              <div class="champ">
-                <label for="ld-message">Votre message <span class="obligatoire" aria-hidden="true">*</span></label>
-                <textarea id="ld-message" name="message" maxlength="2000" required></textarea>
-              </div>
-
-              <div class="champ">
-                <label for="ld-email">Votre adresse mail (facultatif)</label>
-                <input type="email" id="ld-email" name="email" autocomplete="email" aria-describedby="ld-email-aide">
-                <span class="champ__aide attenue" id="ld-email-aide">Ne sera pas publiée.</span>
-              </div>
-
-              <div class="champ champ--case">
-                <input type="checkbox" id="ld-consentement" name="consentement" value="oui" required>
-                <label for="ld-consentement">
-                  J'accepte que mon prénom et mon message soient publiés sur le site après relecture
-                  <span class="obligatoire" aria-hidden="true">*</span>
-                </label>
-              </div>
-
-              <!-- Piège à robots : le champ natif de Formspree. Caché aux humains, jamais rempli par eux. -->
-              <div class="pot-de-miel" aria-hidden="true">
-                <label for="ld-gotcha">Ne pas remplir</label>
-                <input type="text" id="ld-gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
-              </div>
-              <input type="hidden" name="_subject" value="Livre d'or — nouveau message">
-
-              <div>
-                <button class="bouton bouton--or" type="submit">Envoyer mon message</button>
-              </div>
-
-              <div id="livre-dor-statut" class="statut-formulaire" role="status" aria-live="polite"></div>
-            </form>
-
-            <p class="attenue mt-m" style="font-size:.9rem">
-              Les messages sont relus avant publication. Ceux qui présentent l'accompagnement comme un
-              traitement ou un remplacement d'un suivi médical ne sont pas publiés.
-            </p>
-            <p class="attenue" style="font-size:.9rem">
-              Vos données sont traitées comme indiqué dans les
-              <a href="mentions-legales.html#livre-d-or" style="color:var(--or-clair)">mentions légales</a>.
-            </p>
-          </details>
+          <a class="carte-action" href="livre-d-or.html">
+            <div>
+              <h3>Le livre d'or</h3>
+              <p>Lire les messages des personnes accompagnées, ou laisser le vôtre si vous avez fait ce chemin.</p>
+            </div>
+            <span class="carte-action__fleche" aria-hidden="true">→</span>
+          </a>
         </div>
       </div>
     </section>
