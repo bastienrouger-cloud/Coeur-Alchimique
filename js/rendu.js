@@ -1002,6 +1002,34 @@ async function rendreMediatheque() {
       : { href: url(`pages/contact.html?motif=parcours&ouvrage=${encodeURIComponent(p.id)}`), texte: "Poser une question" },
   });
 
+  /* Un e-book gratuit passe aussi par la fiche : la carte n'en montre
+     qu'un résumé de quelques lignes, la fiche donne le texte entier et
+     les deux gestes — le lire (nouvel onglet, voir plus bas pourquoi
+     pas dans la fiche) ou le télécharger. */
+  const estEbookLibre = (i) => i.support === "E-book" && !!i.fichier && /\.pdf$/i.test(i.fichier);
+
+  const oeuvreEbook = (i) => ({
+    id: i.id,
+    rayon: i.rayon,
+    acces: i.acces,
+    etiquette: i.genre,
+    titre: i.titre,
+    sousTitre: i.sousTitre || null,
+    detail: i.detail,
+    image: i.image || null,
+    alt: i.image ? `Couverture de « ${i.titre} »` : "",
+    portrait: true,
+    description: i.description,
+    prix: null,
+    metas: [i.detail].filter(Boolean),
+    contenu: [],
+    action: { href: url(i.fichier), texte: "Lire l'e-book", nouvelOnglet: true },
+    secondaire: { href: url(i.fichier), texte: "Télécharger", telecharger: true },
+    aRenseigner: i.aRenseigner || null,
+  });
+
+  const ebooks = d.items.filter(estEbookLibre).map(oeuvreEbook);
+
   const oeuvres = [
     ...livres.ouvrages.map(oeuvreLivre),
     ...elearnings.programmes.map(oeuvreParcours),
@@ -1046,10 +1074,18 @@ async function rendreMediatheque() {
                   el("a", {
                     class: "bouton bouton--or",
                     href: o.action.href,
-                    rel: o.action.externe ? "noopener" : null,
-                    target: o.action.externe ? "_blank" : null,
+                    rel: o.action.externe || o.action.nouvelOnglet ? "noopener" : null,
+                    target: o.action.externe || o.action.nouvelOnglet ? "_blank" : null,
                     texte: o.action.texte + (!o.reedition && o.prix != null && o.action.externe ? ` — ${prix(o.prix)}` : ""),
                   }),
+                  o.secondaire
+                    ? el("a", {
+                        class: "bouton bouton--contour",
+                        href: o.secondaire.href,
+                        download: o.secondaire.telecharger ? "" : null,
+                        texte: o.secondaire.texte,
+                      })
+                    : null,
                   o.action.externe
                     ? el("a", {
                         class: "fiche__lien-question",
@@ -1102,6 +1138,8 @@ async function rendreMediatheque() {
           el("span", { class: "etiquette", texte: o.etiquette }),
           o.reedition
             ? el("span", { class: "pastille-acces pastille-acces--reedition", texte: "Réédition en cours" })
+            : o.acces === "libre"
+            ? el("span", { class: "pastille-acces pastille-acces--libre", texte: "Accès libre" })
             : el("span", {
                 class: "pastille-acces pastille-acces--prix",
                 texte: o.prix !== undefined && o.prix !== null ? prix(o.prix) : "Payant",
@@ -1114,11 +1152,14 @@ async function rendreMediatheque() {
          carte de parcours (image + titre + promesse) restait à moitié vide
          à côté de ses voisines, plus longues, dont elle prend la hauteur.
          La fiche la reprend, avec le contenu détaillé et le bouton d'achat. */
-      o.description ? el("span", { class: "attenue", texte: o.description }) : null,
+      /* Quelques lignes seulement (.carte__resume) : le texte entier est
+         dans la fiche, « En savoir plus » invite à l'ouvrir. */
+      o.description ? el("span", { class: "attenue carte__resume", texte: o.description }) : null,
       el("span", { class: "carte__pied" }, [
         /* Le pied : le support (« Livre broché · 198 pages »…), puis le
            lien. Le prix est monté dans l'en-tête, à côté du genre. */
         o.detail ? el("span", { class: "media__detail media__detail--bloc", texte: o.detail }) : null,
+        o.aRenseigner ? el("span", { class: "a-renseigner", texte: `À renseigner : ${o.aRenseigner}` }) : null,
         el("span", { class: "carte__suite", texte: "En savoir plus" }),
       ]),
     ]);
@@ -1263,7 +1304,8 @@ async function rendreMediatheque() {
          proposer d'acheter, et une fois qu'on est convaincu, ce qui se
          vend est là, au même endroit, sans avoir à chercher. */
       const cartes = [
-        ...d.items.filter((i) => i.rayon === r.id).map(carteDocument),
+        ...d.items.filter((i) => i.rayon === r.id)
+          .map((i) => (estEbookLibre(i) ? carteOeuvre(ebooks.find((e) => e.id === i.id)) : carteDocument(i))),
         ...oeuvres.filter((o) => o.rayon === r.id).map(carteOeuvre),
       ];
       const [de, vers] = teintes[rang % teintes.length];
@@ -1293,9 +1335,9 @@ async function rendreMediatheque() {
     })
   );
 
-  // Arrivée directe sur #livre-xxx ou #parcours-xxx.
+  // Arrivée directe sur #livre-xxx, #parcours-xxx ou #<id d'un e-book>.
   const cible = location.hash.slice(1);
-  const o = oeuvres.find((x) => x.id === cible);
+  const o = [...oeuvres, ...ebooks].find((x) => x.id === cible);
   if (o) ouvrirOeuvre(o, document.getElementById(cible));
   // Arrivée sur un rayon (#rayon-pratiquer) : les rayons n'existent qu'après
   // le rendu, le navigateur n'a donc pas pu défiler tout seul jusqu'à eux.

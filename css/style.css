@@ -588,6 +588,12 @@ body[data-entete-cachee="true"] .sommaire { top: 0; }
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
 }
 .grille--2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+/* Quatre cartes : jamais 3 + 1. Une colonne sur mobile (même seuil que
+   .carte--pliable), 2 × 2 sur tablette et petit écran, 4 en ligne dès
+   que chacune garde ~17rem. */
+.grille--4 { grid-template-columns: 1fr; }
+@media (min-width: 45rem) { .grille--4 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 78rem) { .grille--4 { grid-template-columns: repeat(4, 1fr); } }
 
 .carte {
   background: rgba(157, 192, 232, 0.06);
@@ -2353,6 +2359,15 @@ section[id] { scroll-margin-top: calc(var(--h-entete, 72px) + 1rem); }
    description) ; la promesse en italique garde un interligne de sous-titre. */
 .carte--ouvrante .media__sous-titre { line-height: 1.45; }
 .carte--ouvrante:focus-visible { outline: 2px solid var(--or); outline-offset: 3px; }
+/* Le résumé d'une carte : quatre lignes au plus. Le texte entier est
+   dans la fiche ; « En savoir plus », en pied de carte, invite à l'ouvrir. */
+.carte__resume {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 /* La couverture est un objet posé sur la carte, pas une image dans un
    cadre.
 
