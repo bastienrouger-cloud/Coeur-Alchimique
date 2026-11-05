@@ -78,11 +78,17 @@ jobs:
       - name: Préparer GitHub Pages
         uses: actions/configure-pages@v6
 
+      # Un nom de paquet par tentative : « Re-run jobs » relance la même
+      # exécution, et deploy-pages refuse de choisir entre deux paquets
+      # du même nom (incident du 05/11/2026).
       - name: Empaqueter le site
         uses: actions/upload-pages-artifact@v5
         with:
           path: "."
+          name: github-pages-${{ github.run_attempt }}
 
       - name: Mettre en ligne
         id: deploiement
         uses: actions/deploy-pages@v5
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
